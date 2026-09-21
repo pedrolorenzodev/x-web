@@ -48,7 +48,8 @@ All screens run on mocks typed against the Phase 0 contracts.
 
 ### Phase 2 — Backend
 
-Supabase schema → auth → data access per resource.
+Supabase schema → RLS → auth → data access per resource.
+An existing Supabase project is used; it is not created from scratch.
 
 ### Phase 3 — Wiring
 
@@ -95,6 +96,9 @@ src/features/<feature>/
 - **Components fetch nothing directly.** All data goes through a feature's `api/`
   layer, so Phase 3 touches one folder per feature.
 - Server Components by default. Client Components only where interactivity requires it.
+- **The Supabase client is called directly from a feature's `api/` layer.** No Next
+  Route Handlers sit in between: Supabase already is the API, and an extra hop would
+  be code with no purpose here.
 
 ## Working principles
 
