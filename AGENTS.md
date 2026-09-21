@@ -12,6 +12,9 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 These rules apply to every agent working on this repo, at all times, without exception.
 
+Read `docs/PROJECT.md` before writing any code: it defines the scope, the phases
+and the folder architecture this project follows.
+
 ## Git
 
 - **Never create commits.** Not with `git commit`, not with `git commit --amend`, not as a side effect of any other command or tool. The user owns the entire commit history.
