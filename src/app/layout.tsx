@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description: "Twitter (X) clone",
 };
 
-export default function RootLayout({ children, modal }: LayoutProps<"/">) {
+export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="es"
@@ -20,7 +20,6 @@ export default function RootLayout({ children, modal }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col">
         {children}
-        {modal}
       </body>
     </html>
   );
