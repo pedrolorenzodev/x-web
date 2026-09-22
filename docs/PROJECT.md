@@ -105,3 +105,17 @@ src/features/<feature>/
 - Componentize features and elements aggressively. Reuse before writing new code.
 - Do not over-engineer. The simplest thing that is still clean wins.
 - No abstractions built for a second use case that does not exist yet.
+
+## Typography compensation
+
+X uses Chirp, which is proprietary and not redistributable, so the app runs on
+Inter. Inter reads lighter and wider at the same nominal values, so `globals.css`
+shifts every Tailwind font-weight token up by 100 and applies `-0.4px` of
+letter-spacing on `body`.
+
+The consequence: `font-bold` renders at 800, not 700, and unstyled text at 500,
+not 400. **Values measured on X are used as-is** — a heading measured at 700 is
+written as `font-bold` and comes out at 800 on purpose.
+
+If Chirp ever becomes available, reverting the token block in `globals.css`
+restores every weight in the app at once.

@@ -24,6 +24,12 @@
   --text-xl: 20px;
   --text-xl--line-height: 24px;
 
+  --font-weight-normal: 500;
+  --font-weight-medium: 600;
+  --font-weight-semibold: 700;
+  --font-weight-bold: 800;
+  --font-weight-extrabold: 900;
+
   --container-feed: 600px;
   --container-sidebar: 275px;
   --container-panel: 350px;
@@ -36,6 +42,8 @@ body {
   background-color: var(--color-background);
   color: var(--color-foreground);
   font-family: var(--font-sans);
+  font-weight: var(--font-weight-normal);
+  letter-spacing: -0.4px;
 }
 
 button:not(:disabled),

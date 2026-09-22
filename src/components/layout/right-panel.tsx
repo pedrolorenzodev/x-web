@@ -64,14 +64,14 @@ export function RightPanel({ suggestions }: RightPanelProps) {
           <input
             type="search"
             placeholder="Search"
-            className="h-10 w-full bg-transparent pr-4 pl-1 text-sm font-medium outline-none placeholder:font-medium placeholder:text-muted"
+            className="h-10 w-full bg-transparent pr-4 pl-1 text-sm outline-none placeholder:text-muted"
           />
         </div>
 
         <section className={card}>
           <div className="flex flex-col items-start gap-[10px] px-5 py-4">
             <h2 className="text-xl font-bold">Subscribe to Premium</h2>
-            <p className="text-base font-medium tracking-[-0.4px]">
+            <p className="text-base">
               Get rid of ads, see your analytics, boost your replies and unlock
               20+ features.
             </p>

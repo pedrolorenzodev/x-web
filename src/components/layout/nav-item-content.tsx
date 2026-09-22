@@ -22,7 +22,9 @@ export function NavItemContent({
   return (
     <>
       {active ? activeIcon : icon}
-      <span className={cn("text-xl", active && "font-bold")}>{label}</span>
+      <span className={cn("text-xl", active && "font-bold")}>
+        {label}
+      </span>
     </>
   );
 }
