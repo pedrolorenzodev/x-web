@@ -9,7 +9,7 @@ type AppShellProps = {
 
 export function AppShell({ sidebar, panel, modal, children }: AppShellProps) {
   return (
-    <div className="mx-auto flex w-fit items-start">
+    <div className="mx-auto flex w-fit items-start pr-[10px]">
       {sidebar}
       <main className="w-feed min-h-screen shrink-0 border-x border-border">
         {children}
