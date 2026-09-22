@@ -10,6 +10,7 @@ export type TweetRecord = {
   stats: TweetStats;
   likedByViewer: boolean;
   retweetedByViewer: boolean;
+  bookmarkedByViewer: boolean;
 };
 
 export const mockTweets: TweetRecord[] = [
@@ -22,6 +23,7 @@ export const mockTweets: TweetRecord[] = [
     stats: { replies: 12, retweets: 31, likes: 284 },
     likedByViewer: true,
     retweetedByViewer: false,
+    bookmarkedByViewer: true,
   },
   {
     id: "t2",
@@ -32,6 +34,7 @@ export const mockTweets: TweetRecord[] = [
     stats: { replies: 5, retweets: 88, likes: 912 },
     likedByViewer: false,
     retweetedByViewer: true,
+    bookmarkedByViewer: false,
   },
   {
     id: "t3",
@@ -42,6 +45,7 @@ export const mockTweets: TweetRecord[] = [
     stats: { replies: 3, retweets: 2, likes: 47 },
     likedByViewer: false,
     retweetedByViewer: false,
+    bookmarkedByViewer: false,
   },
   {
     id: "t4",
@@ -52,6 +56,7 @@ export const mockTweets: TweetRecord[] = [
     stats: { replies: 21, retweets: 140, likes: 1803 },
     likedByViewer: true,
     retweetedByViewer: false,
+    bookmarkedByViewer: false,
   },
   {
     id: "t5",
@@ -62,6 +67,7 @@ export const mockTweets: TweetRecord[] = [
     stats: { replies: 0, retweets: 0, likes: 9 },
     likedByViewer: false,
     retweetedByViewer: false,
+    bookmarkedByViewer: false,
   },
   {
     id: "t6",
@@ -72,6 +78,7 @@ export const mockTweets: TweetRecord[] = [
     stats: { replies: 1, retweets: 0, likes: 23 },
     likedByViewer: true,
     retweetedByViewer: false,
+    bookmarkedByViewer: false,
   },
   {
     id: "t7",
@@ -82,6 +89,7 @@ export const mockTweets: TweetRecord[] = [
     stats: { replies: 0, retweets: 0, likes: 4 },
     likedByViewer: false,
     retweetedByViewer: false,
+    bookmarkedByViewer: false,
   },
   {
     id: "t8",
@@ -92,6 +100,7 @@ export const mockTweets: TweetRecord[] = [
     stats: { replies: 44, retweets: 210, likes: 2411 },
     likedByViewer: false,
     retweetedByViewer: false,
+    bookmarkedByViewer: true,
   },
 ];
 
@@ -117,6 +126,7 @@ export function toTweet(record: TweetRecord): Tweet | null {
     stats: record.stats,
     likedByViewer: record.likedByViewer,
     retweetedByViewer: record.retweetedByViewer,
+    bookmarkedByViewer: record.bookmarkedByViewer,
   };
 }
 

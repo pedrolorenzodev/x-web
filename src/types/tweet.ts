@@ -15,6 +15,7 @@ export type Tweet = {
   stats: TweetStats;
   likedByViewer: boolean;
   retweetedByViewer: boolean;
+  bookmarkedByViewer: boolean;
 };
 
 export type TimelineItem = {
@@ -25,4 +26,10 @@ export type TimelineItem = {
 export type NewTweetInput = {
   text: string;
   replyToId: string | null;
+};
+
+export type TweetActions = {
+  toggleLike: (tweetId: string) => Promise<void>;
+  toggleRetweet: (tweetId: string) => Promise<void>;
+  toggleBookmark: (tweetId: string) => Promise<void>;
 };

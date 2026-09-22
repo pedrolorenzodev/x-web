@@ -1,3 +1,4 @@
+import { connection } from "next/server";
 import type { Page } from "@/types/pagination";
 import type { TimelineItem } from "@/types/tweet";
 import { findUserById, toSummary } from "@/mocks/users";
@@ -9,6 +10,8 @@ const PAGE_SIZE = 10;
 export async function getTimeline(
   cursor: string | null = null,
 ): Promise<Page<TimelineItem>> {
+  await connection();
+
   const items = mockTweets
     .filter((record) => record.replyToId === null)
     .sort(byNewest)
