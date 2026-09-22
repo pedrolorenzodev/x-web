@@ -12,7 +12,7 @@ type NavItemProps = {
 
 const row = "group flex w-full py-1";
 const pill =
-  "flex items-center gap-5 rounded-full py-3 pl-3 pr-7 transition-colors group-hover:bg-foreground/10";
+  "flex items-center gap-5 rounded-full py-3 pl-3 pr-7 transition-colors duration-200 ease-[ease] group-hover:bg-foreground/10";
 
 export function NavItem({ label, icon, activeIcon, href }: NavItemProps) {
   if (!href) {

@@ -46,7 +46,7 @@ export function Sidebar({ viewer }: SidebarProps) {
         <Link
           href={routes.home}
           aria-label="X"
-          className="mt-0.5 flex size-13 items-center justify-center rounded-full transition-colors hover:bg-foreground/10"
+          className="mt-0.5 flex size-13 items-center justify-center rounded-full transition-colors duration-200 ease-[ease] hover:bg-foreground/10"
         >
           <XLogoIcon className="size-[30px]" />
         </Link>
@@ -76,7 +76,7 @@ export function Sidebar({ viewer }: SidebarProps) {
 
         <button
           type="button"
-          className="mt-auto mb-3 flex w-full items-center gap-3 rounded-full p-3 transition-colors hover:bg-foreground/10"
+          className="mt-auto mb-3 flex w-full items-center gap-3 rounded-full p-3 transition-colors duration-200 ease-[ease] hover:bg-foreground/10"
         >
           <Avatar src={viewer.avatarUrl} alt={viewer.displayName} />
           <span className="flex flex-col items-start">
