@@ -21,6 +21,11 @@ and the folder architecture this project follows.
 - Never push, never rewrite history, never create or delete branches or tags unless explicitly asked.
 - Staging (`git add`) is also off-limits unless explicitly asked.
 
+## Tools
+
+- **Never use the Mobbin MCP server.** The connected account does not belong to
+  this project's owner. Use references the user provides instead.
+
 ## Comments in code
 
 - **Never write comments that explain what the code does.** No summaries of a function above it, no narration of a block, no restating of an expression in prose.
