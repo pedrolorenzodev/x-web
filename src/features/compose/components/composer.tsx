@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import type { ComponentType, SVGProps } from "react";
 import type { UserSummary } from "@/types/user";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -15,19 +14,16 @@ import {
   PollIcon,
   ScheduleIcon,
 } from "@/components/ui/icons";
-import { cn } from "@/lib/utils";
+import {
+  ComposerToolbar,
+  type ComposerTool,
+} from "@/features/compose/components/composer-toolbar";
 
 type ComposerProps = {
   viewer: UserSummary;
 };
 
-type Tool = {
-  label: string;
-  icon: ComponentType<SVGProps<SVGSVGElement>>;
-  disabled?: boolean;
-};
-
-const tools: Tool[] = [
+const tools: ComposerTool[] = [
   { label: "Add photos or video", icon: MediaIcon },
   { label: "Add a GIF", icon: GifIcon },
   { label: "Add poll", icon: PollIcon },
@@ -71,30 +67,7 @@ export function Composer({ viewer }: ComposerProps) {
         </div>
 
         <div className="flex items-center pt-2">
-          <div className="-ml-2 flex h-10 items-center">
-            {tools.map(({ label, icon: Icon, disabled }) => (
-              <button
-                key={label}
-                type="button"
-                aria-label={label}
-                disabled={disabled}
-                className={cn(
-                  "group/tool m-0.5 flex size-9 items-center justify-center rounded-full",
-                  disabled
-                    ? "opacity-50"
-                    : `transition-colors ${easing} hover:bg-inverted/10`,
-                )}
-              >
-                <Icon
-                  className={cn(
-                    "size-[23.25px] text-border-strong brightness-[2.5]",
-                    !disabled &&
-                      `transition ${easing} group-hover/tool:scale-[1.12] group-hover/tool:brightness-[3.5]`,
-                  )}
-                />
-              </button>
-            ))}
-          </div>
+          <ComposerToolbar tools={tools} />
           <Button disabled={empty} className="ml-auto disabled:opacity-25">
             Post
           </Button>

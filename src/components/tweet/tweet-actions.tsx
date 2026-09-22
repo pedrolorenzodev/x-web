@@ -15,6 +15,7 @@ import {
   ViewsIcon,
 } from "@/components/ui/icons";
 import { formatCount } from "@/utils/format-count";
+import { deriveViews } from "@/utils/derive-views";
 import { cn } from "@/lib/utils";
 
 const tones = {
@@ -35,8 +36,19 @@ const tones = {
   },
 } as const;
 
+const variants = {
+  card: { bar: "mt-3", icon: "size-[18.75px]" },
+  focal: {
+    bar: "h-12 items-center border-y border-border px-1",
+    icon: "size-[22.5px]",
+  },
+} as const;
+
+type Variant = keyof typeof variants;
+
 type ActionButtonProps = {
   label: string;
+  variant: Variant;
   icon: ComponentType<SVGProps<SVGSVGElement>>;
   tone: keyof typeof tones;
   count?: number;
@@ -46,6 +58,7 @@ type ActionButtonProps = {
 
 function ActionButton({
   label,
+  variant,
   icon: Icon,
   tone,
   count,
@@ -53,6 +66,7 @@ function ActionButton({
   onClick,
 }: ActionButtonProps) {
   const colors = tones[tone];
+  const iconSize = variants[variant].icon;
 
   return (
     <button
@@ -65,14 +79,14 @@ function ActionButton({
         active ? colors.active : ["text-muted", colors.hover],
       )}
     >
-      <span className="relative flex size-[18.75px]">
+      <span className={cn("relative flex", iconSize)}>
         <span
           className={cn(
             "absolute -inset-2 rounded-full transition-colors duration-200 ease-[ease]",
             colors.circle,
           )}
         />
-        <Icon className="relative size-[18.75px]" />
+        <Icon className={cn("relative", iconSize)} />
       </span>
       {count !== undefined && count > 0 ? (
         <span className="px-1 text-xs">{formatCount(count)}</span>
@@ -84,6 +98,7 @@ function ActionButton({
 type TweetActionsProps = {
   tweet: Tweet;
   actions: Actions;
+  variant?: Variant;
 };
 
 type ToggleState = {
@@ -114,7 +129,11 @@ function applyToggle(state: ToggleState, toggle: Toggle): ToggleState {
   return { ...state, bookmarked: !state.bookmarked };
 }
 
-export function TweetActions({ tweet, actions }: TweetActionsProps) {
+export function TweetActions({
+  tweet,
+  actions,
+  variant = "card",
+}: TweetActionsProps) {
   const [state, setOptimistic] = useOptimistic(
     {
       liked: tweet.likedByViewer,
@@ -133,13 +152,17 @@ export function TweetActions({ tweet, actions }: TweetActionsProps) {
     });
   }
 
-  // TODO: views are not part of the contract, so they are derived until they are.
-  const views = (tweet.stats.replies + 1) * 1337;
+  const views = deriveViews(tweet);
+  const focal = variant === "focal";
 
   return (
-    <div role="group" className="relative mt-3 flex gap-1">
+    <div
+      role="group"
+      className={cn("relative flex gap-1", variants[variant].bar)}
+    >
       <div className="flex flex-1">
         <ActionButton
+          variant={variant}
           label={`${tweet.stats.replies} Replies. Reply`}
           icon={ReplyIcon}
           tone="accent"
@@ -148,6 +171,7 @@ export function TweetActions({ tweet, actions }: TweetActionsProps) {
       </div>
       <div className="flex flex-1">
         <ActionButton
+          variant={variant}
           label={`${state.retweets} reposts. ${state.retweeted ? "Undo repost" : "Repost"}`}
           icon={state.retweeted ? RetweetActiveIcon : RetweetIcon}
           tone="repost"
@@ -158,6 +182,7 @@ export function TweetActions({ tweet, actions }: TweetActionsProps) {
       </div>
       <div className="flex flex-1">
         <ActionButton
+          variant={variant}
           label={`${state.likes} Likes. ${state.liked ? "Unlike" : "Like"}`}
           icon={state.liked ? LikeActiveIcon : LikeIcon}
           tone="like"
@@ -166,16 +191,20 @@ export function TweetActions({ tweet, actions }: TweetActionsProps) {
           onClick={() => run("like", actions.toggleLike)}
         />
       </div>
-      <div className="flex flex-1">
+      {focal ? null : (
+        <div className="flex flex-1">
+          <ActionButton
+            variant={variant}
+            label={`${views} views. View post analytics`}
+            icon={ViewsIcon}
+            tone="accent"
+            count={views}
+          />
+        </div>
+      )}
+      <div className={cn("flex", focal ? "flex-1" : "mr-2")}>
         <ActionButton
-          label={`${views} views. View post analytics`}
-          icon={ViewsIcon}
-          tone="accent"
-          count={views}
-        />
-      </div>
-      <div className="mr-2 flex">
-        <ActionButton
+          variant={variant}
           label={state.bookmarked ? "Remove Bookmark" : "Bookmark"}
           icon={state.bookmarked ? BookmarkActiveIcon : BookmarkIcon}
           tone="accent"
@@ -184,7 +213,12 @@ export function TweetActions({ tweet, actions }: TweetActionsProps) {
         />
       </div>
       <div className="flex">
-        <ActionButton label="Share post" icon={ShareIcon} tone="accent" />
+        <ActionButton
+          variant={variant}
+          label="Share post"
+          icon={ShareIcon}
+          tone="accent"
+        />
       </div>
     </div>
   );

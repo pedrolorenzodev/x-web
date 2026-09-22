@@ -1,3 +1,4 @@
+import { connection } from "next/server";
 import type { Page } from "@/types/pagination";
 import type { Tweet } from "@/types/tweet";
 import { byNewest, mockTweets, toTweet } from "@/mocks/tweets";
@@ -9,6 +10,8 @@ export async function getReplies(
   tweetId: string,
   cursor: string | null = null,
 ): Promise<Page<Tweet>> {
+  await connection();
+
   const replies = mockTweets
     .filter((record) => record.replyToId === tweetId)
     .sort(byNewest)

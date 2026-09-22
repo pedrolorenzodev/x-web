@@ -2,8 +2,10 @@ import Link from "next/link";
 import type { Tweet, TweetActions as Actions } from "@/types/tweet";
 import type { UserSummary } from "@/types/user";
 import { routes } from "@/config/routes";
+import { cn } from "@/lib/utils";
 import { Avatar } from "@/components/ui/avatar";
-import { MoreHorizontalIcon, RetweetIcon } from "@/components/ui/icons";
+import { RetweetIcon } from "@/components/ui/icons";
+import { MoreButton } from "@/components/tweet/more-button";
 import { TweetActions } from "@/components/tweet/tweet-actions";
 import { TweetPhotos } from "@/components/tweet/tweet-photos";
 import { formatRelativeTime } from "@/utils/format-relative-time";
@@ -12,15 +14,26 @@ type TweetCardProps = {
   tweet: Tweet;
   retweetedBy?: UserSummary | null;
   actions: Actions;
+  threaded?: boolean;
 };
 
-export function TweetCard({ tweet, retweetedBy = null, actions }: TweetCardProps) {
+export function TweetCard({
+  tweet,
+  retweetedBy = null,
+  actions,
+  threaded = false,
+}: TweetCardProps) {
   const { author } = tweet;
   const profileHref = routes.profile(author.handle);
   const tweetHref = routes.tweet(author.handle, tweet.id);
 
   return (
-    <article className="relative border-b border-border px-4 transition-colors duration-200 ease-[ease] hover:bg-white/3">
+    <article
+      className={cn(
+        "relative px-4 transition-colors duration-200 ease-[ease] hover:bg-white/3",
+        !threaded && "border-b border-border",
+      )}
+    >
       <Link
         href={tweetHref}
         aria-label={`Post by ${author.displayName}`}
@@ -44,9 +57,12 @@ export function TweetCard({ tweet, retweetedBy = null, actions }: TweetCardProps
       )}
 
       <div className="flex gap-2">
-        <Link href={profileHref} className="relative h-fit shrink-0">
-          <Avatar src={author.avatarUrl} alt={author.displayName} />
-        </Link>
+        <div className="flex shrink-0 flex-col items-center">
+          <Link href={profileHref} className="relative flex">
+            <Avatar src={author.avatarUrl} alt={author.displayName} />
+          </Link>
+          {threaded ? <div className="mt-1 w-0.5 grow bg-border-strong" /> : null}
+        </div>
 
         <div className="flex min-w-0 flex-1 flex-col pb-3">
           <div className="flex h-5 items-start justify-between gap-2">
@@ -77,16 +93,7 @@ export function TweetCard({ tweet, retweetedBy = null, actions }: TweetCardProps
               </Link>
             </div>
 
-            <button
-              type="button"
-              aria-label="More"
-              className="group/more relative flex h-5 shrink-0 items-center text-muted transition-colors duration-200 ease-[ease] hover:text-accent"
-            >
-              <span className="relative flex size-[18.75px]">
-                <span className="absolute -inset-2 rounded-full transition-colors duration-200 ease-[ease] group-hover/more:bg-accent/10" />
-                <MoreHorizontalIcon className="relative size-[18.75px]" />
-              </span>
-            </button>
+            <MoreButton />
           </div>
 
           <p className="mt-0.5 text-base break-words whitespace-pre-wrap">
