@@ -206,3 +206,11 @@ export function CloseIcon(props: IconProps) {
     </Icon>
   );
 }
+
+export function PlusIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M11 11V4h2v7h7v2h-7v7h-2v-7H4v-2h7z" />
+    </Icon>
+  );
+}
