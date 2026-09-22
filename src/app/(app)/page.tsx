@@ -32,9 +32,11 @@ export default async function HomePage() {
     <>
       <TimelineHeader />
       <Composer viewer={session.user} />
-      <Suspense fallback={null}>
-        <Timeline />
-      </Suspense>
+      <div className="pb-[200px]">
+        <Suspense fallback={null}>
+          <Timeline />
+        </Suspense>
+      </div>
     </>
   );
 }

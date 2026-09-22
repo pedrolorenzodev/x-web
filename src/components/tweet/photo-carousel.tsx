@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCallback, useRef, useState } from "react";
-import type { ComponentType, SVGProps } from "react";
+import type { ComponentType, MouseEvent, SVGProps } from "react";
 import type { TweetMedia } from "@/types/tweet";
 import { ArrowRightIcon, BackIcon } from "@/components/ui/icons";
 import { cn } from "@/lib/utils";
@@ -66,6 +67,7 @@ function Arrow({ label, icon: Icon, visible, className, onClick }: ArrowProps) {
 }
 
 export function PhotoCarousel({ media, href }: PhotoCarouselProps) {
+  const router = useRouter();
   const listRef = useRef<HTMLDivElement | null>(null);
   const [canPrev, setCanPrev] = useState(false);
   const [canNext, setCanNext] = useState(false);
@@ -83,6 +85,10 @@ export function PhotoCarousel({ media, href }: PhotoCarouselProps) {
     [updateArrows],
   );
 
+  function openTweetFromGap(event: MouseEvent<HTMLDivElement>) {
+    if (event.target === event.currentTarget) router.push(href);
+  }
+
   function scroll(direction: Direction) {
     const list = listRef.current;
     if (!list) return;
@@ -96,7 +102,8 @@ export function PhotoCarousel({ media, href }: PhotoCarouselProps) {
       <div
         ref={attachList}
         onScroll={(event) => updateArrows(event.currentTarget)}
-        className="relative -mr-4 -ml-16 flex scroll-pl-16 gap-1 overflow-x-auto pr-4 pl-16 [scrollbar-width:none] snap-x snap-mandatory"
+        onClick={openTweetFromGap}
+        className="relative -mr-4 -ml-16 flex scroll-pl-16 gap-1 overflow-x-auto pr-4 pl-16 [scrollbar-width:none] cursor-pointer snap-x snap-mandatory"
       >
         {media.map((photo, index) => (
           <Link

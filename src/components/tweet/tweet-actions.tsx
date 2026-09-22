@@ -75,7 +75,7 @@ function ActionButton({
       aria-pressed={onClick ? active : undefined}
       onClick={onClick}
       className={cn(
-        "group/action relative flex h-5 items-center transition-colors duration-200 ease-[ease]",
+        "group/action pointer-events-auto relative flex h-5 items-center transition-colors duration-200 ease-[ease]",
         active ? colors.active : ["text-muted", colors.hover],
       )}
     >
@@ -158,7 +158,10 @@ export function TweetActions({
   return (
     <div
       role="group"
-      className={cn("relative flex gap-1", variants[variant].bar)}
+      className={cn(
+        "pointer-events-none relative flex gap-1",
+        variants[variant].bar,
+      )}
     >
       <div className="flex flex-1">
         <ActionButton
