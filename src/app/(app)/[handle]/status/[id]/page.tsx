@@ -3,6 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { routes } from "@/config/routes";
 import { PageHeader } from "@/components/layout/page-header";
 import { TweetCard } from "@/components/tweet/tweet-card";
+import { ScrollAnchor } from "@/components/ui/scroll-anchor";
 import { getSession } from "@/features/auth/api/get-session";
 import { ReplyComposer } from "@/features/compose/components/reply-composer";
 import { getConversation } from "@/features/tweet/api/get-conversation";
@@ -42,15 +43,20 @@ async function Conversation({
           threaded
         />
       ))}
-      <FocalTweet
-        tweet={tweet}
-        actions={tweetActions}
-        threaded={ancestors.length > 0}
-      />
-      <ReplyComposer viewer={session.user} replyTo={tweet.author} />
-      {replies.items.map((reply) => (
-        <TweetCard key={reply.id} tweet={reply} actions={tweetActions} />
-      ))}
+      <div className="min-h-[calc(100dvh-43px)] pb-[200px]">
+        {ancestors.length > 0 ? (
+          <ScrollAnchor className="scroll-mt-[43px]" />
+        ) : null}
+        <FocalTweet
+          tweet={tweet}
+          actions={tweetActions}
+          threaded={ancestors.length > 0}
+        />
+        <ReplyComposer viewer={session.user} replyTo={tweet.author} />
+        {replies.items.map((reply) => (
+          <TweetCard key={reply.id} tweet={reply} actions={tweetActions} />
+        ))}
+      </div>
     </>
   );
 }
