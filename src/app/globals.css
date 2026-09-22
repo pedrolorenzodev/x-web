@@ -11,6 +11,7 @@
   --color-inverted-foreground: #0f1419;
   --color-scrim: rgb(0 0 0 / 0.65);
   --color-like: #f91880;
+  --color-repost: #00ba7c;
 
   --text-xs: 13px;
   --text-xs--line-height: 16px;
@@ -19,10 +20,13 @@
   --text-base: 15px;
   --text-base--line-height: 20px;
   --text-lg: 17px;
+  --text-lg--line-height: 20px;
   --text-xl: 20px;
   --text-xl--line-height: 24px;
 
   --container-feed: 600px;
+  --container-sidebar: 275px;
+  --container-panel: 350px;
 
   --font-sans: var(--font-inter), -apple-system, system-ui, "Segoe UI", Roboto,
     Helvetica, Arial, sans-serif;
