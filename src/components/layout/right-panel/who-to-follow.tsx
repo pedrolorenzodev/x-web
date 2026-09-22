@@ -12,12 +12,16 @@ import {
 
 type WhoToFollowProps = {
   suggestions: UserSummary[];
+  title?: string;
 };
 
-export function WhoToFollow({ suggestions }: WhoToFollowProps) {
+export function WhoToFollow({
+  suggestions,
+  title = "Who to follow",
+}: WhoToFollowProps) {
   return (
     <section className={card}>
-      <h2 className={heading}>Who to follow</h2>
+      <h2 className={heading}>{title}</h2>
       {suggestions.map((user) => (
         <div
           key={user.id}

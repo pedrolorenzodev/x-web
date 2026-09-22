@@ -1,29 +1,43 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
+import { getSession } from "@/features/auth/api/get-session";
 import { getProfile } from "@/features/profile/api/get-profile";
 import { getProfileTweets } from "@/features/profile/api/get-profile-tweets";
+import { getSuggestedUsers } from "@/features/profile/api/get-suggested-users";
+import { ProfilePosts } from "@/features/profile/components/profile-posts";
+import { ProfileScreen } from "@/features/profile/components/profile-screen";
+import { toggleBookmark } from "@/features/tweet/api/toggle-bookmark";
+import { toggleLike } from "@/features/tweet/api/toggle-like";
+import { toggleRetweet } from "@/features/tweet/api/toggle-retweet";
+
+const tweetActions = { toggleLike, toggleRetweet, toggleBookmark };
 
 async function Profile({ params }: { params: PageProps<"/[handle]">["params"] }) {
   const { handle } = await params;
-  const profile = await getProfile(handle);
-  if (!profile) notFound();
+  const [profile, session] = await Promise.all([
+    getProfile(handle),
+    getSession(),
+  ]);
+  if (!profile || !session) notFound();
 
-  const posts = await getProfileTweets(handle, "posts");
+  const [posts, suggestions] = await Promise.all([
+    getProfileTweets(handle),
+    getSuggestedUsers(3, profile.id),
+  ]);
 
   return (
-    <section>
-      <h1>{profile.displayName}</h1>
-      <p>@{profile.handle}</p>
-      <p>{profile.bio}</p>
-      <p>
-        {profile.followingCount} following · {profile.followersCount} followers
-      </p>
-      <ul>
-        {posts.items.map(({ tweet }) => (
-          <li key={tweet.id}>{tweet.text}</li>
-        ))}
-      </ul>
-    </section>
+    <ProfileScreen
+      profile={profile}
+      isViewer={profile.id === session.user.id}
+      tab="posts"
+    >
+      <ProfilePosts
+        items={posts.items}
+        suggestions={suggestions}
+        viewerId={session.user.id}
+        actions={tweetActions}
+      />
+    </ProfileScreen>
   );
 }
 

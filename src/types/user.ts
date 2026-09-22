@@ -11,5 +11,6 @@ export type User = UserSummary & {
   joinedAt: string;
   followingCount: number;
   followersCount: number;
+  postsCount: number;
   followedByViewer: boolean;
 };

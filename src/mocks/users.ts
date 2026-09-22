@@ -7,10 +7,11 @@ export const mockUsers: User[] = [
     displayName: "Pedro Lorenzo",
     avatarUrl: "/avatars/pedro.svg",
     bio: "Building things for the web.",
-    bannerUrl: null,
+    bannerUrl: "/media/banner-pedro.jpg",
     joinedAt: "2024-03-12T00:00:00.000Z",
     followingCount: 184,
     followersCount: 1243,
+    postsCount: 6,
     followedByViewer: false,
   },
   {
@@ -19,10 +20,11 @@ export const mockUsers: User[] = [
     displayName: "Ana Rossi",
     avatarUrl: "/avatars/ana.svg",
     bio: "Design systems and typography.",
-    bannerUrl: null,
+    bannerUrl: "/media/banner-ana.jpg",
     joinedAt: "2023-07-01T00:00:00.000Z",
     followingCount: 512,
     followersCount: 8901,
+    postsCount: 2,
     followedByViewer: true,
   },
   {
@@ -35,6 +37,7 @@ export const mockUsers: User[] = [
     joinedAt: "2022-11-20T00:00:00.000Z",
     followingCount: 97,
     followersCount: 430,
+    postsCount: 2,
     followedByViewer: false,
   },
   {
@@ -47,6 +50,7 @@ export const mockUsers: User[] = [
     joinedAt: "2025-01-08T00:00:00.000Z",
     followingCount: 233,
     followersCount: 2077,
+    postsCount: 2,
     followedByViewer: true,
   },
   {
@@ -59,6 +63,7 @@ export const mockUsers: User[] = [
     joinedAt: "2023-02-14T00:00:00.000Z",
     followingCount: 310,
     followersCount: 5620,
+    postsCount: 0,
     followedByViewer: false,
   },
   {
@@ -71,6 +76,7 @@ export const mockUsers: User[] = [
     joinedAt: "2024-09-30T00:00:00.000Z",
     followingCount: 145,
     followersCount: 987,
+    postsCount: 0,
     followedByViewer: false,
   },
   {
@@ -83,6 +89,7 @@ export const mockUsers: User[] = [
     joinedAt: "2022-05-03T00:00:00.000Z",
     followingCount: 76,
     followersCount: 1290,
+    postsCount: 0,
     followedByViewer: false,
   },
 ];
