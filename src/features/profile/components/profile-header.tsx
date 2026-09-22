@@ -1,8 +1,9 @@
 import Image from "next/image";
 import type { ComponentType, SVGProps } from "react";
-import type { User } from "@/types/user";
+import type { ToggleFollow, User } from "@/types/user";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { FollowButton } from "@/components/user/follow-button";
 import {
   CalendarIcon,
   ChatIcon,
@@ -14,6 +15,7 @@ import { formatProfileCount } from "@/utils/format-profile-count";
 type ProfileHeaderProps = {
   profile: User;
   isViewer: boolean;
+  toggleFollow: ToggleFollow;
 };
 
 type CircleButtonProps = {
@@ -42,7 +44,11 @@ function Count({ value, label }: { value: number; label: string }) {
   );
 }
 
-export function ProfileHeader({ profile, isViewer }: ProfileHeaderProps) {
+export function ProfileHeader({
+  profile,
+  isViewer,
+  toggleFollow,
+}: ProfileHeaderProps) {
   return (
     <div>
       <div className="relative aspect-[3/1] w-full bg-border-strong">
@@ -74,11 +80,13 @@ export function ProfileHeader({ profile, isViewer }: ProfileHeaderProps) {
               <>
                 <CircleButton label="More" icon={MoreHorizontalIcon} />
                 <CircleButton label="Message" icon={ChatIcon} />
-                <Button
-                  variant={profile.followedByViewer ? "outline" : "primary"}
-                >
-                  {profile.followedByViewer ? "Following" : "Follow"}
-                </Button>
+                <FollowButton
+                  userId={profile.id}
+                  handle={profile.handle}
+                  following={profile.followedByViewer}
+                  toggleFollow={toggleFollow}
+                  size="md"
+                />
               </>
             )}
           </div>

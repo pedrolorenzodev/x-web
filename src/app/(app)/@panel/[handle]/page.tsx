@@ -4,6 +4,7 @@ import { TrendsCard } from "@/components/layout/right-panel/trends-card";
 import { WhoToFollow } from "@/components/layout/right-panel/who-to-follow";
 import { getProfile } from "@/features/profile/api/get-profile";
 import { getSuggestedUsers } from "@/features/profile/api/get-suggested-users";
+import { toggleFollow } from "@/features/profile/api/toggle-follow";
 
 async function YouMightLike({
   params,
@@ -14,7 +15,13 @@ async function YouMightLike({
   const profile = await getProfile(handle);
   const suggestions = await getSuggestedUsers(3, profile?.id ?? null);
 
-  return <WhoToFollow suggestions={suggestions} title="You might like" />;
+  return (
+    <WhoToFollow
+      suggestions={suggestions}
+      toggleFollow={toggleFollow}
+      title="You might like"
+    />
+  );
 }
 
 export default function ProfilePanel({ params }: PageProps<"/[handle]">) {

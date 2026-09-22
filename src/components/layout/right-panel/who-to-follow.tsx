@@ -1,8 +1,8 @@
 import Link from "next/link";
-import type { UserSummary } from "@/types/user";
+import type { ToggleFollow, User } from "@/types/user";
 import { routes } from "@/config/routes";
 import { Avatar } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+import { FollowButton } from "@/components/user/follow-button";
 import {
   card,
   heading,
@@ -11,12 +11,14 @@ import {
 } from "@/components/layout/right-panel/styles";
 
 type WhoToFollowProps = {
-  suggestions: UserSummary[];
+  suggestions: User[];
+  toggleFollow: ToggleFollow;
   title?: string;
 };
 
 export function WhoToFollow({
   suggestions,
+  toggleFollow,
   title = "Who to follow",
 }: WhoToFollowProps) {
   return (
@@ -41,9 +43,13 @@ export function WhoToFollow({
               @{user.handle}
             </span>
           </span>
-          <Button size="sm" className="relative ml-auto shrink-0">
-            Follow
-          </Button>
+          <FollowButton
+            userId={user.id}
+            handle={user.handle}
+            following={user.followedByViewer}
+            toggleFollow={toggleFollow}
+            className="ml-auto"
+          />
         </div>
       ))}
       <button type="button" className={`${showMore} ${row}`}>

@@ -13,6 +13,8 @@
   --color-media-control-hover: #272c30;
   --color-like: #f91880;
   --color-repost: #00ba7c;
+  --color-danger: #f4212e;
+  --color-danger-border: #67070f;
 
   --text-xs: 13px;
   --text-xs--line-height: 16px;

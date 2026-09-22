@@ -5,11 +5,12 @@ import { PremiumCard } from "@/components/layout/right-panel/premium-card";
 import { TrendsCard } from "@/components/layout/right-panel/trends-card";
 import { WhoToFollow } from "@/components/layout/right-panel/who-to-follow";
 import { getSuggestedUsers } from "@/features/profile/api/get-suggested-users";
+import { toggleFollow } from "@/features/profile/api/toggle-follow";
 
 async function Suggestions() {
   const suggestions = await getSuggestedUsers();
 
-  return <WhoToFollow suggestions={suggestions} />;
+  return <WhoToFollow suggestions={suggestions} toggleFollow={toggleFollow} />;
 }
 
 export default function HomePanel() {

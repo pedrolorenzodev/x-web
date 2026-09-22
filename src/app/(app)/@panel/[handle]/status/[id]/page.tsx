@@ -5,6 +5,7 @@ import { RelevantPeople } from "@/components/layout/right-panel/relevant-people"
 import { TrendsCard } from "@/components/layout/right-panel/trends-card";
 import { getSession } from "@/features/auth/api/get-session";
 import { getProfile } from "@/features/profile/api/get-profile";
+import { toggleFollow } from "@/features/profile/api/toggle-follow";
 import { getConversation } from "@/features/tweet/api/get-conversation";
 
 async function People({
@@ -30,7 +31,13 @@ async function People({
     (profile): profile is User => profile !== null,
   );
 
-  return <RelevantPeople people={people} viewerId={session.user.id} />;
+  return (
+    <RelevantPeople
+      people={people}
+      viewerId={session.user.id}
+      toggleFollow={toggleFollow}
+    />
+  );
 }
 
 export default function TweetPanel({

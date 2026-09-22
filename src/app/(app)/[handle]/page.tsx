@@ -6,6 +6,7 @@ import { getProfileTweets } from "@/features/profile/api/get-profile-tweets";
 import { getSuggestedUsers } from "@/features/profile/api/get-suggested-users";
 import { ProfilePosts } from "@/features/profile/components/profile-posts";
 import { ProfileScreen } from "@/features/profile/components/profile-screen";
+import { toggleFollow } from "@/features/profile/api/toggle-follow";
 import { toggleBookmark } from "@/features/tweet/api/toggle-bookmark";
 import { toggleLike } from "@/features/tweet/api/toggle-like";
 import { toggleRetweet } from "@/features/tweet/api/toggle-retweet";
@@ -30,12 +31,14 @@ async function Profile({ params }: { params: PageProps<"/[handle]">["params"] })
       profile={profile}
       isViewer={profile.id === session.user.id}
       tab="posts"
+      toggleFollow={toggleFollow}
     >
       <ProfilePosts
         items={posts.items}
         suggestions={suggestions}
         viewerId={session.user.id}
         actions={tweetActions}
+        toggleFollow={toggleFollow}
       />
     </ProfileScreen>
   );

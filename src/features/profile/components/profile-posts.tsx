@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import type { TimelineItem, TweetActions } from "@/types/tweet";
-import type { User } from "@/types/user";
+import type { ToggleFollow, User } from "@/types/user";
 import { TweetCard } from "@/components/tweet/tweet-card";
 import { WhoToFollowModule } from "@/features/profile/components/who-to-follow-module";
 
@@ -11,6 +11,7 @@ type ProfilePostsProps = {
   suggestions: User[];
   viewerId: string;
   actions: TweetActions;
+  toggleFollow: ToggleFollow;
 };
 
 export function ProfilePosts({
@@ -18,11 +19,16 @@ export function ProfilePosts({
   suggestions,
   viewerId,
   actions,
+  toggleFollow,
 }: ProfilePostsProps) {
   const moduleIndex = Math.min(MODULE_AFTER, items.length) - 1;
   const whoToFollow =
     suggestions.length > 0 ? (
-      <WhoToFollowModule users={suggestions} viewerId={viewerId} />
+      <WhoToFollowModule
+        users={suggestions}
+        viewerId={viewerId}
+        toggleFollow={toggleFollow}
+      />
     ) : null;
 
   if (items.length === 0) return whoToFollow;

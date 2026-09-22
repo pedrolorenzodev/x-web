@@ -1,17 +1,23 @@
 import Link from "next/link";
-import type { User } from "@/types/user";
+import type { ToggleFollow, User } from "@/types/user";
 import { routes } from "@/config/routes";
 import { cn } from "@/lib/utils";
 import { Avatar } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+import { FollowButton } from "@/components/user/follow-button";
 
 type UserCellProps = {
   user: User;
   viewerId: string;
+  toggleFollow: ToggleFollow;
   className?: string;
 };
 
-export function UserCell({ user, viewerId, className }: UserCellProps) {
+export function UserCell({
+  user,
+  viewerId,
+  toggleFollow,
+  className,
+}: UserCellProps) {
   return (
     <div
       className={cn(
@@ -32,13 +38,12 @@ export function UserCell({ user, viewerId, className }: UserCellProps) {
             <span className="truncate text-muted">@{user.handle}</span>
           </div>
           {user.id === viewerId ? null : (
-            <Button
-              size="sm"
-              variant={user.followedByViewer ? "outline" : "primary"}
-              className="relative shrink-0"
-            >
-              {user.followedByViewer ? "Following" : "Follow"}
-            </Button>
+            <FollowButton
+              userId={user.id}
+              handle={user.handle}
+              following={user.followedByViewer}
+              toggleFollow={toggleFollow}
+            />
           )}
         </div>
         {user.bio ? (

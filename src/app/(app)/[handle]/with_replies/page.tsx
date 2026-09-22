@@ -5,6 +5,7 @@ import { getProfile } from "@/features/profile/api/get-profile";
 import { getProfileReplies } from "@/features/profile/api/get-profile-replies";
 import { ProfileReplies } from "@/features/profile/components/profile-replies";
 import { ProfileScreen } from "@/features/profile/components/profile-screen";
+import { toggleFollow } from "@/features/profile/api/toggle-follow";
 import { toggleBookmark } from "@/features/tweet/api/toggle-bookmark";
 import { toggleLike } from "@/features/tweet/api/toggle-like";
 import { toggleRetweet } from "@/features/tweet/api/toggle-retweet";
@@ -29,6 +30,7 @@ async function Replies({
       profile={profile}
       isViewer={profile.id === session.user.id}
       tab="replies"
+      toggleFollow={toggleFollow}
     >
       <ProfileReplies items={replies.items} actions={tweetActions} />
     </ProfileScreen>

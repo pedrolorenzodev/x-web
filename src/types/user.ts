@@ -14,3 +14,5 @@ export type User = UserSummary & {
   postsCount: number;
   followedByViewer: boolean;
 };
+
+export type ToggleFollow = (userId: string) => Promise<void>;
