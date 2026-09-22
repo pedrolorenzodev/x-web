@@ -6,10 +6,18 @@ export type TweetStats = {
   likes: number;
 };
 
+export type TweetMedia = {
+  url: string;
+  width: number;
+  height: number;
+  alt: string;
+};
+
 export type Tweet = {
   id: string;
   author: UserSummary;
   text: string;
+  media: TweetMedia[];
   createdAt: string;
   replyingTo: UserSummary | null;
   stats: TweetStats;

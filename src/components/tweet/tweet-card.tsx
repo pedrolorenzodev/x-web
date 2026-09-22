@@ -5,6 +5,7 @@ import { routes } from "@/config/routes";
 import { Avatar } from "@/components/ui/avatar";
 import { MoreHorizontalIcon, RetweetIcon } from "@/components/ui/icons";
 import { TweetActions } from "@/components/tweet/tweet-actions";
+import { TweetPhotos } from "@/components/tweet/tweet-photos";
 import { formatRelativeTime } from "@/utils/format-relative-time";
 
 type TweetCardProps = {
@@ -91,6 +92,10 @@ export function TweetCard({ tweet, retweetedBy = null, actions }: TweetCardProps
           <p className="mt-0.5 text-base break-words whitespace-pre-wrap">
             {tweet.text}
           </p>
+
+          {tweet.media.length > 0 ? (
+            <TweetPhotos media={tweet.media} href={tweetHref} />
+          ) : null}
 
           <TweetActions tweet={tweet} actions={actions} />
         </div>

@@ -78,6 +78,14 @@ export function BackIcon(props: IconProps) {
   );
 }
 
+export function ArrowRightIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M12.957 4.54L20.414 12l-7.457 7.46-1.414-1.42L16.586 13H3v-2h13.586l-5.043-5.04 1.414-1.42z" />
+    </Icon>
+  );
+}
+
 export function VerifiedIcon(props: IconProps) {
   return (
     <Icon viewBox="0 0 22 22" {...props}>

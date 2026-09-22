@@ -21,10 +21,12 @@ Optimized for a fast, clean build — not for scale, hardening or observability.
 - Follow / unfollow
 - Like
 - Retweet
+- Bookmark
+- Tweet images: display only, from seeded URLs (up to 4 per tweet)
 
 ### Out
 
-Direct messages, notifications, search, media upload, lists, communities, spaces, premium.
+Direct messages, notifications, search, media upload, video, lists, communities, spaces, premium.
 
 Cut because each one needs infrastructure the project does not need: realtime,
 an event system, indexing or file storage. Revisit only if the core is finished.
