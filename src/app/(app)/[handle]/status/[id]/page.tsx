@@ -52,7 +52,11 @@ async function Conversation({
           actions={tweetActions}
           threaded={ancestors.length > 0}
         />
-        <ReplyComposer viewer={session.user} replyTo={tweet.author} />
+        <ReplyComposer
+          viewer={session.user}
+          replyTo={tweet.author}
+          tweetId={tweet.id}
+        />
         {replies.items.map((reply) => (
           <TweetCard key={reply.id} tweet={reply} actions={tweetActions} />
         ))}

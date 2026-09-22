@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Toaster } from "@/components/ui/toast";
 
 type AppShellProps = {
   sidebar: ReactNode;
@@ -16,6 +17,7 @@ export function AppShell({ sidebar, panel, modal, children }: AppShellProps) {
       </main>
       <div className="ml-[30px] self-stretch">{panel}</div>
       {modal}
+      <Toaster />
     </div>
   );
 }

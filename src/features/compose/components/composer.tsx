@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { UserSummary } from "@/types/user";
+import { MAX_TWEET_LENGTH } from "@/config/tweet";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,6 +19,11 @@ import {
   ComposerToolbar,
   type ComposerTool,
 } from "@/features/compose/components/composer-toolbar";
+import {
+  CharacterCounter,
+  countCharacters,
+} from "@/features/compose/components/character-counter";
+import { usePublish } from "@/features/compose/hooks/use-publish";
 
 type ComposerProps = {
   viewer: UserSummary;
@@ -37,10 +43,24 @@ const easing = "duration-200 ease-[ease]";
 
 export function Composer({ viewer }: ComposerProps) {
   const [text, setText] = useState("");
+  const { pending, publish } = usePublish();
+  const length = countCharacters(text);
   const empty = text.trim().length === 0;
+  const tooLong = length > MAX_TWEET_LENGTH;
+
+  function post() {
+    publish({ text, replyToId: null }, () => setText(""));
+  }
 
   return (
-    <div className="group flex gap-2 border-b border-border px-4 pt-4 pb-2">
+    <div className="group relative flex gap-2 border-b border-border px-4 pt-4 pb-2">
+      {pending ? (
+        <div
+          role="progressbar"
+          aria-label="Posting"
+          className="absolute inset-x-0 top-0 h-[3px] bg-accent"
+        />
+      ) : null}
       <Avatar src={viewer.avatarUrl} alt={viewer.displayName} />
 
       <div className="flex min-w-0 flex-1 flex-col">
@@ -68,9 +88,16 @@ export function Composer({ viewer }: ComposerProps) {
 
         <div className="flex items-center pt-2">
           <ComposerToolbar tools={tools} />
-          <Button disabled={empty} className="ml-auto disabled:opacity-25">
-            Post
-          </Button>
+          <div className="ml-auto flex items-center gap-3">
+            <CharacterCounter length={length} />
+            <Button
+              disabled={empty || tooLong || pending}
+              onClick={post}
+              className="disabled:opacity-25"
+            >
+              Post
+            </Button>
+          </div>
         </div>
       </div>
     </div>
