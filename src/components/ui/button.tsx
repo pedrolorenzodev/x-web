@@ -1,0 +1,39 @@
+import type { ComponentProps } from "react";
+import { cn } from "@/lib/utils";
+
+const variants = {
+  primary: "bg-inverted text-inverted-foreground hover:bg-inverted/90",
+  outline: "border border-border-strong text-foreground hover:bg-foreground/10",
+  accent: "bg-accent text-white hover:bg-accent/90",
+} as const;
+
+const sizes = {
+  sm: "h-8 px-4 text-sm",
+  md: "h-9 px-4 text-base",
+  lg: "h-13 px-8 text-lg",
+} as const;
+
+type ButtonProps = ComponentProps<"button"> & {
+  variant?: keyof typeof variants;
+  size?: keyof typeof sizes;
+};
+
+export function Button({
+  variant = "primary",
+  size = "md",
+  className,
+  ...props
+}: ButtonProps) {
+  return (
+    <button
+      className={cn(
+        "inline-flex items-center justify-center rounded-full font-bold transition-colors",
+        "disabled:pointer-events-none disabled:opacity-50",
+        variants[variant],
+        sizes[size],
+        className,
+      )}
+      {...props}
+    />
+  );
+}

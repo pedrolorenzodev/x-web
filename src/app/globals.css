@@ -1,26 +1,35 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #0f1419;
-}
+@theme {
+  --color-background: #000000;
+  --color-foreground: #e7e9ea;
+  --color-muted: #71767b;
+  --color-border: #2f3336;
+  --color-border-strong: #333639;
+  --color-accent: #1d9bf0;
+  --color-inverted: #eff3f4;
+  --color-inverted-foreground: #0f1419;
+  --color-scrim: rgb(0 0 0 / 0.65);
+  --color-like: #f91880;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --text-xs: 13px;
+  --text-xs--line-height: 16px;
+  --text-sm: 14px;
+  --text-sm--line-height: 16px;
+  --text-base: 15px;
+  --text-base--line-height: 20px;
+  --text-lg: 17px;
+  --text-xl: 20px;
+  --text-xl--line-height: 24px;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #000000;
-    --foreground: #e7e9ea;
-  }
+  --container-feed: 600px;
+
+  --font-sans: var(--font-inter), -apple-system, system-ui, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans), system-ui, sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
 }
