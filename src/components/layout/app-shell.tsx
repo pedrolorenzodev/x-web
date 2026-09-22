@@ -14,7 +14,7 @@ export function AppShell({ sidebar, panel, modal, children }: AppShellProps) {
       <main className="w-feed min-h-screen shrink-0 border-x border-border">
         {children}
       </main>
-      <div className="ml-[30px]">{panel}</div>
+      <div className="ml-[30px] self-stretch">{panel}</div>
       {modal}
     </div>
   );

@@ -42,7 +42,7 @@ const inertItems = [
 export function Sidebar({ viewer }: SidebarProps) {
   return (
     <header className="w-sidebar shrink-0">
-      <div className="sticky top-0 flex h-screen flex-col px-2">
+      <div className="fixed top-0 flex h-screen w-sidebar flex-col px-2">
         <Link
           href={routes.home}
           aria-label="X"
