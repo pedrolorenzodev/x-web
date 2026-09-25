@@ -32,17 +32,17 @@ const tones = {
   accent: {
     active: "text-accent",
     hover: "hover:text-accent",
-    circle: "group-hover/action:bg-accent/10",
+    circle: "bg-accent/10",
   },
   repost: {
     active: "text-repost",
     hover: "hover:text-repost",
-    circle: "group-hover/action:bg-repost/10",
+    circle: "bg-repost/10",
   },
   like: {
     active: "text-like",
     hover: "hover:text-like",
-    circle: "group-hover/action:bg-like/10",
+    circle: "bg-like/10",
   },
 } as const;
 
@@ -112,7 +112,7 @@ function ActionButton({
       aria-expanded={expanded}
       onClick={handleClick}
       className={cn(
-        "group/action pointer-events-auto relative flex h-5 items-center transition-colors duration-200 ease-[ease]",
+        "group/action pointer-events-auto relative flex h-5 items-center transition-colors",
         active ? colors.active : ["text-muted", colors.hover],
         celebrate && "t-like",
         burst && "is-bursting",
@@ -121,7 +121,7 @@ function ActionButton({
       <span className={cn("relative flex", iconSize)}>
         <span
           className={cn(
-            "absolute -inset-2 rounded-full transition-colors duration-200 ease-[ease]",
+            "absolute -inset-2 scale-[0.88] rounded-full opacity-0 transition-[opacity,scale] duration-[140ms] ease-[ease-out] group-hover/action:scale-100 group-hover/action:opacity-100 motion-reduce:transition-none",
             colors.circle,
           )}
         />
