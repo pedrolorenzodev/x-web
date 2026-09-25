@@ -2,7 +2,8 @@ import Link from "next/link";
 import type { UserSummary } from "@/types/user";
 import { routes } from "@/config/routes";
 import { Avatar } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+import { buttonStyles } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { NavItem } from "@/components/layout/nav-item";
 import {
   ChatIcon,
@@ -70,9 +71,12 @@ export function Sidebar({ viewer }: SidebarProps) {
           <NavItem label="More" icon={<MoreIcon className={icon} />} />
         </nav>
 
-        <Button size="lg" className="mt-2 w-[90%]">
+        <Link
+          href={routes.composePost}
+          className={cn(buttonStyles({ size: "lg" }), "mt-2 w-[90%]")}
+        >
           Post
-        </Button>
+        </Link>
 
         <button
           type="button"

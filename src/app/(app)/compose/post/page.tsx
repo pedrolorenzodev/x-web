@@ -1,12 +1,16 @@
+import { notFound } from "next/navigation";
+import HomePage from "@/app/(app)/page";
+import { getSession } from "@/features/auth/api/get-session";
 import { ComposeModal } from "@/features/compose/components/compose-modal";
 
-// TODO: render the feed here once it exists, so a direct visit matches X:
-// the timeline underneath with the composer modal on top.
-export default function ComposePostPage() {
+export default async function ComposePostPage() {
+  const session = await getSession();
+  if (!session) notFound();
+
   return (
     <>
-      <h1>Home</h1>
-      <ComposeModal />
+      <HomePage />
+      <ComposeModal viewer={session.user} dismiss="home" />
     </>
   );
 }

@@ -2,6 +2,7 @@
 
 @theme {
   --color-background: #000000;
+  --color-elevated: #141414;
   --color-foreground: #e7e9ea;
   --color-muted: #71767b;
   --color-border: #2f3336;
@@ -9,7 +10,7 @@
   --color-accent: #1d9bf0;
   --color-inverted: #eff3f4;
   --color-inverted-foreground: #0f1419;
-  --color-scrim: rgb(0 0 0 / 0.65);
+  --color-scrim: rgb(0 0 0 / 0.5);
   --color-media-control-hover: #272c30;
   --color-like: #f91880;
   --color-repost: #00ba7c;

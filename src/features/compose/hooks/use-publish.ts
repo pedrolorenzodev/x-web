@@ -6,7 +6,11 @@ import { createTweet } from "@/features/compose/api/create-tweet";
 
 type CreatedTweet = Awaited<ReturnType<typeof createTweet>>;
 
-export function usePublish() {
+type PublishOptions = {
+  onSettled?: () => void;
+};
+
+export function usePublish({ onSettled }: PublishOptions = {}) {
   const [pending, startTransition] = useTransition();
   const sentRef = useRef<CreatedTweet | null>(null);
 
@@ -19,7 +23,8 @@ export function usePublish() {
       message: "Your post was sent.",
       action: { label: "View", href: routes.tweet(sent.handle, sent.id) },
     });
-  }, [pending]);
+    onSettled?.();
+  }, [pending, onSettled]);
 
   function publish(input: NewTweetInput, onPublished: () => void) {
     startTransition(async () => {

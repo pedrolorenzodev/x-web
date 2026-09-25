@@ -24,9 +24,12 @@ import {
   countCharacters,
 } from "@/features/compose/components/character-counter";
 import { usePublish } from "@/features/compose/hooks/use-publish";
+import { cn } from "@/lib/utils";
 
 type ComposerProps = {
   viewer: UserSummary;
+  variant?: "inline" | "modal";
+  onPublished?: () => void;
 };
 
 const tools: ComposerTool[] = [
@@ -41,9 +44,14 @@ const tools: ComposerTool[] = [
 
 const easing = "duration-200 ease-[ease]";
 
-export function Composer({ viewer }: ComposerProps) {
+export function Composer({
+  viewer,
+  variant = "inline",
+  onPublished,
+}: ComposerProps) {
+  const modal = variant === "modal";
   const [text, setText] = useState("");
-  const { pending, publish } = usePublish();
+  const { pending, publish } = usePublish({ onSettled: onPublished });
   const length = countCharacters(text);
   const empty = text.trim().length === 0;
   const tooLong = length > MAX_TWEET_LENGTH;
@@ -53,7 +61,12 @@ export function Composer({ viewer }: ComposerProps) {
   }
 
   return (
-    <div className="group relative flex gap-2 border-b border-border px-4 pt-4 pb-2">
+    <div
+      className={cn(
+        "group relative flex gap-2 px-4 pt-4 pb-2",
+        !modal && "border-b border-border",
+      )}
+    >
       {pending ? (
         <div
           role="progressbar"
@@ -64,17 +77,27 @@ export function Composer({ viewer }: ComposerProps) {
       <Avatar src={viewer.avatarUrl} alt={viewer.displayName} />
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <div className="min-h-12 pt-1.5">
+        <div className={cn("pt-1.5", modal ? "pb-3.5" : "min-h-12")}>
           <textarea
             value={text}
             onChange={(event) => setText(event.target.value)}
             placeholder="What’s happening?"
             aria-label="Post text"
-            className="field-sizing-content w-full resize-none bg-transparent p-0.5 text-xl outline-none placeholder:text-muted"
+            className={cn(
+              "field-sizing-content block w-full resize-none bg-transparent p-0.5 text-xl outline-none placeholder:text-muted",
+              modal && "min-h-24",
+            )}
           />
         </div>
 
-        <div className="-ml-4 mr-4 max-h-0 overflow-hidden opacity-0 transition-[max-height,opacity] duration-250 ease-[cubic-bezier(0.22,1,0.36,1)] group-focus-within:max-h-[60px] group-focus-within:opacity-100">
+        <div
+          className={cn(
+            "mr-4 overflow-hidden",
+            modal
+              ? "-ml-16 max-h-[60px]"
+              : "-ml-4 max-h-0 opacity-0 transition-[max-height,opacity] duration-250 ease-[cubic-bezier(0.22,1,0.36,1)] group-focus-within:max-h-[60px] group-focus-within:opacity-100",
+          )}
+        >
           <div className="flex border-b border-border py-3">
             <button
               type="button"
@@ -86,7 +109,7 @@ export function Composer({ viewer }: ComposerProps) {
           </div>
         </div>
 
-        <div className="flex items-center pt-2">
+        <div className={cn("flex items-center pt-2", modal && "-ml-12")}>
           <ComposerToolbar tools={tools} />
           <div className="ml-auto flex items-center gap-3">
             <CharacterCounter length={length} />
