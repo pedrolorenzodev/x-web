@@ -1,8 +1,9 @@
 import { Suspense } from "react";
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 import { TimelineHeader } from "@/features/feed/components/timeline-header";
 import { Composer } from "@/features/compose/components/composer";
 import { getSession } from "@/features/auth/api/get-session";
+import { routes } from "@/config/routes";
 import { getTimeline } from "@/features/feed/api/get-timeline";
 import { toggleLike } from "@/features/tweet/api/toggle-like";
 import { toggleRetweet } from "@/features/tweet/api/toggle-retweet";
@@ -24,14 +25,20 @@ async function Timeline() {
   ));
 }
 
-export default async function HomePage() {
+async function ViewerComposer() {
   const session = await getSession();
-  if (!session) notFound();
+  if (!session) redirect(routes.expiredSession);
 
+  return <Composer viewer={session.user} />;
+}
+
+export default function HomePage() {
   return (
     <>
       <TimelineHeader />
-      <Composer viewer={session.user} />
+      <Suspense fallback={null}>
+        <ViewerComposer />
+      </Suspense>
       <div className="pb-[200px]">
         <Suspense fallback={null}>
           <Timeline />

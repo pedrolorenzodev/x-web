@@ -1,7 +1,10 @@
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 import { AppShell } from "@/components/layout/app-shell";
 import { Sidebar } from "@/components/layout/sidebar";
 import { getSession } from "@/features/auth/api/get-session";
+import { routes } from "@/config/routes";
+
+export const instant = false;
 
 export default async function AppLayout({
   children,
@@ -9,7 +12,7 @@ export default async function AppLayout({
   panel,
 }: LayoutProps<"/">) {
   const session = await getSession();
-  if (!session) notFound();
+  if (!session) redirect(routes.expiredSession);
 
   return (
     <AppShell

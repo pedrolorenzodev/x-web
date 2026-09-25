@@ -1,10 +1,20 @@
-import { notFound } from "next/navigation";
+import { Suspense } from "react";
+import { redirect } from "next/navigation";
 import { getSession } from "@/features/auth/api/get-session";
+import { routes } from "@/config/routes";
 import { ComposeModal } from "@/features/compose/components/compose-modal";
 
-export default async function InterceptedComposePostPage() {
+async function ViewerComposeModal() {
   const session = await getSession();
-  if (!session) notFound();
+  if (!session) redirect(routes.expiredSession);
 
   return <ComposeModal viewer={session.user} dismiss="back" />;
+}
+
+export default function InterceptedComposePostPage() {
+  return (
+    <Suspense fallback={null}>
+      <ViewerComposeModal />
+    </Suspense>
+  );
 }

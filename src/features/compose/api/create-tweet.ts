@@ -2,7 +2,7 @@
 
 import { refresh } from "next/cache";
 import type { NewTweetInput } from "@/types/tweet";
-import { findUserById, mockViewerId } from "@/mocks/users";
+import { getMockViewer } from "@/mocks/session";
 import { mockTweets } from "@/mocks/tweets";
 import { MAX_TWEET_LENGTH } from "@/config/tweet";
 
@@ -15,7 +15,7 @@ export async function createTweet({
   text,
   replyToId,
 }: NewTweetInput): Promise<CreatedTweet> {
-  const viewer = findUserById(mockViewerId);
+  const viewer = await getMockViewer();
   const body = text.trim();
   if (!viewer) throw new Error("No viewer session");
   if (!body || [...body].length > MAX_TWEET_LENGTH) {

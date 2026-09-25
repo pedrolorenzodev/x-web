@@ -94,8 +94,6 @@ export const mockUsers: User[] = [
   },
 ];
 
-export const mockViewerId = "u1";
-
 export const mockSuggestedUserIds = ["u3", "u5", "u6", "u7"];
 
 export function findUserById(id: string): User | null {

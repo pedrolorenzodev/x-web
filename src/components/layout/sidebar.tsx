@@ -5,6 +5,7 @@ import { Avatar } from "@/components/ui/avatar";
 import { buttonStyles } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { NavItem } from "@/components/layout/nav-item";
+import { AccountMenu } from "@/components/layout/account-menu";
 import {
   ChatIcon,
   CreatorStudioIcon,
@@ -78,17 +79,14 @@ export function Sidebar({ viewer }: SidebarProps) {
           Post
         </Link>
 
-        <button
-          type="button"
-          className="mt-auto mb-3 flex w-full items-center gap-3 rounded-full p-3 transition-colors duration-200 ease-[ease] hover:bg-foreground/10"
-        >
+        <AccountMenu handle={viewer.handle}>
           <Avatar src={viewer.avatarUrl} alt={viewer.displayName} />
           <span className="flex flex-col items-start">
             <span className="text-base font-bold">{viewer.displayName}</span>
             <span className="text-base text-muted">@{viewer.handle}</span>
           </span>
           <MoreHorizontalIcon className="ml-auto size-[18.75px]" />
-        </button>
+        </AccountMenu>
       </div>
     </header>
   );

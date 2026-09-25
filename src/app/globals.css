@@ -17,6 +17,46 @@
   --color-danger: #f4212e;
   --color-warning: #ffd400;
   --color-danger-border: #67070f;
+  --color-menu-hover: #16181c;
+  --color-menu-pressed: rgb(18 21 23 / 0.7);
+  --color-menu-focus-ring: rgb(142 205 248);
+  --color-mask: rgb(91 112 131 / 0.4);
+  --color-outline: #536471;
+  --color-inverted-hover: #d7dbdc;
+  --color-inverted-pressed: #bfc2c3;
+  --color-button-focus-ring: #f7f9fa;
+
+  --shadow-menu: 0 4px 12px rgb(0 0 0 / 0.5), 0 0 2px rgb(0 0 0 / 0.35);
+
+  --color-auth-pill: #f8fafc;
+  --color-auth-google-border: #dadce0;
+  --color-auth-google-text: #3c4043;
+  --color-auth-cta-disabled: #262626;
+  --color-auth-cta-disabled-text: #78716c;
+  --color-auth-field-border: #3f3f46;
+  --color-auth-focus: #0ea5e9;
+  --color-auth-error: #ef4444;
+  --color-auth-divider-text: #71717a;
+  --color-auth-legal: #808080;
+  --color-auth-muted: #71757a;
+  --color-auth-dot: #5a5e63;
+  --color-auth-spinner: #1e9cf1;
+  --color-auth-outline: #323639;
+  --color-auth-outline-hover: #202327;
+  --color-auth-subtle: #737373;
+  --color-auth-eye: #829aab;
+  --color-auth-back-hover: rgb(31 41 55 / 0.8);
+  --color-auth-backdrop: rgb(0 0 0 / 0.4);
+  --color-auth-country: #e6e9ea;
+  --color-auth-menu: #1f2937;
+  --color-auth-menu-border: #374151;
+  --color-auth-popover: #18181b;
+  --color-auth-toggle-on-hover: #1a8cd8;
+  --color-auth-toggle-off-hover: #4a5c6a;
+
+  --shadow-auth-card: 0 4px 20px rgb(0 0 0 / 0.4);
+
+  --breakpoint-narrow: 517px;
 
   --text-xs: 13px;
   --text-xs--line-height: 16px;
@@ -41,6 +81,36 @@
 
   --font-sans: var(--font-inter), -apple-system, system-ui, "Segoe UI", Roboto,
     Helvetica, Arial, sans-serif;
+
+  --animate-enter-fade: enter-fade 0.3s ease both;
+  --animate-enter-fade-rise:
+    enter-fade 0.39s ease-out both,
+    enter-rise 0.65s cubic-bezier(0.34, 1.4, 0.64, 1) both;
+
+  @keyframes enter-fade {
+    0% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes enter-rise {
+    0% {
+      transform: translateY(40px) scale(0.97);
+    }
+  }
+
+  --animate-caret-blink: caret-blink 1s infinite;
+
+  @keyframes caret-blink {
+    0%,
+    49% {
+      opacity: 1;
+    }
+    50%,
+    100% {
+      opacity: 0;
+    }
+  }
 }
 
 html {
