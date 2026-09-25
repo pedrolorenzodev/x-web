@@ -15,7 +15,6 @@ export const PASSWORD_MIN_LENGTH = 8;
 export const DISPLAY_NAME_MAX_LENGTH = 50;
 export const PHONE_MIN_DIGITS = 7;
 export const PHONE_MAX_DIGITS = 15;
-export const PHONE_PATTERN = "^[0-9 ()+\\-]+$";
 export const HANDLE_CHECK_DELAY_MS = 300;
 export const BIRTH_YEAR_RANGE = 120;
 

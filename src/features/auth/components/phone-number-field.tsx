@@ -1,10 +1,15 @@
 import { useId, useRef, type ChangeEvent } from "react";
 import { cn } from "@/lib/utils";
-import { PHONE_PATTERN } from "@/config/auth";
-import type { PhoneCountry } from "@/config/phone-countries";
+import { PHONE_COUNTRIES, type PhoneCountry } from "@/config/phone-countries";
 import { useSettledTransitions } from "@/features/auth/hooks/use-settled-transitions";
 import { fieldBorderClass } from "@/features/auth/utils/field-border";
-import { stripDisallowedCharacters } from "@/features/auth/utils/strip-disallowed-characters";
+import {
+  caretAfterDigits,
+  formatPhoneNumber,
+  onlyDigits,
+  parsePhoneInput,
+  withoutCharacterAt,
+} from "@/features/auth/utils/format-phone-number";
 import { CountryPicker } from "@/features/auth/components/country-picker";
 import { FieldError } from "@/features/auth/components/field-error";
 
@@ -30,8 +35,42 @@ export function PhoneNumberField({
   const inputRef = useRef<HTMLInputElement>(null);
   const settled = useSettledTransitions(autoFocus);
 
+  const formatted = formatPhoneNumber(country.code, phone);
+
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
-    onPhoneChange(stripDisallowedCharacters(event.currentTarget.value, PHONE_PATTERN));
+    const input = event.currentTarget;
+    const caret = input.selectionStart ?? input.value.length;
+    const parsed = parsePhoneInput(input.value);
+    const droppedPrefix = onlyDigits(input.value).length - parsed.digits.length;
+    let digits = parsed.digits;
+    let digitsBeforeCaret = Math.max(
+      0,
+      onlyDigits(input.value.slice(0, caret)).length - droppedPrefix,
+    );
+
+    const deletedOnlySeparator =
+      digits === phone && input.value.length < formatted.length;
+    if (deletedOnlySeparator) {
+      const { inputType } = event.nativeEvent as InputEvent;
+      if (inputType === "deleteContentBackward" && digitsBeforeCaret > 0) {
+        digitsBeforeCaret -= 1;
+        digits = withoutCharacterAt(digits, digitsBeforeCaret);
+      } else if (inputType === "deleteContentForward") {
+        digits = withoutCharacterAt(digits, digitsBeforeCaret);
+      }
+    }
+
+    const pastedCountry = PHONE_COUNTRIES.find(
+      (item) => item.code === parsed.countryCode,
+    );
+    const nextCountry = pastedCountry ?? country;
+    const nextValue = formatPhoneNumber(nextCountry.code, digits);
+    const nextCaret = caretAfterDigits(nextValue, digitsBeforeCaret);
+    input.value = nextValue;
+    input.setSelectionRange(nextCaret, nextCaret);
+
+    if (nextCountry.code !== country.code) onCountryChange(nextCountry);
+    onPhoneChange(digits);
   }
 
   function handleCountrySelect(next: PhoneCountry) {
@@ -55,7 +94,7 @@ export function PhoneNumberField({
           id={inputId}
           name="phone"
           type="tel"
-          value={phone}
+          value={formatted}
           onChange={handleChange}
           placeholder="Phone number"
           aria-label="Phone number"
