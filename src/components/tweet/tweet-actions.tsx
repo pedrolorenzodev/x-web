@@ -1,7 +1,13 @@
 "use client";
 
-import { startTransition, useEffect, useOptimistic, useState } from "react";
-import type { ComponentType, SVGProps } from "react";
+import {
+  startTransition,
+  useEffect,
+  useOptimistic,
+  useRef,
+  useState,
+} from "react";
+import type { ComponentType, MouseEvent, Ref, SVGProps } from "react";
 import type { Tweet, TweetActions as Actions } from "@/types/tweet";
 import {
   BookmarkActiveIcon,
@@ -16,6 +22,8 @@ import {
 } from "@/components/ui/icons";
 import { AnimatedCount } from "@/components/ui/animated-count";
 import { createLikeBurst, type LikeBurst } from "@/components/tweet/like-burst";
+import { placeOverAnchor, RepostMenu } from "@/components/tweet/repost-menu";
+import { useDropdownMenu } from "@/hooks/use-dropdown-menu";
 import { formatCount } from "@/utils/format-count";
 import { deriveViews } from "@/utils/derive-views";
 import { cn } from "@/lib/utils";
@@ -56,7 +64,9 @@ type ActionButtonProps = {
   count?: number;
   active?: boolean;
   celebrate?: boolean;
-  onClick?: () => void;
+  expanded?: boolean;
+  ref?: Ref<HTMLButtonElement>;
+  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
 };
 
 function ActionButton({
@@ -67,6 +77,8 @@ function ActionButton({
   count,
   active = false,
   celebrate = false,
+  expanded,
+  ref,
   onClick,
 }: ActionButtonProps) {
   const colors = tones[tone];
@@ -79,16 +91,21 @@ function ActionButton({
     return () => window.clearTimeout(timeout);
   }, [burst]);
 
-  function handleClick() {
+  function handleClick(event: MouseEvent<HTMLButtonElement>) {
     if (celebrate && !active) setBurst(createLikeBurst((burst?.id ?? 0) + 1));
-    onClick?.();
+    onClick?.(event);
   }
+
+  const hasMenu = expanded !== undefined;
 
   return (
     <button
+      ref={ref}
       type="button"
       aria-label={label}
-      aria-pressed={onClick ? active : undefined}
+      aria-pressed={onClick && !hasMenu ? active : undefined}
+      aria-haspopup={hasMenu ? "menu" : undefined}
+      aria-expanded={expanded}
       onClick={handleClick}
       className={cn(
         "group/action pointer-events-auto relative flex h-5 items-center transition-colors duration-200 ease-[ease]",
@@ -182,6 +199,9 @@ export function TweetActions({
     });
   }
 
+  const repostRef = useRef<HTMLButtonElement>(null);
+  const repostMenu = useDropdownMenu(repostRef, placeOverAnchor);
+
   const views = deriveViews(tweet);
   const focal = variant === "focal";
 
@@ -210,7 +230,14 @@ export function TweetActions({
           tone="repost"
           count={state.retweets}
           active={state.retweeted}
-          onClick={() => run("retweet", actions.toggleRetweet)}
+          expanded={repostMenu.isOpen}
+          ref={repostRef}
+          onClick={repostMenu.toggle}
+        />
+        <RepostMenu
+          menu={repostMenu}
+          retweeted={state.retweeted}
+          onRepost={() => run("retweet", actions.toggleRetweet)}
         />
       </div>
       <div className="flex flex-1">
