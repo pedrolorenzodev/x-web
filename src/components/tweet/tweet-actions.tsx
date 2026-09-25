@@ -1,6 +1,6 @@
 "use client";
 
-import { startTransition, useOptimistic } from "react";
+import { startTransition, useEffect, useOptimistic, useState } from "react";
 import type { ComponentType, SVGProps } from "react";
 import type { Tweet, TweetActions as Actions } from "@/types/tweet";
 import {
@@ -14,6 +14,8 @@ import {
   ShareIcon,
   ViewsIcon,
 } from "@/components/ui/icons";
+import { AnimatedCount } from "@/components/ui/animated-count";
+import { createLikeBurst, type LikeBurst } from "@/components/tweet/like-burst";
 import { formatCount } from "@/utils/format-count";
 import { deriveViews } from "@/utils/derive-views";
 import { cn } from "@/lib/utils";
@@ -53,6 +55,7 @@ type ActionButtonProps = {
   tone: keyof typeof tones;
   count?: number;
   active?: boolean;
+  celebrate?: boolean;
   onClick?: () => void;
 };
 
@@ -63,20 +66,35 @@ function ActionButton({
   tone,
   count,
   active = false,
+  celebrate = false,
   onClick,
 }: ActionButtonProps) {
   const colors = tones[tone];
   const iconSize = variants[variant].icon;
+  const [burst, setBurst] = useState<LikeBurst | null>(null);
+
+  useEffect(() => {
+    if (!burst) return;
+    const timeout = window.setTimeout(() => setBurst(null), burst.duration);
+    return () => window.clearTimeout(timeout);
+  }, [burst]);
+
+  function handleClick() {
+    if (celebrate && !active) setBurst(createLikeBurst((burst?.id ?? 0) + 1));
+    onClick?.();
+  }
 
   return (
     <button
       type="button"
       aria-label={label}
       aria-pressed={onClick ? active : undefined}
-      onClick={onClick}
+      onClick={handleClick}
       className={cn(
         "group/action pointer-events-auto relative flex h-5 items-center transition-colors duration-200 ease-[ease]",
         active ? colors.active : ["text-muted", colors.hover],
+        celebrate && "t-like",
+        burst && "is-bursting",
       )}
     >
       <span className={cn("relative flex", iconSize)}>
@@ -86,10 +104,22 @@ function ActionButton({
             colors.circle,
           )}
         />
-        <Icon className={cn("relative", iconSize)} />
+        <span
+          key={`icon-${burst?.id}`}
+          className={cn("relative flex", celebrate && "t-like-icon")}
+        >
+          <Icon className={iconSize} />
+        </span>
+        {burst ? (
+          <span key={`particles-${burst.id}`} className="t-like-particles">
+            {burst.particles.map((style, index) => (
+              <i key={index} style={style} />
+            ))}
+          </span>
+        ) : null}
       </span>
-      {count !== undefined && count > 0 ? (
-        <span className="px-1 text-xs">{formatCount(count)}</span>
+      {count !== undefined ? (
+        <AnimatedCount value={count} format={formatCount} className="px-1 text-xs" />
       ) : null}
     </button>
   );
@@ -191,6 +221,7 @@ export function TweetActions({
           tone="like"
           count={state.likes}
           active={state.liked}
+          celebrate
           onClick={() => run("like", actions.toggleLike)}
         />
       </div>
