@@ -60,6 +60,8 @@ type ActionButtonProps = {
   label: string;
   variant: Variant;
   icon: ComponentType<SVGProps<SVGSVGElement>>;
+  activeIcon?: ComponentType<SVGProps<SVGSVGElement>>;
+  swapIcons?: boolean;
   tone: keyof typeof tones;
   count?: number;
   active?: boolean;
@@ -73,6 +75,8 @@ function ActionButton({
   label,
   variant,
   icon: Icon,
+  activeIcon: ActiveIcon = Icon,
+  swapIcons = false,
   tone,
   count,
   active = false,
@@ -121,12 +125,27 @@ function ActionButton({
             colors.circle,
           )}
         />
-        <span
-          key={`icon-${burst?.id}`}
-          className={cn("relative flex", celebrate && "t-like-icon")}
-        >
-          <Icon className={iconSize} />
-        </span>
+        {swapIcons ? (
+          <span className="t-icon-swap" data-state={active ? "b" : "a"}>
+            <span className="t-icon flex" data-icon="a">
+              <Icon className={iconSize} />
+            </span>
+            <span className="t-icon flex" data-icon="b">
+              <ActiveIcon className={iconSize} />
+            </span>
+          </span>
+        ) : (
+          <span
+            key={`icon-${burst?.id}`}
+            className={cn("relative flex", celebrate && "t-like-icon")}
+          >
+            {active ? (
+              <ActiveIcon className={iconSize} />
+            ) : (
+              <Icon className={iconSize} />
+            )}
+          </span>
+        )}
         {burst ? (
           <span key={`particles-${burst.id}`} className="t-like-particles">
             {burst.particles.map((style, index) => (
@@ -226,7 +245,9 @@ export function TweetActions({
         <ActionButton
           variant={variant}
           label={`${state.retweets} reposts. ${state.retweeted ? "Undo repost" : "Repost"}`}
-          icon={state.retweeted ? RetweetActiveIcon : RetweetIcon}
+          icon={RetweetIcon}
+          activeIcon={RetweetActiveIcon}
+          swapIcons
           tone="repost"
           count={state.retweets}
           active={state.retweeted}
@@ -244,7 +265,8 @@ export function TweetActions({
         <ActionButton
           variant={variant}
           label={`${state.likes} Likes. ${state.liked ? "Unlike" : "Like"}`}
-          icon={state.liked ? LikeActiveIcon : LikeIcon}
+          icon={LikeIcon}
+          activeIcon={LikeActiveIcon}
           tone="like"
           count={state.likes}
           active={state.liked}
@@ -267,7 +289,9 @@ export function TweetActions({
         <ActionButton
           variant={variant}
           label={state.bookmarked ? "Remove Bookmark" : "Bookmark"}
-          icon={state.bookmarked ? BookmarkActiveIcon : BookmarkIcon}
+          icon={BookmarkIcon}
+          activeIcon={BookmarkActiveIcon}
+          swapIcons
           tone="accent"
           active={state.bookmarked}
           onClick={() => run("bookmark", actions.toggleBookmark)}
