@@ -12,11 +12,17 @@ import { cn } from "@/lib/utils";
 const TILE_HEIGHT = 352.23;
 const TILE_MAX_WIDTH = 414.39;
 const BORDER = 2;
-const SCROLL_PADDING = 64;
+const insets = {
+  card: { scrollPadding: 64, list: "-ml-16 scroll-pl-16 pl-16" },
+  focal: { scrollPadding: 16, list: "-ml-4 scroll-pl-4 pl-4" },
+} as const;
+
+export type PhotosVariant = keyof typeof insets;
 
 type PhotoCarouselProps = {
   media: TweetMedia[];
   href: string;
+  variant: PhotosVariant;
 };
 
 type Direction = "prev" | "next";
@@ -26,8 +32,12 @@ function tileWidth(photo: TweetMedia) {
   return Math.min((photo.width / photo.height) * inner + BORDER, TILE_MAX_WIDTH);
 }
 
-function offsetToTile(list: HTMLDivElement, direction: Direction) {
-  const origin = list.getBoundingClientRect().left + SCROLL_PADDING;
+function offsetToTile(
+  list: HTMLDivElement,
+  direction: Direction,
+  scrollPadding: number,
+) {
+  const origin = list.getBoundingClientRect().left + scrollPadding;
   const offsets = [...list.children].map(
     (tile) => tile.getBoundingClientRect().left - origin,
   );
@@ -66,7 +76,8 @@ function Arrow({ label, icon: Icon, visible, className, onClick }: ArrowProps) {
   );
 }
 
-export function PhotoCarousel({ media, href }: PhotoCarouselProps) {
+export function PhotoCarousel({ media, href, variant }: PhotoCarouselProps) {
+  const inset = insets[variant];
   const router = useRouter();
   const listRef = useRef<HTMLDivElement | null>(null);
   const [canPrev, setCanPrev] = useState(false);
@@ -93,7 +104,7 @@ export function PhotoCarousel({ media, href }: PhotoCarouselProps) {
     const list = listRef.current;
     if (!list) return;
 
-    const offset = offsetToTile(list, direction);
+    const offset = offsetToTile(list, direction, inset.scrollPadding);
     if (offset !== undefined) list.scrollBy({ left: offset, behavior: "smooth" });
   }
 
@@ -103,7 +114,10 @@ export function PhotoCarousel({ media, href }: PhotoCarouselProps) {
         ref={attachList}
         onScroll={(event) => updateArrows(event.currentTarget)}
         onClick={openTweetFromGap}
-        className="relative -mr-4 -ml-16 flex scroll-pl-16 gap-1 overflow-x-auto pr-4 pl-16 [scrollbar-width:none] cursor-pointer snap-x snap-mandatory"
+        className={cn(
+          "relative -mr-4 flex cursor-pointer snap-x snap-mandatory gap-1 overflow-x-auto pr-4 [scrollbar-width:none]",
+          inset.list,
+        )}
       >
         {media.map((photo, index) => (
           <Link

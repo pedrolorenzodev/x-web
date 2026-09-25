@@ -1,6 +1,9 @@
 import Image from "next/image";
 import type { TweetMedia } from "@/types/tweet";
-import { PhotoCarousel } from "@/components/tweet/photo-carousel";
+import {
+  PhotoCarousel,
+  type PhotosVariant,
+} from "@/components/tweet/photo-carousel";
 
 const SINGLE_MAX_HEIGHT = 510;
 const BORDER = 2;
@@ -8,6 +11,7 @@ const BORDER = 2;
 type TweetPhotosProps = {
   media: TweetMedia[];
   href: string;
+  variant?: PhotosVariant;
 };
 
 function SinglePhoto({ photo }: { photo: TweetMedia }) {
@@ -47,8 +51,12 @@ function SinglePhoto({ photo }: { photo: TweetMedia }) {
   );
 }
 
-export function TweetPhotos({ media, href }: TweetPhotosProps) {
+export function TweetPhotos({
+  media,
+  href,
+  variant = "card",
+}: TweetPhotosProps) {
   if (media.length === 1) return <SinglePhoto photo={media[0]} />;
 
-  return <PhotoCarousel media={media} href={href} />;
+  return <PhotoCarousel media={media} href={href} variant={variant} />;
 }

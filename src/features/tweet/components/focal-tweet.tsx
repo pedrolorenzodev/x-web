@@ -58,7 +58,7 @@ export function FocalTweet({
       </p>
 
       {tweet.media.length > 0 ? (
-        <TweetPhotos media={tweet.media} href={tweetHref} />
+        <TweetPhotos media={tweet.media} href={tweetHref} variant="focal" />
       ) : null}
 
       <div className="my-4 flex h-5 items-center gap-1 text-base text-muted">
