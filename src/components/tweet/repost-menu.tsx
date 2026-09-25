@@ -2,28 +2,40 @@
 
 import type { CSSProperties, MouseEvent } from "react";
 import { QuoteIcon, RetweetIcon } from "@/components/ui/icons";
-import { DropdownMenu, menuItem } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  menuItem,
+  type DropdownOrigin,
+} from "@/components/ui/dropdown-menu";
 import type { DropdownMenuController } from "@/hooks/use-dropdown-menu";
 import { cn } from "@/lib/utils";
 
 const MENU_WIDTH = 200;
 const MENU_HEIGHT = 112;
 
-export function placeOverAnchor(anchor: DOMRect): CSSProperties {
+type RepostMenuPlacement = {
+  style: CSSProperties;
+  origin: DropdownOrigin;
+};
+
+export function placeOverAnchor(anchor: DOMRect): RepostMenuPlacement {
   const fitsRight = anchor.left + MENU_WIDTH <= window.innerWidth;
   const fitsBelow = anchor.top + MENU_HEIGHT <= window.innerHeight;
   return {
-    ...(fitsRight
-      ? { left: anchor.left }
-      : { right: window.innerWidth - anchor.right }),
-    ...(fitsBelow
-      ? { top: anchor.top }
-      : { bottom: window.innerHeight - anchor.bottom }),
+    style: {
+      ...(fitsRight
+        ? { left: anchor.left }
+        : { right: window.innerWidth - anchor.right }),
+      ...(fitsBelow
+        ? { top: anchor.top }
+        : { bottom: window.innerHeight - anchor.bottom }),
+    },
+    origin: `${fitsBelow ? "top" : "bottom"}-${fitsRight ? "left" : "right"}`,
   };
 }
 
 type RepostMenuProps = {
-  menu: DropdownMenuController<CSSProperties>;
+  menu: DropdownMenuController<RepostMenuPlacement>;
   retweeted: boolean;
   onRepost: () => void;
 };
@@ -40,7 +52,8 @@ export function RepostMenu({ menu, retweeted, onRepost }: RepostMenuProps) {
     <DropdownMenu
       menu={menu}
       label="Repost options"
-      style={menu.placement}
+      style={menu.placement.style}
+      origin={menu.placement.origin}
       className="w-max min-w-[150px]"
     >
       <button

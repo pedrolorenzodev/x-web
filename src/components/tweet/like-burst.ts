@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { readCssMilliseconds, readCssPixels } from "@/utils/css-custom-property";
 
 export type LikeBurst = {
   id: number;
@@ -14,23 +15,9 @@ function between(min: number, max: number) {
   return min + Math.random() * (max - min);
 }
 
-function readProperty(property: string) {
-  return getComputedStyle(document.documentElement).getPropertyValue(property).trim();
-}
-
-function readPixels(property: string) {
-  return parseFloat(readProperty(property)) || 0;
-}
-
-function readMilliseconds(property: string) {
-  const value = readProperty(property);
-  const amount = parseFloat(value) || 0;
-  return value.endsWith("ms") ? amount : amount * 1000;
-}
-
 export function createLikeBurst(id: number): LikeBurst {
-  const distance = readPixels("--like-particle-dist");
-  const baseDuration = readMilliseconds("--like-particle-dur");
+  const distance = readCssPixels("--like-particle-dist");
+  const baseDuration = readCssMilliseconds("--like-particle-dur");
   let duration = 0;
 
   const particles = Array.from({ length: PARTICLE_COUNT }, (_, index) => {

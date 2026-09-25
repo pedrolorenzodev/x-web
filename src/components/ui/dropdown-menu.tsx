@@ -10,17 +10,25 @@ import {
 import { createPortal } from "react-dom";
 import { cn } from "@/lib/utils";
 import type { DropdownMenuController } from "@/hooks/use-dropdown-menu";
+import { readCssMilliseconds } from "@/utils/css-custom-property";
+
+export type DropdownOrigin =
+  | "top-left"
+  | "top-center"
+  | "top-right"
+  | "bottom-left"
+  | "bottom-center"
+  | "bottom-right";
 
 type DropdownMenuProps<Placement> = {
   menu: DropdownMenuController<Placement>;
   label: string;
   style: CSSProperties;
+  origin: DropdownOrigin;
   className?: string;
   decoration?: ReactNode;
   children: ReactNode;
 };
-
-const FADE_MS = 250;
 
 export const menuItem =
   "flex h-11 w-full items-center px-4 text-left text-base font-bold text-foreground outline-none transition-[background-color,box-shadow] duration-200 ease-[ease] hover:bg-menu-hover focus-visible:bg-menu-hover focus-visible:shadow-[inset_0_0_0_2px_var(--color-menu-focus-ring)] active:bg-menu-pressed";
@@ -29,14 +37,14 @@ export function DropdownMenu<Placement>({
   menu,
   label,
   style,
+  origin,
   className,
   decoration,
   children,
 }: DropdownMenuProps<Placement>) {
-  const popoverRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const { state, isOpen, close, finishClosing, onMenuKeyDown } = menu;
-  const onFadedOut = useEffectEvent(finishClosing);
+  const onClosed = useEffectEvent(finishClosing);
 
   useEffect(() => {
     if (isOpen) {
@@ -46,8 +54,10 @@ export function DropdownMenu<Placement>({
 
   useEffect(() => {
     if (state !== "closing") return;
-    const fading = (popoverRef.current?.getAnimations().length ?? 0) > 0;
-    const timeout = window.setTimeout(onFadedOut, fading ? FADE_MS + 50 : 0);
+    const timeout = window.setTimeout(
+      onClosed,
+      readCssMilliseconds("--dropdown-close-dur"),
+    );
     return () => window.clearTimeout(timeout);
   }, [state]);
 
@@ -63,15 +73,15 @@ export function DropdownMenu<Placement>({
         />
       )}
       <div
-        ref={popoverRef}
         inert={!isOpen}
         style={style}
+        data-origin={origin}
         onTransitionEnd={(event) => {
           if (event.target === event.currentTarget) finishClosing();
         }}
         className={cn(
-          "fixed z-30 transition-opacity duration-250 ease-[ease] starting:opacity-0",
-          isOpen ? "opacity-100" : "opacity-0",
+          "t-dropdown fixed z-30",
+          isOpen ? "is-open" : "is-closing",
           className,
         )}
       >

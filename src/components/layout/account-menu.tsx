@@ -4,7 +4,11 @@ import Link from "next/link";
 import { useRef, type ReactNode } from "react";
 import { routes } from "@/config/routes";
 import { PopoverArrowIcon } from "@/components/ui/icons";
-import { DropdownMenu, menuItem } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  menuItem,
+  type DropdownOrigin,
+} from "@/components/ui/dropdown-menu";
 import { useDropdownMenu } from "@/hooks/use-dropdown-menu";
 
 type AccountMenuProps = {
@@ -16,6 +20,7 @@ type Placement = {
   left: number;
   bottom: number;
   arrowLeft: number;
+  origin: DropdownOrigin;
 };
 
 const MENU_WIDTH = 300;
@@ -27,19 +32,30 @@ function placeAbove(anchor: DOMRect): Placement {
   const bottom = window.innerHeight - anchor.top + ANCHOR_GAP;
 
   if (center >= MENU_WIDTH / 2 && viewportWidth - center >= MENU_WIDTH / 2) {
-    return { left: center - MENU_WIDTH / 2, bottom, arrowLeft: MENU_WIDTH / 2 };
+    return {
+      left: center - MENU_WIDTH / 2,
+      bottom,
+      arrowLeft: MENU_WIDTH / 2,
+      origin: "bottom-center",
+    };
   }
   if (viewportWidth - anchor.left >= MENU_WIDTH) {
-    return { left: anchor.left, bottom, arrowLeft: anchor.width / 2 };
+    return {
+      left: anchor.left,
+      bottom,
+      arrowLeft: anchor.width / 2,
+      origin: "bottom-left",
+    };
   }
   if (anchor.right >= MENU_WIDTH) {
     return {
       left: anchor.right - MENU_WIDTH,
       bottom,
       arrowLeft: MENU_WIDTH - anchor.width / 2,
+      origin: "bottom-right",
     };
   }
-  return { left: 0, bottom, arrowLeft: center };
+  return { left: 0, bottom, arrowLeft: center, origin: "bottom-left" };
 }
 
 function ItemLabel({ children }: { children: ReactNode }) {
@@ -74,6 +90,7 @@ export function AccountMenu({ handle, children }: AccountMenuProps) {
           menu={menu}
           label="Account menu"
           style={{ left: menu.placement.left, bottom: menu.placement.bottom }}
+          origin={menu.placement.origin}
           className="w-[300px]"
           decoration={
             <PopoverArrowIcon
