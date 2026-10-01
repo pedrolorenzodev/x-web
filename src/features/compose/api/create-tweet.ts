@@ -35,6 +35,7 @@ export async function createTweet({
     media: [],
     createdAt: new Date().toISOString(),
     replyToId: parent?.id ?? null,
+    quotedId: null,
     stats: { replies: 0, retweets: 0, likes: 0 },
     likedByViewer: false,
     retweetedByViewer: false,

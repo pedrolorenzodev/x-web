@@ -7,6 +7,7 @@ export type TweetStats = {
 };
 
 export type TweetMedia = {
+  type: "photo" | "video";
   url: string;
   width: number;
   height: number;
@@ -24,7 +25,13 @@ export type Tweet = {
   likedByViewer: boolean;
   retweetedByViewer: boolean;
   bookmarkedByViewer: boolean;
+  quotedTweet: QuotedTweet | null;
 };
+
+export type QuotedTweet = Pick<
+  Tweet,
+  "id" | "author" | "text" | "media" | "createdAt" | "replyingTo"
+>;
 
 export type TimelineItem = {
   tweet: Tweet;

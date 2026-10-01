@@ -2,6 +2,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 const sizes = {
+  xs: 24,
   md: 40,
   xl: 133.5,
 } as const;

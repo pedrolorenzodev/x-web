@@ -5,6 +5,7 @@ import { Avatar } from "@/components/ui/avatar";
 import { MoreButton } from "@/components/tweet/more-button";
 import { TweetActions } from "@/components/tweet/tweet-actions";
 import { TweetPhotos } from "@/components/tweet/tweet-photos";
+import { QuotedTweet } from "@/components/tweet/quoted-tweet";
 import { deriveViews } from "@/utils/derive-views";
 import { formatFullDate } from "@/utils/format-full-date";
 
@@ -59,6 +60,10 @@ export function FocalTweet({
 
       {tweet.media.length > 0 ? (
         <TweetPhotos media={tweet.media} href={tweetHref} variant="focal" />
+      ) : null}
+
+      {tweet.quotedTweet ? (
+        <QuotedTweet tweet={tweet.quotedTweet} variant="focal" />
       ) : null}
 
       <div className="my-4 flex h-5 items-center gap-1 text-base text-muted">

@@ -1,4 +1,4 @@
-import type { Tweet, TweetMedia, TweetStats } from "@/types/tweet";
+import type { QuotedTweet, Tweet, TweetMedia, TweetStats } from "@/types/tweet";
 import { findUserById, toSummary } from "@/mocks/users";
 
 export type TweetRecord = {
@@ -8,6 +8,7 @@ export type TweetRecord = {
   media: TweetMedia[];
   createdAt: string;
   replyToId: string | null;
+  quotedId: string | null;
   stats: TweetStats;
   likedByViewer: boolean;
   retweetedByViewer: boolean;
@@ -22,6 +23,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T18:57:56.000Z",
     replyToId: "2105710194114138426",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -38,6 +40,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T18:49:15.000Z",
     replyToId: "2105481466159206518",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -54,6 +57,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T18:42:36.000Z",
     replyToId: "2105710194114138426",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -70,6 +74,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T18:29:23.000Z",
     replyToId: "2105710194114138426",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -86,6 +91,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T17:44:31.000Z",
     replyToId: "2105710194114138426",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -102,6 +108,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T17:43:56.000Z",
     replyToId: "2105710194114138426",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -118,6 +125,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T17:38:19.000Z",
     replyToId: "2105692478086975611",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -134,6 +142,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T17:27:31.000Z",
     replyToId: "2105711193214370237",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -150,6 +159,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T17:27:25.000Z",
     replyToId: "2105395175992545631",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -166,6 +176,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T17:23:27.000Z",
     replyToId: null,
+    quotedId: "2105610693860819258",
     stats: {
       replies: 5,
       retweets: 1,
@@ -182,6 +193,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T16:51:52.000Z",
     replyToId: "2105481466159206518",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -198,6 +210,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T16:40:11.000Z",
     replyToId: "2105698326788337942",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -213,6 +226,7 @@ export const mockTweets: TweetRecord[] = [
     text: "soy gm",
     media: [
       {
+        type: "video",
         url: "https://pbs.twimg.com/tweet_video_thumb/HTjxd4nXYAE52dZ.jpg",
         width: 480,
         height: 426,
@@ -221,6 +235,7 @@ export const mockTweets: TweetRecord[] = [
     ],
     createdAt: "2026-10-01T16:36:17.000Z",
     replyToId: "2105698022604800427",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -237,6 +252,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T16:35:05.000Z",
     replyToId: "2105631749179072667",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -253,6 +269,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T16:13:03.000Z",
     replyToId: "2105658361362759695",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -269,6 +286,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T16:11:31.000Z",
     replyToId: "2105676438846533902",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -285,6 +303,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T15:09:19.000Z",
     replyToId: "2105674960362479629",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -300,6 +319,7 @@ export const mockTweets: TweetRecord[] = [
     text: "q locura lorencia",
     media: [
       {
+        type: "photo",
         url: "https://pbs.twimg.com/media/HTjcMU7WkAAgg4X.jpg",
         width: 2238,
         height: 1244,
@@ -308,6 +328,7 @@ export const mockTweets: TweetRecord[] = [
     ],
     createdAt: "2026-10-01T15:03:26.000Z",
     replyToId: "2105658361362759695",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -324,6 +345,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T14:35:57.000Z",
     replyToId: "2105299435135934586",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -340,6 +362,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T14:23:51.000Z",
     replyToId: "2105664430994604297",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -356,6 +379,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T14:21:36.000Z",
     replyToId: "2105481466159206518",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -372,6 +396,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T13:59:09.000Z",
     replyToId: "2105089993651744829",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -387,6 +412,7 @@ export const mockTweets: TweetRecord[] = [
     text: "pov dejas tu coding agent con /goal y te vas a farmear aura a lorencia",
     media: [
       {
+        type: "photo",
         url: "https://pbs.twimg.com/media/HTjNG1TXYAAUrw3.jpg",
         width: 1534,
         height: 978,
@@ -395,6 +421,7 @@ export const mockTweets: TweetRecord[] = [
     ],
     createdAt: "2026-10-01T13:57:29.000Z",
     replyToId: null,
+    quotedId: "2105516280723702105",
     stats: {
       replies: 2,
       retweets: 1,
@@ -411,6 +438,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T13:42:01.000Z",
     replyToId: "2105652480461754734",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -427,6 +455,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T13:34:07.000Z",
     replyToId: "2105481466159206518",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -443,6 +472,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T12:59:52.000Z",
     replyToId: "2105498691708633186",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -459,6 +489,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T12:47:56.000Z",
     replyToId: "2105481466159206518",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -475,6 +506,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T12:11:44.000Z",
     replyToId: "2105603246777921698",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -491,6 +523,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T11:38:45.000Z",
     replyToId: "2105089993651744829",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -507,10 +540,28 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T11:15:19.000Z",
     replyToId: "2105416796501344756",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
       likes: 0,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
+  {
+    id: "2105610693860819258",
+    authorId: "151606428",
+    text: "El control de emisiones se realiza durante la VTV, esa que dicen que es al pedo",
+    media: [],
+    createdAt: "2026-10-01T10:48:04.000Z",
+    replyToId: "2105595586485407945",
+    quotedId: null,
+    stats: {
+      replies: 1,
+      retweets: 0,
+      likes: 3,
     },
     likedByViewer: false,
     retweetedByViewer: false,
@@ -523,6 +574,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T10:18:28.000Z",
     replyToId: "2105480537599049934",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -539,10 +591,61 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T04:42:06.000Z",
     replyToId: "2105296549890953663",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
       likes: 0,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
+  {
+    id: "2105516280723702105",
+    authorId: "1929354046868975616",
+    text: "Todo un tema, en el bar de lorencia.\n\nmu.mormon.garden",
+    media: [
+      {
+        type: "photo",
+        url: "https://pbs.twimg.com/media/HThL3R8XcAEc4Ij.jpg",
+        width: 1384,
+        height: 997,
+        alt: "",
+      },
+    ],
+    createdAt: "2026-10-01T04:32:54.000Z",
+    replyToId: null,
+    quotedId: "2105511087349412023",
+    stats: {
+      replies: 10,
+      retweets: 6,
+      likes: 61,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
+  {
+    id: "2105511087349412023",
+    authorId: "1929354046868975616",
+    text: "60 usuarios online!!\n\nVeni a jugar!",
+    media: [
+      {
+        type: "photo",
+        url: "https://pbs.twimg.com/media/HThHJPmWMAAWpVw.jpg",
+        width: 1673,
+        height: 975,
+        alt: "",
+      },
+    ],
+    createdAt: "2026-10-01T04:12:16.000Z",
+    replyToId: null,
+    quotedId: null,
+    stats: {
+      replies: 4,
+      retweets: 4,
+      likes: 34,
     },
     likedByViewer: false,
     retweetedByViewer: false,
@@ -555,6 +658,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T03:53:26.000Z",
     replyToId: "2105482865740021988",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -571,6 +675,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T03:44:01.000Z",
     replyToId: "2105480537599049934",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -587,6 +692,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T03:23:01.000Z",
     replyToId: "2105456412348350663",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -603,6 +709,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T02:23:57.000Z",
     replyToId: "2105483702016852069",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -619,6 +726,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T02:23:27.000Z",
     replyToId: "2105483253251784837",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -635,6 +743,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T02:21:40.000Z",
     replyToId: "2105395175992545631",
+    quotedId: "2105472051423359454",
     stats: {
       replies: 1,
       retweets: 0,
@@ -651,6 +760,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T02:20:07.000Z",
     replyToId: "2105481466159206518",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -667,6 +777,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T02:14:34.000Z",
     replyToId: null,
+    quotedId: null,
     stats: {
       replies: 6,
       retweets: 0,
@@ -683,6 +794,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T02:11:26.000Z",
     replyToId: "2105415800722964668",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -698,6 +810,7 @@ export const mockTweets: TweetRecord[] = [
     text: "que pinta?!",
     media: [
       {
+        type: "photo",
         url: "https://pbs.twimg.com/media/HTgrXYdXMAA-NYj.jpg",
         width: 3002,
         height: 1644,
@@ -706,10 +819,36 @@ export const mockTweets: TweetRecord[] = [
     ],
     createdAt: "2026-10-01T02:10:52.000Z",
     replyToId: null,
+    quotedId: "2105479819924512768",
     stats: {
       replies: 2,
       retweets: 1,
       likes: 14,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
+  {
+    id: "2105479819924512768",
+    authorId: "1929354046868975616",
+    text: "33/50 Online!!\n\nSolo quedan algunos lugares!!",
+    media: [
+      {
+        type: "photo",
+        url: "https://pbs.twimg.com/media/HTgqsRpXIAEq4-Y.jpg",
+        width: 1512,
+        height: 1024,
+        alt: "",
+      },
+    ],
+    createdAt: "2026-10-01T02:08:01.000Z",
+    replyToId: null,
+    quotedId: "2105472605721383182",
+    stats: {
+      replies: 8,
+      retweets: 9,
+      likes: 16,
     },
     likedByViewer: false,
     retweetedByViewer: false,
@@ -722,10 +861,61 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T01:46:52.000Z",
     replyToId: "2105296549890953663",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
       likes: 0,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
+  {
+    id: "2105472605721383182",
+    authorId: "1929354046868975616",
+    text: "Ya somo 10 online!!\n\nSolo hay lugar para 20 por ahora.",
+    media: [
+      {
+        type: "photo",
+        url: "https://pbs.twimg.com/media/HTgkI0fWMAAe8yX.jpg",
+        width: 1155,
+        height: 869,
+        alt: "",
+      },
+    ],
+    createdAt: "2026-10-01T01:39:21.000Z",
+    replyToId: null,
+    quotedId: null,
+    stats: {
+      replies: 3,
+      retweets: 2,
+      likes: 15,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
+  {
+    id: "2105472051423359454",
+    authorId: "1009150790475403264",
+    text: "Hoy lanzamos KeepAnalog.\n\nMandás por WhatsApp los links que guardás y nunca terminas leyendo.\n\nY a fin de mes te llega tu revista impresa, a la puerta de tu casa.\n\nPorque algunas cosas merecen sobrevivir al scroll.\n\nHoy en toda 🇦🇷🇦🇷🇦🇷",
+    media: [
+      {
+        type: "video",
+        url: "https://pbs.twimg.com/amplify_video_thumb/2105471924486778880/img/MhWewTZqoxgtmHr2.jpg",
+        width: 1080,
+        height: 1920,
+        alt: "",
+      },
+    ],
+    createdAt: "2026-10-01T01:37:09.000Z",
+    replyToId: null,
+    quotedId: null,
+    stats: {
+      replies: 65,
+      retweets: 34,
+      likes: 286,
     },
     likedByViewer: false,
     retweetedByViewer: false,
@@ -738,6 +928,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T00:51:12.000Z",
     replyToId: "2105106899045593521",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -753,6 +944,7 @@ export const mockTweets: TweetRecord[] = [
     text: "es un flex reportar que me detoné un Claude Max x20 a puro opus? (también tengo 2 codex x5 que me duran UN día el weekly cada uno)",
     media: [
       {
+        type: "photo",
         url: "https://pbs.twimg.com/media/HTgVcizWIAAkNuU.jpg",
         width: 1206,
         height: 764,
@@ -761,6 +953,7 @@ export const mockTweets: TweetRecord[] = [
     ],
     createdAt: "2026-10-01T00:35:00.000Z",
     replyToId: null,
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -777,6 +970,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T00:30:37.000Z",
     replyToId: "2105421818991374489",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -793,6 +987,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T00:15:40.000Z",
     replyToId: "2105442056659509736",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -809,6 +1004,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-10-01T00:02:36.000Z",
     replyToId: "2105299435135934586",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -824,6 +1020,7 @@ export const mockTweets: TweetRecord[] = [
     text: "yendo",
     media: [
       {
+        type: "video",
         url: "https://pbs.twimg.com/tweet_video_thumb/HTgJTdCXEAAyGCi.jpg",
         width: 480,
         height: 300,
@@ -832,6 +1029,7 @@ export const mockTweets: TweetRecord[] = [
     ],
     createdAt: "2026-09-30T23:41:57.000Z",
     replyToId: "2105395175992545631",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -848,6 +1046,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T23:37:58.000Z",
     replyToId: "2105440166538326502",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -864,6 +1063,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T23:30:27.000Z",
     replyToId: "2105436561835995316",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -880,6 +1080,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T23:16:08.000Z",
     replyToId: "2105406905544016153",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -896,6 +1097,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T22:21:44.000Z",
     replyToId: "2105421818991374489",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -912,6 +1114,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T22:17:33.000Z",
     replyToId: null,
+    quotedId: "2105406876074868813",
     stats: {
       replies: 2,
       retweets: 0,
@@ -928,6 +1131,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T22:04:12.000Z",
     replyToId: "2105296549890953663",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -944,6 +1148,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T22:00:54.000Z",
     replyToId: "2105417538280608023",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -960,6 +1165,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T22:00:32.000Z",
     replyToId: "2105416669099176328",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -976,6 +1182,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T21:57:35.000Z",
     replyToId: null,
+    quotedId: "2105370348057141520",
     stats: {
       replies: 1,
       retweets: 1,
@@ -992,6 +1199,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T21:57:05.000Z",
     replyToId: "2105411980001697804",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -1007,12 +1215,14 @@ export const mockTweets: TweetRecord[] = [
     text: "me encontré una sucursal de @slatv_ por Ámsterdam",
     media: [
       {
+        type: "photo",
         url: "https://pbs.twimg.com/media/HTfwgZAW4AAmGdb.jpg",
         width: 1080,
         height: 1920,
         alt: "",
       },
       {
+        type: "photo",
         url: "https://pbs.twimg.com/media/HTfwgvTWYAAZ6GG.jpg",
         width: 1080,
         height: 1920,
@@ -1021,6 +1231,7 @@ export const mockTweets: TweetRecord[] = [
     ],
     createdAt: "2026-09-30T21:53:38.000Z",
     replyToId: null,
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -1037,6 +1248,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T21:43:48.000Z",
     replyToId: "2105321728314372304",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -1053,6 +1265,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T21:38:27.000Z",
     replyToId: "2105395985090273764",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -1069,6 +1282,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T21:29:58.000Z",
     replyToId: "2105296549890953663",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -1085,10 +1299,36 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T21:18:17.000Z",
     replyToId: null,
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
       likes: 28,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
+  {
+    id: "2105406876074868813",
+    authorId: "1155898067339501569",
+    text: "",
+    media: [
+      {
+        type: "video",
+        url: "https://pbs.twimg.com/amplify_video_thumb/2105051078144282625/img/qovfOb4Jj8WHk2eB.jpg",
+        width: 2560,
+        height: 1440,
+        alt: "",
+      },
+    ],
+    createdAt: "2026-09-30T21:18:10.000Z",
+    replyToId: null,
+    quotedId: null,
+    stats: {
+      replies: 36,
+      retweets: 25,
+      likes: 413,
     },
     likedByViewer: false,
     retweetedByViewer: false,
@@ -1101,6 +1341,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T20:34:53.000Z",
     replyToId: "2105390609603195031",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -1117,6 +1358,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T20:31:40.000Z",
     replyToId: null,
+    quotedId: null,
     stats: {
       replies: 3,
       retweets: 1,
@@ -1132,6 +1374,7 @@ export const mockTweets: TweetRecord[] = [
     text: "xxXainXxx has arrived 🫡",
     media: [
       {
+        type: "photo",
         url: "https://pbs.twimg.com/media/HTfZdBbWUAAPMPZ.jpg",
         width: 576,
         height: 1002,
@@ -1140,6 +1383,7 @@ export const mockTweets: TweetRecord[] = [
     ],
     createdAt: "2026-09-30T20:13:32.000Z",
     replyToId: null,
+    quotedId: "2105374738998759849",
     stats: {
       replies: 1,
       retweets: 0,
@@ -1156,10 +1400,61 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T19:47:55.000Z",
     replyToId: "2105296549890953663",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
       likes: 1,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
+  {
+    id: "2105374738998759849",
+    authorId: "1929354046868975616",
+    text: "Tengo a Opus testeando cada ítem para chequear que todo renderice bien!",
+    media: [
+      {
+        type: "photo",
+        url: "https://pbs.twimg.com/media/HTfK5ceWkAEga_O.jpg",
+        width: 2924,
+        height: 1588,
+        alt: "",
+      },
+    ],
+    createdAt: "2026-09-30T19:10:28.000Z",
+    replyToId: null,
+    quotedId: "2105314741220483205",
+    stats: {
+      replies: 17,
+      retweets: 2,
+      likes: 82,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
+  {
+    id: "2105370348057141520",
+    authorId: "1572819212757864448",
+    text: "me puse perfume para una entrevista virtual",
+    media: [
+      {
+        type: "video",
+        url: "https://pbs.twimg.com/amplify_video_thumb/2104293139997413377/img/-kHA0x33_0AGMGh8.jpg",
+        width: 540,
+        height: 540,
+        alt: "",
+      },
+    ],
+    createdAt: "2026-09-30T18:53:01.000Z",
+    replyToId: null,
+    quotedId: null,
+    stats: {
+      replies: 3,
+      retweets: 531,
+      likes: 13740,
     },
     likedByViewer: false,
     retweetedByViewer: false,
@@ -1172,6 +1467,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T18:10:16.000Z",
     replyToId: "2105109130948313175",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -1188,6 +1484,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T17:57:04.000Z",
     replyToId: "2105296549890953663",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -1204,6 +1501,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T17:39:51.000Z",
     replyToId: "2105296549890953663",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -1220,6 +1518,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T17:25:45.000Z",
     replyToId: "2105296549890953663",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -1236,6 +1535,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T16:12:04.000Z",
     replyToId: "2105321595417825608",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -1252,6 +1552,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T16:07:54.000Z",
     replyToId: "2105296549890953663",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -1268,6 +1569,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T16:00:42.000Z",
     replyToId: "2105106899045593521",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -1284,6 +1586,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T15:59:21.000Z",
     replyToId: "2105296549890953663",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -1300,6 +1603,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T15:51:59.000Z",
     replyToId: "2105296549890953663",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -1316,6 +1620,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T15:46:08.000Z",
     replyToId: "2105321728314372304",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -1332,6 +1637,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T15:39:49.000Z",
     replyToId: "2105296549890953663",
+    quotedId: null,
     stats: {
       replies: 2,
       retweets: 0,
@@ -1348,6 +1654,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T15:39:17.000Z",
     replyToId: "2105317520882188456",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -1364,6 +1671,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T15:23:06.000Z",
     replyToId: "2105315984915718550",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -1380,10 +1688,36 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T15:17:00.000Z",
     replyToId: "2105106899045593521",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
       likes: 5,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
+  {
+    id: "2105314741220483205",
+    authorId: "1929354046868975616",
+    text: "La mejor parte de que sea open source es que lo puedo modificar como quiera en 2 segundos!\n\nAcabo de agregarle el logo de GM arriba de la cabeza con solo un prompt :D",
+    media: [
+      {
+        type: "photo",
+        url: "https://pbs.twimg.com/media/HTeUdvGW8AE5jS3.png",
+        width: 764,
+        height: 615,
+        alt: "",
+      },
+    ],
+    createdAt: "2026-09-30T15:12:03.000Z",
+    replyToId: null,
+    quotedId: null,
+    stats: {
+      replies: 11,
+      retweets: 2,
+      likes: 71,
     },
     likedByViewer: false,
     retweetedByViewer: false,
@@ -1396,6 +1730,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T14:51:59.000Z",
     replyToId: "2105296549890953663",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -1412,6 +1747,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T14:29:44.000Z",
     replyToId: "2105252241229951466",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -1428,6 +1764,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T14:19:03.000Z",
     replyToId: "2105296549890953663",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -1444,6 +1781,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T14:11:14.000Z",
     replyToId: null,
+    quotedId: "2105089993651744829",
     stats: {
       replies: 2,
       retweets: 0,
@@ -1460,6 +1798,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T13:59:46.000Z",
     replyToId: null,
+    quotedId: null,
     stats: {
       replies: 14,
       retweets: 0,
@@ -1476,6 +1815,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T11:03:42.000Z",
     replyToId: "2104529225000853511",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -1492,6 +1832,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T07:26:53.000Z",
     replyToId: "2105089993651744829",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -1508,6 +1849,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T05:46:48.000Z",
     replyToId: "2105171887164968999",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -1524,6 +1866,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T05:44:24.000Z",
     replyToId: "2105171215509778504",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -1540,6 +1883,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T05:41:44.000Z",
     replyToId: "2105170206087905641",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -1556,6 +1900,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T05:37:43.000Z",
     replyToId: "2104529225000853511",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -1572,6 +1917,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T04:46:56.000Z",
     replyToId: "2105155067485839469",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -1587,6 +1933,7 @@ export const mockTweets: TweetRecord[] = [
     text: "How did you do the quarter pipe? There is a bug if you come down on this side you can get stuck vertically",
     media: [
       {
+        type: "photo",
         url: "https://pbs.twimg.com/media/HTcDQzgbcAAjEIL.jpg",
         width: 1784,
         height: 895,
@@ -1595,6 +1942,7 @@ export const mockTweets: TweetRecord[] = [
     ],
     createdAt: "2026-09-30T04:37:34.000Z",
     replyToId: "2104529225000853511",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -1611,6 +1959,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T01:51:28.000Z",
     replyToId: "2105112513541275694",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -1627,6 +1976,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T01:48:28.000Z",
     replyToId: "2105089993651744829",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -1643,6 +1993,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T01:35:02.000Z",
     replyToId: "2105089993651744829",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -1659,10 +2010,28 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T01:26:10.000Z",
     replyToId: null,
+    quotedId: "2105103030509068306",
     stats: {
       replies: 3,
       retweets: 1,
       likes: 171,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
+  {
+    id: "2105103030509068306",
+    authorId: "1950610254577991680",
+    text: "yo supongo que ya lo saben, pero capaz no, por eso aclaro\n\nel 99% de los problemas de rendimiento de los empleados en el laburo se solucionan pagando mas\n\ncuanto aprox? el doble o el triple que el mercado, y esto se basa en una experiencia REAL que tuve\n\nhace unos años en la época dorada de airbnb trabajé para una empresa manejando airbnbs. la industria traía tanta plata, que ganabamos lo mismo que profesionales con título. ganábamos 4 veces más que los empleados no calificados comunes\n\ntrabajabamos muchas horas, sin limites, si se perdia o rompia algo en el departamento nos lo cobraban, pero era TANTA plata para gente como nosotros que nos aferrabamos con uñas y dientes a ese trabajo. de verdad era MUCHA plata, muchos sufrian maltratos pero no eran capaces de dejar el laburo porque sabian que era imposible ganar eso en cualquier otro lado, y no se iban y trabajaban las horas que hubiera que trabajar en las condiciones que fuera\n\ncon esto NO digo que si pagas bien podes tratar para el orto a tus empleados, pero lo que te digo es, que si tus empleados  saben que no hay ningun lugar en el mercado donde ganen mas que en tu empresa, van a tener mucha mas tolerancia a la frustracion y van a seguir tus ordenes con muchas mas ganas, por la plata baila el mono, CORTA",
+    media: [],
+    createdAt: "2026-09-30T01:10:48.000Z",
+    replyToId: null,
+    quotedId: null,
+    stats: {
+      replies: 15,
+      retweets: 9,
+      likes: 173,
     },
     likedByViewer: false,
     retweetedByViewer: false,
@@ -1675,6 +2044,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T01:09:08.000Z",
     replyToId: "2105089993651744829",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -1691,6 +2061,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-30T00:44:44.000Z",
     replyToId: "2105089993651744829",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -1706,6 +2077,7 @@ export const mockTweets: TweetRecord[] = [
     text: "In 32 hours, 4,256 posters were created on my9albums.\n\n38,304 album picks, 7,189 unique albums, 3,882 artists. At 5 AM, people were still making theirs.\n\nThank you all 🫡\nmy9albums.com",
     media: [
       {
+        type: "video",
         url: "https://pbs.twimg.com/amplify_video_thumb/2105088336108896256/img/aCpjfqJeUWKJNsas.jpg",
         width: 1920,
         height: 1080,
@@ -1714,6 +2086,7 @@ export const mockTweets: TweetRecord[] = [
     ],
     createdAt: "2026-09-30T00:18:59.000Z",
     replyToId: null,
+    quotedId: "2104662431771320490",
     stats: {
       replies: 7,
       retweets: 2,
@@ -1730,6 +2103,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-29T18:24:55.000Z",
     replyToId: "2105000160967487806",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -1745,6 +2119,7 @@ export const mockTweets: TweetRecord[] = [
     text: "la cara de Sam después de lanzar en vivo un banked reset. la cara de un tipo gastando 10M en cómputo en vivo",
     media: [
       {
+        type: "photo",
         url: "https://pbs.twimg.com/media/HTZ2fRpW4AATd7e.jpg",
         width: 1206,
         height: 804,
@@ -1753,6 +2128,7 @@ export const mockTweets: TweetRecord[] = [
     ],
     createdAt: "2026-09-29T18:22:02.000Z",
     replyToId: null,
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -1769,6 +2145,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-29T04:35:23.000Z",
     replyToId: "2104772552078053654",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -1785,6 +2162,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-29T03:17:35.000Z",
     replyToId: null,
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -1801,6 +2179,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-29T02:03:44.000Z",
     replyToId: "2104664027867611256",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -1816,6 +2195,7 @@ export const mockTweets: TweetRecord[] = [
     text: "Para qué hacerlo bien, si se puede ser como los empleados de Secheep (Chaco), hasta los monos entienden que algunas cosas necesitan herramientas adecuadas",
     media: [
       {
+        type: "photo",
         url: "https://pbs.twimg.com/media/HTV2enXWoAA009V.jpg",
         width: 899,
         height: 1599,
@@ -1824,6 +2204,7 @@ export const mockTweets: TweetRecord[] = [
     ],
     createdAt: "2026-09-28T23:45:29.000Z",
     replyToId: "2104621345514660141",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -1840,6 +2221,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-28T22:28:24.000Z",
     replyToId: "2104699044056432942",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -1856,6 +2238,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-28T22:25:30.000Z",
     replyToId: "2104698471039263226",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -1872,6 +2255,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-28T22:23:13.000Z",
     replyToId: "2104643696000139396",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -1888,10 +2272,28 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-28T20:30:46.000Z",
     replyToId: "2104659974890905644",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
       likes: 1,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
+  {
+    id: "2104669799494148386",
+    authorId: "1439687110030761993",
+    text: "beautiful og image\n\nmy9albums.com/s/DmZGb5QiTX",
+    media: [],
+    createdAt: "2026-09-28T20:29:17.000Z",
+    replyToId: "2104662431771320490",
+    quotedId: null,
+    stats: {
+      replies: 0,
+      retweets: 3,
+      likes: 21,
     },
     likedByViewer: false,
     retweetedByViewer: false,
@@ -1903,6 +2305,7 @@ export const mockTweets: TweetRecord[] = [
     text: "",
     media: [
       {
+        type: "photo",
         url: "https://pbs.twimg.com/media/HTVExQxXEAAmcKM.jpg",
         width: 1800,
         height: 2100,
@@ -1911,6 +2314,7 @@ export const mockTweets: TweetRecord[] = [
     ],
     createdAt: "2026-09-28T20:06:21.000Z",
     replyToId: null,
+    quotedId: "2104662431771320490",
     stats: {
       replies: 1,
       retweets: 0,
@@ -1921,12 +2325,38 @@ export const mockTweets: TweetRecord[] = [
     bookmarkedByViewer: false,
   },
   {
+    id: "2104662431771320490",
+    authorId: "1439687110030761993",
+    text: "I love games, and I love music just as much.\n\nSome albums shaped who I am, so I made my9albums.\n\nPick the 9 albums that made you, turn them into a poster, and share it.\n\nmy9albums.com",
+    media: [
+      {
+        type: "video",
+        url: "https://pbs.twimg.com/amplify_video_thumb/2104630046623195137/img/VjchEVUKOWi5QTq_.jpg",
+        width: 1920,
+        height: 1080,
+        alt: "",
+      },
+    ],
+    createdAt: "2026-09-28T20:00:01.000Z",
+    replyToId: null,
+    quotedId: null,
+    stats: {
+      replies: 106,
+      retweets: 2656,
+      likes: 1107,
+    },
+    likedByViewer: true,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
+  {
     id: "2104659974890905644",
     authorId: "1937691004787916802",
     text: "la mejor tortuga de todas",
     media: [],
     createdAt: "2026-09-28T19:50:15.000Z",
     replyToId: "2104649872846565615",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -1943,6 +2373,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-28T19:10:06.000Z",
     replyToId: null,
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -1959,6 +2390,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-28T18:45:34.000Z",
     replyToId: "2104641682465567052",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -1975,6 +2407,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-28T18:37:34.000Z",
     replyToId: "2104637226353090869",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -1991,6 +2424,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-28T18:19:51.000Z",
     replyToId: "2104621345514660141",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -2006,12 +2440,14 @@ export const mockTweets: TweetRecord[] = [
     text: "Podar? O mutilar? Porque no lo sacan entero ya que están.",
     media: [
       {
+        type: "photo",
         url: "https://pbs.twimg.com/media/HTUd68vWgAEQtgQ.jpg",
         width: 1536,
         height: 2048,
         alt: "",
       },
       {
+        type: "video",
         url: "https://pbs.twimg.com/amplify_video_thumb/2104621299448311808/img/hpHoxIujcPFC1VtC.jpg",
         width: 1440,
         height: 1920,
@@ -2020,6 +2456,7 @@ export const mockTweets: TweetRecord[] = [
     ],
     createdAt: "2026-09-28T17:16:45.000Z",
     replyToId: null,
+    quotedId: null,
     stats: {
       replies: 2,
       retweets: 0,
@@ -2035,6 +2472,7 @@ export const mockTweets: TweetRecord[] = [
     text: "Skate Game\n\nLive: skate.soweme.com\n\n#threejs #game",
     media: [
       {
+        type: "video",
         url: "https://pbs.twimg.com/amplify_video_thumb/2104528925028167680/img/FjfQOgvuyGduGjEm.jpg",
         width: 1920,
         height: 1080,
@@ -2043,6 +2481,7 @@ export const mockTweets: TweetRecord[] = [
     ],
     createdAt: "2026-09-28T11:10:42.000Z",
     replyToId: null,
+    quotedId: null,
     stats: {
       replies: 3,
       retweets: 0,
@@ -2059,6 +2498,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-28T05:52:56.000Z",
     replyToId: "2104208916531892686",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -2075,6 +2515,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-28T03:09:44.000Z",
     replyToId: null,
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 1,
@@ -2091,6 +2532,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-28T03:09:44.000Z",
     replyToId: "2104408185708638475",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -2107,6 +2549,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-27T22:47:39.000Z",
     replyToId: "2104320348783362351",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -2123,10 +2566,36 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-27T21:20:42.000Z",
     replyToId: null,
+    quotedId: "2104298616592728430",
     stats: {
       replies: 1,
       retweets: 0,
       likes: 33,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
+  {
+    id: "2104298616592728430",
+    authorId: "1965545045089792000",
+    text: "Quien tiene un amigo argentino, tiene un tesoro.",
+    media: [
+      {
+        type: "photo",
+        url: "https://pbs.twimg.com/media/HTP4bS3WUAAL0u1.jpg",
+        width: 2048,
+        height: 1536,
+        alt: "",
+      },
+    ],
+    createdAt: "2026-09-27T19:54:20.000Z",
+    replyToId: null,
+    quotedId: null,
+    stats: {
+      replies: 58,
+      retweets: 185,
+      likes: 2489,
     },
     likedByViewer: false,
     retweetedByViewer: false,
@@ -2139,6 +2608,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-27T13:58:19.000Z",
     replyToId: "2104208916531892686",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -2155,6 +2625,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-27T13:57:54.000Z",
     replyToId: null,
+    quotedId: null,
     stats: {
       replies: 2,
       retweets: 1,
@@ -2170,6 +2641,7 @@ export const mockTweets: TweetRecord[] = [
     text: "Now we talking",
     media: [
       {
+        type: "photo",
         url: "https://pbs.twimg.com/media/HTLCfkyWYAA2dDH.png",
         width: 66,
         height: 21,
@@ -2178,6 +2650,7 @@ export const mockTweets: TweetRecord[] = [
     ],
     createdAt: "2026-09-26T21:20:12.000Z",
     replyToId: "2103595763372638254",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -2193,6 +2666,7 @@ export const mockTweets: TweetRecord[] = [
     text: "Need even higher tps, when 1k tps",
     media: [
       {
+        type: "photo",
         url: "https://pbs.twimg.com/media/HTF5LToWAAArhuU.png",
         width: 823,
         height: 114,
@@ -2201,6 +2675,7 @@ export const mockTweets: TweetRecord[] = [
     ],
     createdAt: "2026-09-25T21:21:27.000Z",
     replyToId: null,
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -2217,6 +2692,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-21T22:57:00.000Z",
     replyToId: "2102152142274400654",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -2233,6 +2709,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-21T21:45:01.000Z",
     replyToId: "2102021544239067241",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -2248,6 +2725,7 @@ export const mockTweets: TweetRecord[] = [
     text: "Soweme, reimagined. ✨\n\nA refreshed 3D experience with a new scene, interactions and animations.\n\nBuilt with #threejs.\n\nLive: soweme.com\n\n#softbodyGPU #GPU #creativecoding",
     media: [
       {
+        type: "video",
         url: "https://pbs.twimg.com/amplify_video_thumb/2102021379105165312/img/87RVs2FYqKVPeX-P.jpg",
         width: 1920,
         height: 1080,
@@ -2256,6 +2734,7 @@ export const mockTweets: TweetRecord[] = [
     ],
     createdAt: "2026-09-21T13:06:04.000Z",
     replyToId: null,
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -2272,6 +2751,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-21T07:12:16.000Z",
     replyToId: "2101743803702898722",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -2288,6 +2768,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-20T23:32:42.000Z",
     replyToId: "2101816394991980611",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -2304,6 +2785,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-20T23:30:53.000Z",
     replyToId: "2101743803702898722",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -2320,6 +2802,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-20T18:42:25.000Z",
     replyToId: null,
+    quotedId: null,
     stats: {
       replies: 2,
       retweets: 0,
@@ -2336,6 +2819,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-20T17:05:49.000Z",
     replyToId: "2101397657172267469",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -2351,6 +2835,7 @@ export const mockTweets: TweetRecord[] = [
     text: "So far:",
     media: [
       {
+        type: "photo",
         url: "https://pbs.twimg.com/media/HSmqqBZXEAAtqrp.png",
         width: 320,
         height: 285,
@@ -2359,6 +2844,7 @@ export const mockTweets: TweetRecord[] = [
     ],
     createdAt: "2026-09-19T19:49:42.000Z",
     replyToId: "2101397657172267469",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -2374,6 +2860,7 @@ export const mockTweets: TweetRecord[] = [
     text: "Built a chrome extension that dims/hides posts that dont add value using Jev. Pretty cheap, spent like $0.04 yesterday, Also saves the posts and makes a ranking of most useful in last 24hs, so ends up saving lots of time to find the good stuff on twitter.",
     media: [
       {
+        type: "photo",
         url: "https://pbs.twimg.com/media/HSmp1K1WkAAWR8L.jpg",
         width: 604,
         height: 1318,
@@ -2382,6 +2869,7 @@ export const mockTweets: TweetRecord[] = [
     ],
     createdAt: "2026-09-19T19:46:58.000Z",
     replyToId: null,
+    quotedId: null,
     stats: {
       replies: 2,
       retweets: 0,
@@ -2398,6 +2886,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-18T02:49:23.000Z",
     replyToId: "2100778719761588321",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -2414,6 +2903,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-18T02:47:32.000Z",
     replyToId: "2100769123298836675",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -2430,6 +2920,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-18T02:09:24.000Z",
     replyToId: null,
+    quotedId: "2100685924401295764",
     stats: {
       replies: 1,
       retweets: 0,
@@ -2446,6 +2937,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-17T23:04:26.000Z",
     replyToId: null,
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -2462,10 +2954,36 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-17T23:04:26.000Z",
     replyToId: "2100722576435593419",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
       likes: 0,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
+  {
+    id: "2100685924401295764",
+    authorId: "1978514693368303616",
+    text: "We release Needle 3: A Sliceable 8-29MB automation foundation model that can match DeepSeek V4 Flash. \n\nOne set of weights, every depth from 2 to 20 layers a model of its own, 25-121M parameters at CQ2-bit, built on our Simple Attention Networks and running locally at up to 4k tokens/sec decode speed on a Raspberry Pi 5.\n\nNeedle does not chat. Every turn is a function call: give it the tools your app exposes and it picks the right ones and fills every argument from what the user said, or hand it a schema and it returns a typed record. Ask for something no tool covers and you get an empty list, not a guess. \n\nThat trade is lets 121M parameters trained on 360B tokens of structured data beat models 10x their size on mobile tool calls and match 2-3x bigger models on structured JSON extraction.\n\nIt runs on mobiles, wearables, smart home devices, small robots and microcontrollers, with prebuilt engines for macOS, Linux, Windows, Android, iOS, watchOS, tvOS, the browser and WASI hosts. Try it in your browser: cactuscompute.com/needle",
+    media: [
+      {
+        type: "video",
+        url: "https://pbs.twimg.com/amplify_video_thumb/2100685534133989376/img/nhPVHDAuH-eG_Sim.jpg",
+        width: 1920,
+        height: 1080,
+        alt: "",
+      },
+    ],
+    createdAt: "2026-09-17T20:38:47.000Z",
+    replyToId: null,
+    quotedId: null,
+    stats: {
+      replies: 105,
+      retweets: 377,
+      likes: 2886,
     },
     likedByViewer: false,
     retweetedByViewer: false,
@@ -2478,6 +2996,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-17T05:46:08.000Z",
     replyToId: "2099967630580867496",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -2494,6 +3013,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-16T18:18:16.000Z",
     replyToId: "2100103385324171310",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -2510,6 +3030,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-16T06:03:59.000Z",
     replyToId: "2099967630580867496",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -2525,6 +3046,7 @@ export const mockTweets: TweetRecord[] = [
     text: "What a time to be alive... \n\nMy office with 2 Z-Code running GLM-5.3-Flash  +  1 Hermes running Deepseek v4.1 Flash at +200t/s... 😮‍💨 Thanks to @emalorenzo_ who showed me the way and the truth 📿🛐🙏🏻",
     media: [
       {
+        type: "video",
         url: "https://pbs.twimg.com/amplify_video_thumb/2099967584598642688/img/nI2wtx1myvr-kIUs.jpg",
         width: 720,
         height: 1280,
@@ -2533,6 +3055,7 @@ export const mockTweets: TweetRecord[] = [
     ],
     createdAt: "2026-09-15T21:04:33.000Z",
     replyToId: null,
+    quotedId: null,
     stats: {
       replies: 2,
       retweets: 1,
@@ -2549,6 +3072,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-14T13:10:06.000Z",
     replyToId: "2099484775686009076",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -2564,6 +3088,7 @@ export const mockTweets: TweetRecord[] = [
     text: "tu agente es este",
     media: [
       {
+        type: "photo",
         url: "https://pbs.twimg.com/media/HSLePKrbwAAMrEM.png",
         width: 500,
         height: 281,
@@ -2572,6 +3097,7 @@ export const mockTweets: TweetRecord[] = [
     ],
     createdAt: "2026-09-14T13:05:51.000Z",
     replyToId: "2099478786374848583",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -2587,6 +3113,7 @@ export const mockTweets: TweetRecord[] = [
     text: "Do you think I should've told him it was just a weekend project??? 🤔\n\nMy boy Luna is the only one who keeps fighting the good fight",
     media: [
       {
+        type: "photo",
         url: "https://pbs.twimg.com/media/HSLY04NXIAAMXMF.jpg",
         width: 2048,
         height: 1671,
@@ -2595,6 +3122,7 @@ export const mockTweets: TweetRecord[] = [
     ],
     createdAt: "2026-09-14T12:42:03.000Z",
     replyToId: null,
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -2610,6 +3138,7 @@ export const mockTweets: TweetRecord[] = [
     text: "",
     media: [
       {
+        type: "video",
         url: "https://pbs.twimg.com/amplify_video_thumb/2096698780628484096/img/vjpkqN5bWOHWkYiM.jpg",
         width: 846,
         height: 720,
@@ -2618,6 +3147,7 @@ export const mockTweets: TweetRecord[] = [
     ],
     createdAt: "2026-09-06T20:35:23.000Z",
     replyToId: "2096629397830688974",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -2634,6 +3164,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-06T20:11:43.000Z",
     replyToId: "2096629397830688974",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -2650,6 +3181,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-06T16:34:20.000Z",
     replyToId: "2096629397830688974",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -2666,10 +3198,43 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-06T15:59:36.000Z",
     replyToId: null,
+    quotedId: "2096602379810386013",
     stats: {
       replies: 3,
       retweets: 0,
       likes: 24,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
+  {
+    id: "2096602379810386013",
+    authorId: "2075322666668482560",
+    text: "La Hackware fue un golazo, felicito a los ganadores y todos los que metieron mano y código y fierros en el barro.",
+    media: [
+      {
+        type: "photo",
+        url: "https://pbs.twimg.com/media/HRigvycbkAA3D1M.jpg",
+        width: 2048,
+        height: 1536,
+        alt: "",
+      },
+      {
+        type: "photo",
+        url: "https://pbs.twimg.com/media/HRigvyObwAAhpQj.jpg",
+        width: 2048,
+        height: 1536,
+        alt: "",
+      },
+    ],
+    createdAt: "2026-09-06T14:12:14.000Z",
+    replyToId: null,
+    quotedId: null,
+    stats: {
+      replies: 0,
+      retweets: 10,
+      likes: 30,
     },
     likedByViewer: false,
     retweetedByViewer: false,
@@ -2682,6 +3247,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-06T14:10:14.000Z",
     replyToId: "2096598633340670070",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -2698,6 +3264,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-09-06T13:57:21.000Z",
     replyToId: "2096359870253383691",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -2713,6 +3280,7 @@ export const mockTweets: TweetRecord[] = [
     text: "@paisanos_io ya es normal",
     media: [
       {
+        type: "video",
         url: "https://pbs.twimg.com/amplify_video_thumb/2096359806713921538/img/Rd1GETv0r5y0WuIN.jpg",
         width: 2160,
         height: 3840,
@@ -2721,6 +3289,7 @@ export const mockTweets: TweetRecord[] = [
     ],
     createdAt: "2026-09-05T22:08:36.000Z",
     replyToId: null,
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 2,
@@ -2737,6 +3306,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-08-19T02:20:47.000Z",
     replyToId: "2089882689474093327",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -2753,6 +3323,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-08-19T01:10:35.000Z",
     replyToId: "2089877627536289906",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -2769,10 +3340,36 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-08-19T00:50:29.000Z",
     replyToId: null,
+    quotedId: "2089865919849812091",
     stats: {
       replies: 1,
       retweets: 0,
       likes: 17,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
+  {
+    id: "2089865919849812091",
+    authorId: "1439687110030761993",
+    text: "Gaucho: El Origen\n\nLa historia oficial (o… más o menos) de cómo Gaucho llegó a la oficina.\n\nBy @paisanos_io",
+    media: [
+      {
+        type: "video",
+        url: "https://pbs.twimg.com/amplify_video_thumb/2089865248941506560/img/lzPFnEUKb1ODflYs.jpg",
+        width: 1280,
+        height: 720,
+        alt: "",
+      },
+    ],
+    createdAt: "2026-08-19T00:03:57.000Z",
+    replyToId: null,
+    quotedId: null,
+    stats: {
+      replies: 52,
+      retweets: 58,
+      likes: 155,
     },
     likedByViewer: false,
     retweetedByViewer: false,
@@ -2785,6 +3382,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-08-04T15:42:53.000Z",
     replyToId: "2084664962555764754",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -2801,6 +3399,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-08-04T15:37:12.000Z",
     replyToId: null,
+    quotedId: "2084655322069688344",
     stats: {
       replies: 1,
       retweets: 0,
@@ -2811,12 +3410,38 @@ export const mockTweets: TweetRecord[] = [
     bookmarkedByViewer: false,
   },
   {
+    id: "2084655322069688344",
+    authorId: "612962800",
+    text: "ok fuck it. finally launching my place on the internet. i just made my little dog immortal. go pet him.\n\nlink below!",
+    media: [
+      {
+        type: "video",
+        url: "https://pbs.twimg.com/amplify_video_thumb/2084654896133943296/img/T8fltVTC3cBGjnVc.jpg",
+        width: 1920,
+        height: 1080,
+        alt: "",
+      },
+    ],
+    createdAt: "2026-08-04T14:58:54.000Z",
+    replyToId: null,
+    quotedId: null,
+    stats: {
+      replies: 28,
+      retweets: 21,
+      likes: 111,
+    },
+    likedByViewer: true,
+    retweetedByViewer: true,
+    bookmarkedByViewer: true,
+  },
+  {
     id: "2084358373743407381",
     authorId: "1378400248008167433",
     text: "pasame por dm",
     media: [],
     createdAt: "2026-08-03T19:18:56.000Z",
     replyToId: "2084016324762538029",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -2833,6 +3458,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-08-03T16:36:51.000Z",
     replyToId: "2084016324762538029",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -2849,6 +3475,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-08-03T16:01:11.000Z",
     replyToId: "2084304415310151737",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -2865,6 +3492,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-08-03T15:44:31.000Z",
     replyToId: "2084016324762538029",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -2881,6 +3509,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-08-03T13:30:19.000Z",
     replyToId: "2084190733754396806",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -2897,6 +3526,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-08-03T13:24:42.000Z",
     replyToId: "2084178368954577196",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -2913,6 +3543,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-08-03T08:12:47.000Z",
     replyToId: "2084016324762538029",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -2929,6 +3560,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-08-03T07:23:39.000Z",
     replyToId: "2084016324762538029",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -2945,6 +3577,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-08-02T20:39:45.000Z",
     replyToId: null,
+    quotedId: null,
     stats: {
       replies: 5,
       retweets: 5,
@@ -2961,6 +3594,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-08-01T00:21:12.000Z",
     replyToId: "2083346832092975403",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -2977,6 +3611,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-08-01T00:19:26.000Z",
     replyToId: "2083346326880665614",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -2993,6 +3628,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-08-01T00:17:25.000Z",
     replyToId: "2083344757418311994",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -3009,6 +3645,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-08-01T00:11:11.000Z",
     replyToId: "2083343802094309385",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -3025,10 +3662,36 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-08-01T00:07:23.000Z",
     replyToId: null,
+    quotedId: "2083329550641963094",
     stats: {
       replies: 1,
       retweets: 0,
       likes: 4,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
+  {
+    id: "2083329550641963094",
+    authorId: "2029590208656883712",
+    text: "From concept to collectible. ✨\n\nWatch this 3D figure come to life through digital sculpting, modeling and preparation for 3D printing.\n\nWant to see the full workflow? Watch the complete video on YouTube: Artyx 3D.\n\nyoutube.com/watch?v=MwC-bJ…\n\n#Artyx #3DArt #3DPrinting #DigitalSculpting #ZBrush #Blender3D #3DModeling #CharacterDesign #Collectible #ArtProcess",
+    media: [
+      {
+        type: "video",
+        url: "https://pbs.twimg.com/amplify_video_thumb/2083329280033878016/img/YLKH31BBmKyRGjOG.jpg",
+        width: 1080,
+        height: 1920,
+        alt: "",
+      },
+    ],
+    createdAt: "2026-07-31T23:10:45.000Z",
+    replyToId: null,
+    quotedId: null,
+    stats: {
+      replies: 0,
+      retweets: 3,
+      likes: 3,
     },
     likedByViewer: false,
     retweetedByViewer: false,
@@ -3041,6 +3704,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-07-23T18:28:24.000Z",
     replyToId: "2080348968236540395",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -3057,6 +3721,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-07-23T17:47:06.000Z",
     replyToId: "2080348968236540395",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -3072,6 +3737,7 @@ export const mockTweets: TweetRecord[] = [
     text: "\"La IA está matando el arte 3D.\"\n\nNo. Está matando las 2 horas que perdías en el 80% aburrido.\n\nUn escultor pro llevó un concepto a una figura lista para imprimir en 17 minutos con @artyx_ai  y lo terminó a mano en ZBrush.\n\nEl artista no desapareció, se aceleró. Dejó de hacer el trabajo pesado.\n\nWorkflow completo en primer comentario",
     media: [
       {
+        type: "photo",
         url: "https://pbs.twimg.com/media/HN7iNpLXkAEvjCU.jpg",
         width: 1672,
         height: 941,
@@ -3080,6 +3746,7 @@ export const mockTweets: TweetRecord[] = [
     ],
     createdAt: "2026-07-23T17:46:59.000Z",
     replyToId: null,
+    quotedId: null,
     stats: {
       replies: 2,
       retweets: 3,
@@ -3096,6 +3763,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-05-10T16:02:16.000Z",
     replyToId: "2053504548120014899",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -3111,12 +3779,14 @@ export const mockTweets: TweetRecord[] = [
     text: "El equipazo detrás de Orbit.\n\nCracks cada uno, un placer shippear con ustedes!",
     media: [
       {
+        type: "photo",
         url: "https://pbs.twimg.com/media/HH-Dfz1XgAEjNf7.jpg",
         width: 2048,
         height: 1536,
         alt: "",
       },
       {
+        type: "photo",
         url: "https://pbs.twimg.com/media/HH-DfzwWgAAwpeA.jpg",
         width: 1152,
         height: 2048,
@@ -3125,6 +3795,7 @@ export const mockTweets: TweetRecord[] = [
     ],
     createdAt: "2026-05-10T15:56:51.000Z",
     replyToId: null,
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 3,
@@ -3141,6 +3812,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-05-07T17:34:36.000Z",
     replyToId: "2052441823541404145",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -3157,6 +3829,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-05-07T17:33:57.000Z",
     replyToId: "2052426028543603140",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -3173,6 +3846,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-05-07T17:28:18.000Z",
     replyToId: "2052439917574103205",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -3189,6 +3863,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-05-07T17:26:23.000Z",
     replyToId: "2052426028543603140",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -3205,6 +3880,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-05-07T17:19:11.000Z",
     replyToId: "2052436663859597714",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -3221,6 +3897,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-05-07T17:13:27.000Z",
     replyToId: "2052426028543603140",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -3237,6 +3914,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-05-07T16:51:17.000Z",
     replyToId: "2052430656492146931",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -3253,6 +3931,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-05-07T16:49:35.000Z",
     replyToId: "2052426028543603140",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -3269,6 +3948,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2026-05-07T16:31:41.000Z",
     replyToId: "2052426028543603140",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -3284,6 +3964,7 @@ export const mockTweets: TweetRecord[] = [
     text: "Introducing @artyx_ai \nAgentic design is here.\n\nI've been living inside agentic systems since end of 2022. Thousands of hours building, breaking and shipping with harnesses. \n\nI know exactly what a good one looks like. \nNeither just canvas, nor just chat, combine them into agentic canvas.\n\nSo we built the first 3D harness, a desktop platform purpose-built for game art.\n\nReferences, prompts, parallel generations, multi-derive, in-place edits, segmentation, full 3D pipeline. \nReutilizable skills and actions.\nMemory layer for Design System.\nAnd more agentic-native tools are coming.\n\nDirect handoff to Blender, Photoshop and more apps. All orchestrated by agents that understand creative direction.\nArtyx,  the first agentic studio for 3D and visual creation.\nFor game studios. Indie devs. Hobbyists. Modders.\n\nTaste and direction is more important than ever.",
     media: [
       {
+        type: "video",
         url: "https://pbs.twimg.com/amplify_video_thumb/2052425161001852932/img/IAntylG3K2Co1nl-.jpg",
         width: 1920,
         height: 1080,
@@ -3292,6 +3973,7 @@ export const mockTweets: TweetRecord[] = [
     ],
     createdAt: "2026-05-07T16:31:12.000Z",
     replyToId: null,
+    quotedId: null,
     stats: {
       replies: 5,
       retweets: 9,
@@ -3308,6 +3990,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2025-10-23T09:52:56.000Z",
     replyToId: "1977708429918539973",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -3324,6 +4007,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2025-10-15T17:44:05.000Z",
     replyToId: "1978421258225156205",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -3340,6 +4024,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2025-10-15T11:22:39.000Z",
     replyToId: "1977708429918539973",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -3356,6 +4041,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2025-10-15T09:35:55.000Z",
     replyToId: "1977708429918539973",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -3372,6 +4058,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2025-10-14T16:55:40.000Z",
     replyToId: "1978113541904425416",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -3388,6 +4075,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2025-10-14T14:59:54.000Z",
     replyToId: "1977708429918539973",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -3404,6 +4092,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2025-10-14T09:11:12.000Z",
     replyToId: "1977708429918539973",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -3419,6 +4108,7 @@ export const mockTweets: TweetRecord[] = [
     text: "Jelly Particles Environment\n     • GPU Soft Body Simulation\n     • Soft Body reacts to mouse input\n     • Particles regenerate dynamically\n     • Particles move with velocity in response to interactions\n\nLive: jelly-particles3.soweme.com\n\n#threejs #threejsJourney",
     media: [
       {
+        type: "video",
         url: "https://pbs.twimg.com/amplify_video_thumb/1977708236401766404/img/UGt8MPvischTd-Gm.jpg",
         width: 1920,
         height: 1032,
@@ -3427,6 +4117,7 @@ export const mockTweets: TweetRecord[] = [
     ],
     createdAt: "2025-10-13T12:10:08.000Z",
     replyToId: null,
+    quotedId: null,
     stats: {
       replies: 6,
       retweets: 9,
@@ -3442,6 +4133,7 @@ export const mockTweets: TweetRecord[] = [
     text: "El de Adam Smith fue un poco mas simple de hacer, y el resultado me encanto. \nEncima fueron solo 3 pasos:  \n\n1. ChatGPT:  Creé una imagen con caracteristicas que representan a Adam Smith.  \n\n2. Gemini 2.0 Flash:  Eliminé todos los elementos de la imagen, dejando solo al personaje principal. \n(Ahora tenía dos imágenes: una simple con solo el personaje y otra completa con elementos copados). \n\n3. KLING:  Usé “Image to Video”, subí la imagen simple como \"Inicial\" y la completa como \"Final\", con un prompt para crear una “transición animada épica”.",
     media: [
       {
+        type: "video",
         url: "https://pbs.twimg.com/amplify_video_thumb/1913516540734963718/img/dymX0enFrAvCKHml.jpg",
         width: 1440,
         height: 1440,
@@ -3450,6 +4142,7 @@ export const mockTweets: TweetRecord[] = [
     ],
     createdAt: "2025-04-19T16:05:00.000Z",
     replyToId: null,
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -3465,12 +4158,14 @@ export const mockTweets: TweetRecord[] = [
     text: "Trabajando en la \"BattleScreen\".\nLa onda es poder lograr que la seleccion de \"Representantes\" de cada ideologia, te pueda dar la sensacion tipo Mortal Kombat.\n\nAsi que estoy usando:\n- ChatGPT y Gemini 2.5 Flash  - Para crear las imagenes.\n- Google AI Studio - Para editarlas.\n- Kling  -  Pasar imagen a video\n\nEsto es lo que tengo hasta ahora:",
     media: [
       {
+        type: "video",
         url: "https://pbs.twimg.com/amplify_video_thumb/1913500027894284288/img/ZHfTIO3sdrN2cTDF.jpg",
         width: 2160,
         height: 2160,
         alt: "",
       },
       {
+        type: "video",
         url: "https://pbs.twimg.com/amplify_video_thumb/1913500129098633216/img/eg16k8ottw7Lz9AA.jpg",
         width: 1760,
         height: 1152,
@@ -3479,6 +4174,7 @@ export const mockTweets: TweetRecord[] = [
     ],
     createdAt: "2025-04-19T13:27:00.000Z",
     replyToId: null,
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -3494,6 +4190,7 @@ export const mockTweets: TweetRecord[] = [
     text: "Buenas!\nAcá el hermanito de la bestia de @emalorenzo_ \nAndo metido en el Vibe Coding y explorando AI tools.\nHace unos dias, empece mi primer app: \nIdeologías, chats con referentes, y peleas a muerte (ideológicas...).\nEsto es lo que tengo hasta ahora, pero se vienen cositas 👀",
     media: [
       {
+        type: "video",
         url: "https://pbs.twimg.com/amplify_video_thumb/1913284173105594368/img/WwceTpYP66kgt9Re.jpg",
         width: 2880,
         height: 1800,
@@ -3502,10 +4199,305 @@ export const mockTweets: TweetRecord[] = [
     ],
     createdAt: "2025-04-18T17:31:39.000Z",
     replyToId: null,
+    quotedId: "1910339317576171903",
     stats: {
       replies: 0,
       retweets: 1,
       likes: 3,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
+  {
+    id: "1910759937950515256",
+    authorId: "1049850592238161921",
+    text: "Mi pais!",
+    media: [],
+    createdAt: "2025-04-11T18:20:44.000Z",
+    replyToId: "1910339317576171903",
+    quotedId: null,
+    stats: {
+      replies: 0,
+      retweets: 0,
+      likes: 0,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
+  {
+    id: "1910673692507484388",
+    authorId: "14154963",
+    text: "Qué lindo lugarcito!",
+    media: [],
+    createdAt: "2025-04-11T12:38:01.000Z",
+    replyToId: "1910339317576171903",
+    quotedId: null,
+    stats: {
+      replies: 0,
+      retweets: 0,
+      likes: 1,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
+  {
+    id: "1910673113529856064",
+    authorId: "2218603802",
+    text: "yendo",
+    media: [],
+    createdAt: "2025-04-11T12:35:43.000Z",
+    replyToId: "1910339317576171903",
+    quotedId: null,
+    stats: {
+      replies: 0,
+      retweets: 0,
+      likes: 1,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
+  {
+    id: "1910510599630397742",
+    authorId: "612962800",
+    text: "Jajaja chee igual si algún día da para viaje coworkero yo estoy eh",
+    media: [],
+    createdAt: "2025-04-11T01:49:57.000Z",
+    replyToId: "1910480790812602716",
+    quotedId: null,
+    stats: {
+      replies: 0,
+      retweets: 0,
+      likes: 0,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
+  {
+    id: "1910504058512646194",
+    authorId: "1095539042266083329",
+    text: "awesome!! excited to see that app🫣 welcome to argy",
+    media: [],
+    createdAt: "2025-04-11T01:23:57.000Z",
+    replyToId: "1910339317576171903",
+    quotedId: null,
+    stats: {
+      replies: 0,
+      retweets: 0,
+      likes: 1,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
+  {
+    id: "1910491998546522612",
+    authorId: "2150048821",
+    text: "Increíble!!!",
+    media: [],
+    createdAt: "2025-04-11T00:36:02.000Z",
+    replyToId: "1910339317576171903",
+    quotedId: null,
+    stats: {
+      replies: 0,
+      retweets: 0,
+      likes: 1,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
+  {
+    id: "1910485260594536482",
+    authorId: "3375985313",
+    text: "ship ship ship!",
+    media: [],
+    createdAt: "2025-04-11T00:09:15.000Z",
+    replyToId: "1910339317576171903",
+    quotedId: null,
+    stats: {
+      replies: 0,
+      retweets: 0,
+      likes: 1,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
+  {
+    id: "1910480790812602716",
+    authorId: "1509273998357630984",
+    text: "Abrime que estoy afuera.",
+    media: [],
+    createdAt: "2025-04-10T23:51:30.000Z",
+    replyToId: "1910339317576171903",
+    quotedId: null,
+    stats: {
+      replies: 1,
+      retweets: 0,
+      likes: 2,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
+  {
+    id: "1910403235291996248",
+    authorId: "612962800",
+    text: "El Chalten!",
+    media: [],
+    createdAt: "2025-04-10T18:43:19.000Z",
+    replyToId: "1910398782304366789",
+    quotedId: null,
+    stats: {
+      replies: 1,
+      retweets: 0,
+      likes: 0,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
+  {
+    id: "1910398782304366789",
+    authorId: "1564757821035610114",
+    text: "Beautiful place! Where is that?",
+    media: [],
+    createdAt: "2025-04-10T18:25:37.000Z",
+    replyToId: "1910339317576171903",
+    quotedId: null,
+    stats: {
+      replies: 1,
+      retweets: 0,
+      likes: 0,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
+  {
+    id: "1910393381051572572",
+    authorId: "1912526359",
+    text: "Es por acá.",
+    media: [],
+    createdAt: "2025-04-10T18:04:10.000Z",
+    replyToId: "1910339317576171903",
+    quotedId: null,
+    stats: {
+      replies: 0,
+      retweets: 0,
+      likes: 1,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
+  {
+    id: "1910367575222911072",
+    authorId: "150496130",
+    text: "Hermoso, muy atento a este desarrollo 👀",
+    media: [],
+    createdAt: "2025-04-10T16:21:37.000Z",
+    replyToId: "1910339317576171903",
+    quotedId: null,
+    stats: {
+      replies: 0,
+      retweets: 0,
+      likes: 1,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
+  {
+    id: "1910360838273192415",
+    authorId: "4846569519",
+    text: "Un verdadero bro 👏",
+    media: [],
+    createdAt: "2025-04-10T15:54:51.000Z",
+    replyToId: "1910339317576171903",
+    quotedId: null,
+    stats: {
+      replies: 1,
+      retweets: 0,
+      likes: 3,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
+  {
+    id: "1910347755068735927",
+    authorId: "612962800",
+    text: "Re! en El Chalten",
+    media: [],
+    createdAt: "2025-04-10T15:02:52.000Z",
+    replyToId: "1910346064948871346",
+    quotedId: null,
+    stats: {
+      replies: 0,
+      retweets: 0,
+      likes: 1,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
+  {
+    id: "1910346064948871346",
+    authorId: "1087417637221601281",
+    text: "linda hacker house",
+    media: [],
+    createdAt: "2025-04-10T14:56:09.000Z",
+    replyToId: "1910339317576171903",
+    quotedId: null,
+    stats: {
+      replies: 1,
+      retweets: 0,
+      likes: 2,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
+  {
+    id: "1910339317576171903",
+    authorId: "612962800",
+    text: "I have my little brother of 17 that this year has to decide what career path will follow the next years. I think the next years are for the builders so I rented a place in 🇦🇷 Patagonia for this winter holidays. Together we will build an AI app.",
+    media: [
+      {
+        type: "photo",
+        url: "https://pbs.twimg.com/media/GoLh5cGWgAARKsN.jpg",
+        width: 1960,
+        height: 1472,
+        alt: "",
+      },
+      {
+        type: "photo",
+        url: "https://pbs.twimg.com/media/GoLh9CdWUAAgq7B.jpg",
+        width: 1960,
+        height: 1472,
+        alt: "",
+      },
+      {
+        type: "photo",
+        url: "https://pbs.twimg.com/media/GoLiAh9XQAAQQvd.jpg",
+        width: 1960,
+        height: 1472,
+        alt: "",
+      },
+    ],
+    createdAt: "2025-04-10T14:29:20.000Z",
+    replyToId: null,
+    quotedId: null,
+    stats: {
+      replies: 13,
+      retweets: 3,
+      likes: 97,
     },
     likedByViewer: false,
     retweetedByViewer: false,
@@ -3518,6 +4510,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2023-09-28T18:50:18.000Z",
     replyToId: "1707467683040493616",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -3534,10 +4527,36 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2023-09-28T18:49:53.000Z",
     replyToId: null,
+    quotedId: "1707453830344868204",
     stats: {
       replies: 1,
       retweets: 0,
       likes: 0,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
+  {
+    id: "1707453830344868204",
+    authorId: "427089628",
+    text: "Here's my conversation with Mark Zuckerberg, his 3rd time on the podcast, but this time we talked in the Metaverse as photorealistic avatars. This was one of the most incredible experiences of my life. It really felt like we were talking in-person, but we were miles apart 🤯 It's hard to put into words how awesome this was for someone like me who values the intimacy of in-person conversation. It gave me a glimpse of an exciting future with many new possibilities and fascinating questions about the nature of reality and human connection ❤\n\nTimestamps:\n0:00 - Introduction\n0:52 - Metaverse\n15:27 - Quest 3\n30:16 - Nature of reality\n34:54 - AI in the Metaverse\n51:51 - Large language models\n57:49 - Future of humanity",
+    media: [
+      {
+        type: "video",
+        url: "https://pbs.twimg.com/amplify_video_thumb/1707452005252251648/img/hbZOE4emmvSf_hjM.jpg",
+        width: 1280,
+        height: 720,
+        alt: "",
+      },
+    ],
+    createdAt: "2023-09-28T17:54:50.000Z",
+    replyToId: null,
+    quotedId: null,
+    stats: {
+      replies: 3335,
+      retweets: 12186,
+      likes: 47853,
     },
     likedByViewer: false,
     retweetedByViewer: false,
@@ -3550,6 +4569,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2022-09-13T16:01:08.000Z",
     replyToId: "1569697606682673153",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -3565,12 +4585,14 @@ export const mockTweets: TweetRecord[] = [
     text: "Hola @buenbit , les funciona el team de Soporte? o están durmiendo la siesta? \nDesde ayer sin respuesta o tirando la pelota afuera de la cancha...",
     media: [
       {
+        type: "photo",
         url: "https://pbs.twimg.com/media/Fcivpg6XEAE9rxR.jpg",
         width: 945,
         height: 2048,
         alt: "",
       },
       {
+        type: "photo",
         url: "https://pbs.twimg.com/media/Fcivp11XEAMfpLI.jpg",
         width: 945,
         height: 2048,
@@ -3579,6 +4601,7 @@ export const mockTweets: TweetRecord[] = [
     ],
     createdAt: "2022-09-13T14:40:47.000Z",
     replyToId: null,
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -3595,6 +4618,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2022-08-11T15:24:47.000Z",
     replyToId: "1557745135407865857",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -3611,6 +4635,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2022-08-11T15:05:56.000Z",
     replyToId: "1557739040707080193",
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -3626,6 +4651,7 @@ export const mockTweets: TweetRecord[] = [
     text: "Ahora @protofire Workshop sobre CoW Protocol.",
     media: [
       {
+        type: "photo",
         url: "https://pbs.twimg.com/media/FZ4zY04aQAAQp3J.jpg",
         width: 945,
         height: 2048,
@@ -3634,6 +4660,7 @@ export const mockTweets: TweetRecord[] = [
     ],
     createdAt: "2022-08-11T14:41:43.000Z",
     replyToId: null,
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -3650,6 +4677,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2013-07-16T20:10:49.000Z",
     replyToId: "356927925582442496",
+    quotedId: null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -3666,6 +4694,7 @@ export const mockTweets: TweetRecord[] = [
     media: [],
     createdAt: "2013-07-16T00:07:03.000Z",
     replyToId: null,
+    quotedId: null,
     stats: {
       replies: 1,
       retweets: 0,
@@ -3699,7 +4728,17 @@ export function toTweet(record: TweetRecord): Tweet | null {
     likedByViewer: record.likedByViewer,
     retweetedByViewer: record.retweetedByViewer,
     bookmarkedByViewer: record.bookmarkedByViewer,
+    quotedTweet: toQuotedTweet(record.quotedId),
   };
+}
+
+function toQuotedTweet(id: string | null): QuotedTweet | null {
+  const record = id ? mockTweets.find((item) => item.id === id) : null;
+  const tweet = record ? toTweet(record) : null;
+  if (!tweet) return null;
+
+  const { author, text, media, createdAt, replyingTo } = tweet;
+  return { id: tweet.id, author, text, media, createdAt, replyingTo };
 }
 
 export function byNewest(a: { createdAt: string }, b: { createdAt: string }) {

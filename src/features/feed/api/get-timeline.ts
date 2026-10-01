@@ -4,6 +4,7 @@ import { connection } from "next/server";
 import type { Page } from "@/types/pagination";
 import type { TimelineItem } from "@/types/tweet";
 import { findUserById, toSummary } from "@/mocks/users";
+import { getMockViewer } from "@/mocks/session";
 import { byNewest, mockRetweets, mockTweets, toTweet } from "@/mocks/tweets";
 import { paginate } from "@/utils/paginate";
 
@@ -14,9 +15,16 @@ export async function getTimeline(
   limit = PAGE_SIZE,
 ): Promise<Page<TimelineItem>> {
   await connection();
+  const viewer = await getMockViewer();
+
+  const isFollowedOrViewer = (authorId: string) =>
+    authorId === viewer?.id || Boolean(findUserById(authorId)?.followedByViewer);
 
   const items = mockTweets
-    .filter((record) => record.replyToId === null)
+    .filter(
+      (record) =>
+        record.replyToId === null && isFollowedOrViewer(record.authorId),
+    )
     .sort(byNewest)
     .flatMap((record) => {
       const tweet = toTweet(record);

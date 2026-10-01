@@ -8,6 +8,7 @@ import { RetweetIcon } from "@/components/ui/icons";
 import { MoreButton } from "@/components/tweet/more-button";
 import { TweetActions } from "@/components/tweet/tweet-actions";
 import { TweetPhotos } from "@/components/tweet/tweet-photos";
+import { QuotedTweet } from "@/components/tweet/quoted-tweet";
 import { formatRelativeTime } from "@/utils/format-relative-time";
 
 type TweetCardProps = {
@@ -102,6 +103,13 @@ export function TweetCard({
 
           {tweet.media.length > 0 ? (
             <TweetPhotos media={tweet.media} href={tweetHref} />
+          ) : null}
+
+          {tweet.quotedTweet ? (
+            <QuotedTweet
+              tweet={tweet.quotedTweet}
+              condensed={tweet.media.length > 0}
+            />
           ) : null}
 
           <TweetActions tweet={tweet} actions={actions} />

@@ -9,15 +9,59 @@ import type { TweetMedia } from "@/types/tweet";
 import { ArrowRightIcon, BackIcon } from "@/components/ui/icons";
 import { cn } from "@/lib/utils";
 
-const TILE_HEIGHT = 352.23;
-const TILE_MAX_WIDTH = 414.39;
 const BORDER = 2;
-const insets = {
-  card: { scrollPadding: 64, list: "-ml-16 scroll-pl-16 pl-16" },
-  focal: { scrollPadding: 16, list: "-ml-4 scroll-pl-4 pl-4" },
+const TWEET_TILE_HEIGHT = 352.23;
+const TWEET_TILE_MAX_WIDTH = 414.39;
+
+function tweetTileWidth(photo: TweetMedia) {
+  const inner = TWEET_TILE_HEIGHT - BORDER;
+  return Math.min(
+    (photo.width / photo.height) * inner + BORDER,
+    TWEET_TILE_MAX_WIDTH,
+  );
+}
+
+function quoteTile(height: number) {
+  return {
+    height,
+    width: (photo: TweetMedia) => (photo.width / photo.height) * height,
+  };
+}
+
+const tweetTile = { height: TWEET_TILE_HEIGHT, width: tweetTileWidth };
+
+const variants = {
+  card: {
+    tile: tweetTile,
+    scrollPadding: 64,
+    frame: "mt-3",
+    list: "-mr-4 -ml-16 scroll-pl-16 pr-4 pl-16",
+    arrows: { prev: "left-0.5", next: "right-0.5" },
+  },
+  focal: {
+    tile: tweetTile,
+    scrollPadding: 16,
+    frame: "mt-3",
+    list: "-mr-4 -ml-4 scroll-pl-4 pr-4 pl-4",
+    arrows: { prev: "left-0.5", next: "right-0.5" },
+  },
+  quote: {
+    tile: quoteTile(284.4),
+    scrollPadding: 12,
+    frame: "mt-1 mb-3",
+    list: "scroll-pl-3 px-3",
+    arrows: { prev: "left-3.5", next: "right-3.5" },
+  },
+  quoteFocal: {
+    tile: quoteTile(312.1),
+    scrollPadding: 12,
+    frame: "mt-1 mb-3",
+    list: "scroll-pl-3 px-3",
+    arrows: { prev: "left-3.5", next: "right-3.5" },
+  },
 } as const;
 
-export type PhotosVariant = keyof typeof insets;
+export type PhotosVariant = keyof typeof variants;
 
 type PhotoCarouselProps = {
   media: TweetMedia[];
@@ -26,11 +70,6 @@ type PhotoCarouselProps = {
 };
 
 type Direction = "prev" | "next";
-
-function tileWidth(photo: TweetMedia) {
-  const inner = TILE_HEIGHT - BORDER;
-  return Math.min((photo.width / photo.height) * inner + BORDER, TILE_MAX_WIDTH);
-}
 
 function offsetToTile(
   list: HTMLDivElement,
@@ -77,7 +116,7 @@ function Arrow({ label, icon: Icon, visible, className, onClick }: ArrowProps) {
 }
 
 export function PhotoCarousel({ media, href, variant }: PhotoCarouselProps) {
-  const inset = insets[variant];
+  const config = variants[variant];
   const router = useRouter();
   const listRef = useRef<HTMLDivElement | null>(null);
   const [canPrev, setCanPrev] = useState(false);
@@ -104,19 +143,19 @@ export function PhotoCarousel({ media, href, variant }: PhotoCarouselProps) {
     const list = listRef.current;
     if (!list) return;
 
-    const offset = offsetToTile(list, direction, inset.scrollPadding);
+    const offset = offsetToTile(list, direction, config.scrollPadding);
     if (offset !== undefined) list.scrollBy({ left: offset, behavior: "smooth" });
   }
 
   return (
-    <div className="group/carousel relative mt-3">
+    <div className={cn("group/carousel relative", config.frame)}>
       <div
         ref={attachList}
         onScroll={(event) => updateArrows(event.currentTarget)}
         onClick={openTweetFromGap}
         className={cn(
-          "relative -mr-4 flex cursor-pointer snap-x snap-mandatory gap-1 overflow-x-auto pr-4 [scrollbar-width:none]",
-          inset.list,
+          "relative flex cursor-pointer snap-x snap-mandatory gap-1 overflow-x-auto [scrollbar-width:none]",
+          config.list,
         )}
       >
         {media.map((photo, index) => (
@@ -124,7 +163,7 @@ export function PhotoCarousel({ media, href, variant }: PhotoCarouselProps) {
             key={photo.url}
             href={href}
             aria-label={`Image ${index + 1} of ${media.length}`}
-            style={{ width: tileWidth(photo), height: TILE_HEIGHT }}
+            style={{ width: config.tile.width(photo), height: config.tile.height }}
             className="relative shrink-0 snap-start overflow-hidden rounded-lg border border-border"
           >
             <Image
@@ -142,14 +181,14 @@ export function PhotoCarousel({ media, href, variant }: PhotoCarouselProps) {
         label="Previous"
         icon={BackIcon}
         visible={canPrev}
-        className="left-0.5"
+        className={config.arrows.prev}
         onClick={() => scroll("prev")}
       />
       <Arrow
         label="Next"
         icon={ArrowRightIcon}
         visible={canNext}
-        className="right-0.5"
+        className={config.arrows.next}
         onClick={() => scroll("next")}
       />
     </div>
