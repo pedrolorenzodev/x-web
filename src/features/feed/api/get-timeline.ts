@@ -1,3 +1,5 @@
+"use server";
+
 import { connection } from "next/server";
 import type { Page } from "@/types/pagination";
 import type { TimelineItem } from "@/types/tweet";
@@ -9,6 +11,7 @@ const PAGE_SIZE = 10;
 
 export async function getTimeline(
   cursor: string | null = null,
+  limit = PAGE_SIZE,
 ): Promise<Page<TimelineItem>> {
   await connection();
 
@@ -25,5 +28,5 @@ export async function getTimeline(
       return [{ tweet, retweetedBy: retweeter ? toSummary(retweeter) : null }];
     });
 
-  return paginate(items, cursor, PAGE_SIZE, (item) => item.tweet.id);
+  return paginate(items, cursor, limit, (item) => item.tweet.id);
 }
