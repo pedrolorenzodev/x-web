@@ -7,10 +7,27 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
+const SITE_TITLE = "X. It’s what’s happening";
+const SITE_DESCRIPTION =
+  "From breaking news and entertainment to sports and politics, get the full story with all the live commentary.";
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://x-clone.elpepo.dev"),
   title: "X",
-  description: "Twitter (X) clone",
+  description: SITE_DESCRIPTION,
+  openGraph: {
+    type: "website",
+    url: "/",
+    siteName: "X",
+    locale: "en_US",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
