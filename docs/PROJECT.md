@@ -3,13 +3,20 @@
 Twitter (X) clone. Portfolio project, deployed at https://x-clone.elpepo.dev.
 Optimized for a fast, clean build — not for scale, hardening or observability.
 
+> **Current work: v2 — [`docs/v2/PLAN.md`](v2/PLAN.md).** v1 (the scope and phases
+> below) is the baseline already built. v2 deepens the clone up to two navigation
+> levels of logged-in x.com, still on mocks. Where PLAN.md and this file disagree on
+> **scope or order of work**, PLAN.md wins: the v1 "Out" list below no longer applies.
+> The **Architecture**, **Working principles** and **Typography compensation**
+> sections of this file still apply to all v2 work.
+
 ## Stack
 
 - Next.js 16 (App Router) + React 19 + TypeScript
 - Tailwind CSS 4
 - Supabase (database + auth)
 
-## Scope
+## Scope (v1 — superseded by `docs/v2/PLAN.md` §1)
 
 ### In
 
@@ -31,7 +38,7 @@ Direct messages, notifications, search, media upload, video, lists, communities,
 Cut because each one needs infrastructure the project does not need: realtime,
 an event system, indexing or file storage. Revisit only if the core is finished.
 
-## Phases
+## Phases (v1)
 
 Each phase is split into blocks. A block is finished when it type-checks, lints,
 builds, and the user has a commit message for it.
