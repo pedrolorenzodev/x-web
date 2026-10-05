@@ -8,6 +8,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://x-clone.elpepo.dev"),
   title: "X",
   description: "Twitter (X) clone",
 };

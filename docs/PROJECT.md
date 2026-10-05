@@ -1,6 +1,6 @@
 # x-web
 
-Twitter (X) clone. Development-only project: it will never be deployed to production.
+Twitter (X) clone. Portfolio project, deployed at https://x-clone.elpepo.dev.
 Optimized for a fast, clean build — not for scale, hardening or observability.
 
 ## Stack
