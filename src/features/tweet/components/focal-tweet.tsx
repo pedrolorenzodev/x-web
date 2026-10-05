@@ -6,7 +6,6 @@ import { MoreButton } from "@/components/tweet/more-button";
 import { TweetActions } from "@/components/tweet/tweet-actions";
 import { TweetPhotos } from "@/components/tweet/tweet-photos";
 import { QuotedTweet } from "@/components/tweet/quoted-tweet";
-import { deriveViews } from "@/utils/derive-views";
 import { formatFullDate } from "@/utils/format-full-date";
 
 type FocalTweetProps = {
@@ -75,7 +74,7 @@ export function FocalTweet({
         <span aria-hidden>·</span>
         <span className="text-sm">
           <span className="font-bold text-foreground">
-            {deriveViews(tweet).toLocaleString("en-US")}
+            {tweet.stats.views.toLocaleString("en-US")}
           </span>{" "}
           Views
         </span>

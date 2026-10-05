@@ -1,50 +1,51 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import type { ReactNode } from "react";
-import { NavItemContent } from "@/components/layout/nav-item-content";
+import {
+  NavItemContent,
+  type NavMatch,
+} from "@/components/layout/nav-item-content";
 
 type NavItemProps = {
   label: string;
   icon: ReactNode;
   activeIcon?: ReactNode;
-  href?: string;
+  href: string;
+  match?: NavMatch;
+  badge?: number;
 };
 
-const row = "group flex w-full py-1";
-const pill =
-  "flex items-center gap-5 rounded-full py-3 pl-3 pr-7 transition-colors duration-200 ease-[ease] group-hover:bg-foreground/10";
-
-export function NavItem({ label, icon, activeIcon, href }: NavItemProps) {
-  if (!href) {
-    return (
-      <button type="button" className={row}>
-        <span className={pill}>
-          {icon}
-          <span className="text-xl">{label}</span>
-        </span>
-      </button>
-    );
-  }
+export function NavItem({
+  label,
+  icon,
+  activeIcon,
+  href,
+  match = { prefixes: [href] },
+  badge = 0,
+}: NavItemProps) {
+  const fallback = (
+    <span className="flex items-center gap-5 rounded-full py-3 pr-7 pl-3">
+      {icon}
+      <span className="text-xl">{label}</span>
+    </span>
+  );
 
   return (
-    <Link href={href} className={row}>
-      <span className={pill}>
-        <Suspense
-          fallback={
-            <>
-              {icon}
-              <span className="text-xl">{label}</span>
-            </>
-          }
-        >
-          <NavItemContent
-            label={label}
-            icon={icon}
-            activeIcon={activeIcon ?? icon}
-            href={href}
-          />
-        </Suspense>
-      </span>
-    </Link>
+    <Suspense
+      fallback={
+        <Link href={href} className="group flex w-full py-1">
+          {fallback}
+        </Link>
+      }
+    >
+      <NavItemContent
+        label={label}
+        icon={icon}
+        activeIcon={activeIcon ?? icon}
+        href={href}
+        match={match}
+        badge={badge}
+      />
+    </Suspense>
   );
 }

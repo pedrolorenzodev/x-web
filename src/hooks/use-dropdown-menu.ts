@@ -91,7 +91,7 @@ export function useDropdownMenu<Placement>(
     if (event.key !== "Tab") return;
     usingKeyboard.current = true;
     const items = Array.from(
-      event.currentTarget.querySelectorAll<HTMLElement>("[role=menuitem]"),
+      event.currentTarget.querySelectorAll<HTMLElement>("[role^=menuitem]"),
     );
     const index = items.indexOf(document.activeElement as HTMLElement);
     const step = event.shiftKey ? -1 : 1;

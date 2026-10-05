@@ -17,22 +17,27 @@ export async function getTimeline(
   await connection();
   const viewer = await getMockViewer();
 
-  const isFollowedOrViewer = (authorId: string) =>
-    authorId === viewer?.id || Boolean(findUserById(authorId)?.followedByViewer);
+  const isFollowedOrViewer = (userId: string) =>
+    userId === viewer?.id || Boolean(findUserById(userId)?.followedByViewer);
+
+  const findLatestRetweet = (tweetId: string) =>
+    mockRetweets
+      .filter(
+        (entry) => entry.tweetId === tweetId && isFollowedOrViewer(entry.userId),
+      )
+      .sort(byNewest)[0];
 
   const items = mockTweets
-    .filter(
-      (record) =>
-        record.replyToId === null && isFollowedOrViewer(record.authorId),
-    )
+    .filter((record) => record.replyToId === null)
     .sort(byNewest)
     .flatMap((record) => {
+      const retweet = findLatestRetweet(record.id);
+      if (!retweet && !isFollowedOrViewer(record.authorId)) return [];
+
       const tweet = toTweet(record);
       if (!tweet) return [];
 
-      const retweet = mockRetweets.find((entry) => entry.tweetId === record.id);
       const retweeter = retweet ? findUserById(retweet.userId) : null;
-
       return [{ tweet, retweetedBy: retweeter ? toSummary(retweeter) : null }];
     });
 

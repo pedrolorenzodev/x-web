@@ -11,7 +11,12 @@ This file is the **index and the order of work**. The exact specs (copy, px, col
 
 1. Read `AGENTS.md` (repo rules: **no commits, no staging, no explanatory comments**, Conventional Commit message handed to the user after each block, Next 16 docs in `node_modules/next/dist/docs/`), `docs/PROJECT.md` (architecture: bulletproof-react, features never import features, `api/` layer per feature, no barrels, Server Components by default), then this file, then `docs/v2/research/00-clone-inventory.md`.
 2. Work **one block at a time**, in the order of §5. A block is done when it type-checks (`npx tsc --noEmit`), lints (`npm run lint`), builds (`npm run build`), and you have compared it with the referenced screenshots.
-3. **Stop after each block** and hand the user: what changed, the files touched, and a commit message. The user verifies visually before the next block. Don't batch blocks.
+3. **Stop once per milestone (§6)**, not per block (user decision 2026-10-05). At each stop hand the user:
+   - the blocks done and what changed
+   - clone-vs-X screenshots
+   - **one** commit message for the milestone and the full list of files touched
+
+   The user commits; never commit yourself. New mock data is **invented**, derived from existing mock users and tweets; don't add more real-person data.
 4. Everything stays on **mocks** (`src/mocks/*`, server actions + `refresh()`), with all data access in `features/<f>/api/`. Supabase (PROJECT.md phase 2/3) comes later and must only touch `api/` layers. Shape new types so they can map to tables.
 5. The clone is **dark-only ("Lights out")**, by decision (§7). Research colours are tagged **L**/**D**: use **D** and ignore **L**. Don't build light theme, theme switching, accent colours or font-size settings.
    - When the research only measured a light value, derive the dark one from the existing tokens in `src/app/globals.css` (`foreground`, `muted`, `border`, `elevated`, `inverted`…).

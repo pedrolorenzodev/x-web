@@ -1,6 +1,6 @@
 import { Suspense } from "react";
+import { PanelTrends } from "@/app/(app)/@panel/_modules/panel-trends";
 import { RightPanel } from "@/components/layout/right-panel/right-panel";
-import { TrendsCard } from "@/components/layout/right-panel/trends-card";
 import { WhoToFollow } from "@/components/layout/right-panel/who-to-follow";
 import { getProfile } from "@/features/profile/api/get-profile";
 import { getSuggestedUsers } from "@/features/profile/api/get-suggested-users";
@@ -30,7 +30,9 @@ export default function ProfilePanel({ params }: PageProps<"/[handle]">) {
       <Suspense fallback={null}>
         <YouMightLike params={params} />
       </Suspense>
-      <TrendsCard />
+      <Suspense fallback={null}>
+        <PanelTrends />
+      </Suspense>
     </RightPanel>
   );
 }

@@ -14,10 +14,10 @@ export function AppShell({ sidebar, panel, modal, children }: AppShellProps) {
       {sidebar}
       <main className="w-feed min-h-screen shrink-0 border-x border-border">
         {children}
+        <Toaster />
       </main>
       <div className="ml-[30px] self-stretch">{panel}</div>
       {modal}
-      <Toaster />
     </div>
   );
 }

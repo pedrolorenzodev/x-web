@@ -2,17 +2,25 @@
 
 import Link from "next/link";
 import { useSyncExternalStore } from "react";
+import { cn } from "@/lib/utils";
 
-const DURATION = 6000;
+const LIFETIME = 4000;
+const FADE = 170;
+
+type ToastAction =
+  | { label: string; href: string }
+  | { label: string; onClick: () => void };
 
 type Toast = {
   id: number;
   message: string;
-  action?: { label: string; href: string };
+  action?: ToastAction;
+  leaving: boolean;
 };
 
 let current: Toast | null = null;
-let timer: ReturnType<typeof setTimeout> | undefined;
+let lifetimeTimer: ReturnType<typeof setTimeout> | undefined;
+let fadeTimer: ReturnType<typeof setTimeout> | undefined;
 const listeners = new Set<() => void>();
 
 function emit() {
@@ -24,13 +32,22 @@ function subscribe(listener: () => void) {
   return () => listeners.delete(listener);
 }
 
-export function showToast(toast: Omit<Toast, "id">) {
-  current = { ...toast, id: Date.now() };
-  clearTimeout(timer);
-  timer = setTimeout(() => {
+function dismissToast() {
+  if (!current) return;
+  current = { ...current, leaving: true };
+  emit();
+  clearTimeout(fadeTimer);
+  fadeTimer = setTimeout(() => {
     current = null;
     emit();
-  }, DURATION);
+  }, FADE);
+}
+
+export function showToast(toast: { message: string; action?: ToastAction }) {
+  clearTimeout(lifetimeTimer);
+  clearTimeout(fadeTimer);
+  current = { ...toast, id: Date.now(), leaving: false };
+  lifetimeTimer = setTimeout(dismissToast, LIFETIME);
   emit();
 }
 
@@ -40,19 +57,47 @@ export function Toaster() {
     () => current,
     () => null,
   );
-  if (!toast) return null;
 
   return (
-    <div
-      role="status"
-      className="fixed bottom-8 left-1/2 z-10 flex h-11 -translate-x-1/2 items-center gap-3 rounded-sm bg-accent p-3 text-base text-white"
-    >
-      <span>{toast.message}</span>
-      {toast.action ? (
-        <Link href={toast.action.href} className="font-bold hover:underline">
-          {toast.action.label}
-        </Link>
+    <div className="pointer-events-none sticky bottom-8 z-60 flex h-0 items-end justify-center">
+      {toast ? (
+        <div
+          key={toast.id}
+          role="status"
+          className={cn(
+            "t-toast pointer-events-auto flex min-h-11 max-w-[calc(100%-32px)] items-center rounded-sm bg-accent p-3 text-base text-white",
+            toast.leaving && "is-leaving",
+          )}
+        >
+          <span>{toast.message}</span>
+          {toast.action ? <ToastActionButton action={toast.action} /> : null}
+        </div>
       ) : null}
     </div>
+  );
+}
+
+function ToastActionButton({ action }: { action: ToastAction }) {
+  const className = "mx-3 font-bold whitespace-nowrap hover:underline";
+
+  if ("href" in action) {
+    return (
+      <Link href={action.href} onClick={dismissToast} className={className}>
+        {action.label}
+      </Link>
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={() => {
+        action.onClick();
+        dismissToast();
+      }}
+      className={className}
+    >
+      {action.label}
+    </button>
   );
 }

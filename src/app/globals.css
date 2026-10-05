@@ -16,12 +16,15 @@
   --color-like: #f91880;
   --color-repost: #00ba7c;
   --color-danger: #f4212e;
+  --color-danger-hover: #dc1e29;
+  --color-danger-pressed: #c31a24;
   --color-warning: #ffd400;
   --color-danger-border: #67070f;
   --color-menu-hover: #16181c;
   --color-menu-pressed: rgb(18 21 23 / 0.7);
   --color-menu-focus-ring: rgb(142 205 248);
   --color-mask: rgb(91 112 131 / 0.4);
+  --color-tooltip: rgb(70 70 70 / 0.9);
   --color-outline: #536471;
   --color-inverted-hover: #d7dbdc;
   --color-inverted-pressed: #bfc2c3;

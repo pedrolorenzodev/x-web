@@ -5,8 +5,8 @@ import {
   useState,
   type RefObject,
 } from "react";
-import { useEscapeToClose } from "@/features/auth/hooks/use-escape-to-close";
-import { trapFocus } from "@/features/auth/utils/trap-focus";
+import { useEscapeToClose } from "@/hooks/use-escape-to-close";
+import { trapFocus } from "@/utils/trap-focus";
 
 type ModalDialogOptions = {
   onEscape: () => void;

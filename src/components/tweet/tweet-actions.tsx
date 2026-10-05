@@ -22,10 +22,9 @@ import {
 } from "@/components/ui/icons";
 import { AnimatedCount } from "@/components/ui/animated-count";
 import { createLikeBurst, type LikeBurst } from "@/components/tweet/like-burst";
-import { placeOverAnchor, RepostMenu } from "@/components/tweet/repost-menu";
+import { placeRepostMenu, RepostMenu } from "@/components/tweet/repost-menu";
 import { useDropdownMenu } from "@/hooks/use-dropdown-menu";
 import { formatCount } from "@/utils/format-count";
-import { deriveViews } from "@/utils/derive-views";
 import { cn } from "@/lib/utils";
 
 const tones = {
@@ -219,9 +218,9 @@ export function TweetActions({
   }
 
   const repostRef = useRef<HTMLButtonElement>(null);
-  const repostMenu = useDropdownMenu(repostRef, placeOverAnchor);
+  const repostMenu = useDropdownMenu(repostRef, placeRepostMenu);
 
-  const views = deriveViews(tweet);
+  const views = tweet.stats.views;
   const focal = variant === "focal";
 
   return (

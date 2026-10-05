@@ -1,63 +1,75 @@
-import Image from "next/image";
-import { cn } from "@/lib/utils";
+"use client";
+
+import { useRef, useState } from "react";
+import type { NewsStory } from "@/types/news";
+import { NewsRow } from "@/components/explore/news-row";
+import {
+  DropdownMenu,
+  MenuItem,
+  placeOverAnchor,
+} from "@/components/ui/dropdown-menu";
 import { IconButton } from "@/components/ui/icon-button";
 import { CloseIcon } from "@/components/ui/icons";
-import { card, row } from "@/components/layout/right-panel/styles";
+import { useDropdownMenu } from "@/hooks/use-dropdown-menu";
+import { card } from "@/components/layout/right-panel/styles";
 
-// TODO: decorative only. There is no news feature in scope.
-const news = [
-  {
-    headline: "Next.js 16 ships Cache Components as stable",
-    meta: "2 hours ago · Technology · 4,812 posts",
-    sources: ["/avatars/ana.svg", "/avatars/lucas.svg", "/avatars/nico.svg"],
-  },
-  {
-    headline: "Supabase announces branching for every project",
-    meta: "5 hours ago · Technology · 1,204 posts",
-    sources: ["/avatars/martin.svg", "/avatars/valen.svg", "/avatars/pedro.svg"],
-  },
-  {
-    headline: "Type-safe routing lands in the App Router",
-    meta: "9 hours ago · Technology · 938 posts",
-    sources: ["/avatars/sofia.svg", "/avatars/nico.svg", "/avatars/ana.svg"],
-  },
-];
+const MENU_SIZE = { width: 167, height: 132 };
+const dismissOptions = ["Dismiss for a day", "Dismiss for a week", "Not interested"];
 
-export function NewsCard() {
+export function NewsCard({ stories }: { stories: NewsStory[] }) {
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const menu = useDropdownMenu(closeRef, (anchor) =>
+    placeOverAnchor(anchor, MENU_SIZE, "right"),
+  );
+  const [hidden, setHidden] = useState(false);
+
+  if (hidden || stories.length === 0) return null;
+
   return (
     <section className={card}>
       <div className="flex items-center justify-between px-4 py-3">
         <h2 className="text-xl font-extrabold">Today&apos;s News</h2>
-        <IconButton label="Close" tone="plain" className="size-8">
-          <CloseIcon className="size-[18px]" />
+        <IconButton
+          ref={closeRef}
+          label="Close"
+          tone="plain"
+          aria-haspopup="menu"
+          aria-expanded={menu.isOpen}
+          onClick={menu.toggle}
+          className="size-8"
+        >
+          <CloseIcon className="size-[18.75px]" />
         </IconButton>
       </div>
-      {news.map((item) => (
-        <div key={item.headline} className={`flex flex-col px-4 py-[17px] ${row}`}>
-          <span className="line-clamp-2 text-base font-bold">
-            {item.headline}
-          </span>
-          <span className="mt-2 flex items-center gap-[9px]">
-            <span className="flex">
-              {item.sources.map((src, index) => (
-                <Image
-                  key={src}
-                  src={src}
-                  alt=""
-                  width={22}
-                  height={22}
-                  style={{ zIndex: item.sources.length - index }}
-                  className={cn(
-                    "relative rounded-full ring-[3px] ring-background",
-                    index > 0 && "-ml-[10px]",
-                  )}
-                />
-              ))}
-            </span>
-            <span className="text-xs text-muted">{item.meta}</span>
-          </span>
-        </div>
+      {stories.slice(0, 3).map((story, index) => (
+        <NewsRow
+          key={story.id}
+          story={story}
+          variant="panel"
+          className={index === 2 ? "rounded-b-2xl" : undefined}
+        />
       ))}
+      {menu.placement ? (
+        <DropdownMenu
+          menu={menu}
+          label="Dismiss Today's News"
+          style={menu.placement.style}
+          origin={menu.placement.origin}
+          className="w-max"
+          menuClassName="rounded-xl py-0"
+        >
+          {dismissOptions.map((option) => (
+            <MenuItem
+              key={option}
+              label={option}
+              onSelect={(event) => {
+                menu.selectItem(event);
+                setHidden(true);
+              }}
+            />
+          ))}
+        </DropdownMenu>
+      ) : null}
     </section>
   );
 }

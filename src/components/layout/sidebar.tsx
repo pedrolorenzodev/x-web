@@ -5,43 +5,43 @@ import { Avatar } from "@/components/ui/avatar";
 import { buttonStyles } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { NavItem } from "@/components/layout/nav-item";
+import { MoreMenu } from "@/components/layout/more-menu";
 import { AccountMenu } from "@/components/layout/account-menu";
 import {
+  BookmarkActiveIcon,
+  ChatActiveIcon,
   ChatIcon,
+  CreatorStudioActiveIcon,
   CreatorStudioIcon,
   ExploreIcon,
+  FollowActiveIcon,
   FollowIcon,
+  GrokActiveIcon,
   GrokIcon,
   HistoryIcon,
   HomeActiveIcon,
   HomeIcon,
   MoreHorizontalIcon,
-  MoreIcon,
+  NotificationsActiveIcon,
   NotificationsIcon,
   PremiumIcon,
   ProfileActiveIcon,
   ProfileIcon,
+  SearchIcon,
+  VerifiedIcon,
   XLogoIcon,
 } from "@/components/ui/icons";
 
 type SidebarProps = {
   viewer: UserSummary;
+  unreadNotifications: number;
 };
 
 const icon = "size-[26.25px]";
 
-const inertItems = [
-  { label: "Explore", icon: <ExploreIcon className={icon} /> },
-  { label: "Notifications", icon: <NotificationsIcon className={icon} /> },
-  { label: "Follow", icon: <FollowIcon className={icon} /> },
-  { label: "Chat", icon: <ChatIcon className={icon} /> },
-  { label: "Grok", icon: <GrokIcon className={icon} /> },
-  { label: "History", icon: <HistoryIcon className={icon} /> },
-  { label: "Creator Studio", icon: <CreatorStudioIcon className={icon} /> },
-  { label: "Premium", icon: <PremiumIcon className={icon} /> },
-];
+export function Sidebar({ viewer, unreadNotifications }: SidebarProps) {
+  const profile = routes.profile(viewer.handle);
 
-export function Sidebar({ viewer }: SidebarProps) {
   return (
     <header className="w-sidebar shrink-0">
       <div className="fixed top-0 flex h-screen w-sidebar flex-col px-2">
@@ -53,28 +53,85 @@ export function Sidebar({ viewer }: SidebarProps) {
           <XLogoIcon className="size-[30px]" />
         </Link>
 
-        <nav className="mt-1 flex flex-col">
+        <nav aria-label="Primary" className="mt-1 flex flex-col">
           <NavItem
             label="Home"
             href={routes.home}
+            match={{ prefixes: [routes.home, "/home"], exact: true }}
             icon={<HomeIcon className={icon} />}
             activeIcon={<HomeActiveIcon className={icon} />}
           />
-          {inertItems.map((item) => (
-            <NavItem key={item.label} label={item.label} icon={item.icon} />
-          ))}
+          <NavItem
+            label="Explore"
+            href={routes.explore}
+            match={{
+              prefixes: [routes.explore, routes.search, "/hashtag", "/i/trending"],
+            }}
+            icon={<ExploreIcon className={icon} />}
+            activeIcon={<SearchIcon className={icon} />}
+          />
+          <NavItem
+            label="Notifications"
+            href={routes.notifications}
+            badge={unreadNotifications}
+            icon={<NotificationsIcon className={icon} />}
+            activeIcon={<NotificationsActiveIcon className={icon} />}
+          />
+          <NavItem
+            label="Follow"
+            href={routes.connectPeople}
+            icon={<FollowIcon className={icon} />}
+            activeIcon={<FollowActiveIcon className={icon} />}
+          />
+          <NavItem
+            label="Chat"
+            href={routes.chat}
+            match={{ prefixes: [routes.chat, "/messages"] }}
+            icon={<ChatIcon className={icon} />}
+            activeIcon={<ChatActiveIcon className={icon} />}
+          />
+          <NavItem
+            label="Grok"
+            href={routes.grok}
+            icon={<GrokIcon className={icon} />}
+            activeIcon={<GrokActiveIcon className={icon} />}
+          />
+          <NavItem
+            label="History"
+            href={routes.history}
+            match={{ prefixes: [routes.history, "/i/bookmarks"] }}
+            icon={<HistoryIcon className={icon} />}
+            activeIcon={<BookmarkActiveIcon className={icon} />}
+          />
+          <NavItem
+            label="Creator Studio"
+            href={routes.creatorStudio}
+            match={{ prefixes: ["/i/jf/creators"] }}
+            icon={<CreatorStudioIcon className={icon} />}
+            activeIcon={<CreatorStudioActiveIcon className={icon} />}
+          />
+          <NavItem
+            label="Premium"
+            href={routes.premium}
+            icon={<PremiumIcon className={icon} />}
+            activeIcon={<VerifiedIcon className={icon} />}
+          />
           <NavItem
             label="Profile"
-            href={routes.profile(viewer.handle)}
+            href={profile}
+            match={{
+              prefixes: [profile],
+              exclude: [routes.lists(viewer.handle), routes.communities(viewer.handle)],
+            }}
             icon={<ProfileIcon className={icon} />}
             activeIcon={<ProfileActiveIcon className={icon} />}
           />
-          <NavItem label="More" icon={<MoreIcon className={icon} />} />
+          <MoreMenu handle={viewer.handle} />
         </nav>
 
         <Link
           href={routes.composePost}
-          className={cn(buttonStyles({ size: "lg" }), "mt-2 w-[90%]")}
+          className={cn(buttonStyles({ size: "lg" }), "mt-4 w-[90%]")}
         >
           Post
         </Link>

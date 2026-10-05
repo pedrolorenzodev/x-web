@@ -52,9 +52,9 @@ export function WhoToFollow({
           />
         </div>
       ))}
-      <button type="button" className={`${showMore} ${row}`}>
+      <Link href={routes.connectPeople} className={`${showMore} ${row}`}>
         Show more
-      </button>
+      </Link>
     </section>
   );
 }

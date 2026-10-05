@@ -9,6 +9,9 @@ const nextConfig: NextConfig = {
   logging: {
     browserToTerminal: true,
   },
+  async redirects() {
+    return [{ source: "/home", destination: "/", permanent: false }];
+  },
 };
 
 export default nextConfig;

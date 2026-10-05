@@ -8,6 +8,7 @@ export async function toggleLike(tweetId: string) {
   if (!record) return;
 
   record.likedByViewer = !record.likedByViewer;
+  record.likedAt = record.likedByViewer ? new Date().toISOString() : undefined;
   record.stats.likes += record.likedByViewer ? 1 : -1;
 
   refresh();

@@ -1,6 +1,6 @@
 import { useState, type FocusEvent, type MouseEvent } from "react";
 import { ChevronDownIcon } from "@/components/ui/icons";
-import { useEscapeToClose } from "@/features/auth/hooks/use-escape-to-close";
+import { useEscapeToClose } from "@/hooks/use-escape-to-close";
 import { ToggleSwitch } from "@/features/auth/components/toggle-switch";
 
 const TITLE = "Connect with friends you know";

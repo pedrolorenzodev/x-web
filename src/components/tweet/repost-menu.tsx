@@ -1,37 +1,22 @@
 "use client";
 
-import type { CSSProperties, MouseEvent } from "react";
+import type { MouseEvent } from "react";
 import { QuoteIcon, RetweetIcon } from "@/components/ui/icons";
 import {
   DropdownMenu,
   menuItem,
-  type DropdownOrigin,
+  placeOverAnchor,
+  type MenuPlacement,
 } from "@/components/ui/dropdown-menu";
 import type { DropdownMenuController } from "@/hooks/use-dropdown-menu";
 import { cn } from "@/lib/utils";
 
-const MENU_WIDTH = 200;
-const MENU_HEIGHT = 112;
+const MENU_SIZE = { width: 200, height: 112 };
 
-type RepostMenuPlacement = {
-  style: CSSProperties;
-  origin: DropdownOrigin;
-};
+type RepostMenuPlacement = MenuPlacement;
 
-export function placeOverAnchor(anchor: DOMRect): RepostMenuPlacement {
-  const fitsRight = anchor.left + MENU_WIDTH <= window.innerWidth;
-  const fitsBelow = anchor.top + MENU_HEIGHT <= window.innerHeight;
-  return {
-    style: {
-      ...(fitsRight
-        ? { left: anchor.left }
-        : { right: window.innerWidth - anchor.right }),
-      ...(fitsBelow
-        ? { top: anchor.top }
-        : { bottom: window.innerHeight - anchor.bottom }),
-    },
-    origin: `${fitsBelow ? "top" : "bottom"}-${fitsRight ? "left" : "right"}`,
-  };
+export function placeRepostMenu(anchor: DOMRect): RepostMenuPlacement {
+  return placeOverAnchor(anchor, MENU_SIZE);
 }
 
 type RepostMenuProps = {

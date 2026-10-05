@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { SpinnerRow } from "@/components/ui/spinner";
 import { notFound, redirect } from "next/navigation";
 import { routes } from "@/config/routes";
 import { PageHeader } from "@/components/layout/page-header";
@@ -71,7 +72,7 @@ export default function TweetPage({
   return (
     <>
       <PageHeader title="Post" />
-      <Suspense fallback={null}>
+      <Suspense fallback={<SpinnerRow />}>
         <Conversation params={params} />
       </Suspense>
     </>

@@ -1,9 +1,12 @@
 import { Suspense } from "react";
-import { notFound } from "next/navigation";
+import { SpinnerRow } from "@/components/ui/spinner";
+import { notFound, redirect } from "next/navigation";
+import { routes } from "@/config/routes";
 import { getSession } from "@/features/auth/api/get-session";
 import { getProfile } from "@/features/profile/api/get-profile";
 import { getProfileReplies } from "@/features/profile/api/get-profile-replies";
 import { ProfileReplies } from "@/features/profile/components/profile-replies";
+import { ProfileNotFound } from "@/features/profile/components/profile-not-found";
 import { ProfileScreen } from "@/features/profile/components/profile-screen";
 import { toggleFollow } from "@/features/profile/api/toggle-follow";
 import { toggleBookmark } from "@/features/tweet/api/toggle-bookmark";
@@ -23,7 +26,11 @@ async function Replies({
     getSession(),
     getProfileReplies(handle),
   ]);
-  if (!profile || !session) notFound();
+  if (!session) notFound();
+  if (!profile) return <ProfileNotFound />;
+  if (profile.handle !== handle) {
+    redirect(routes.profileReplies(profile.handle));
+  }
 
   return (
     <ProfileScreen
@@ -41,7 +48,7 @@ export default function ProfileRepliesPage({
   params,
 }: PageProps<"/[handle]/with_replies">) {
   return (
-    <Suspense fallback={null}>
+    <Suspense fallback={<SpinnerRow />}>
       <Replies params={params} />
     </Suspense>
   );

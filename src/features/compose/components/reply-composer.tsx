@@ -32,11 +32,11 @@ type ReplyComposerProps = {
 };
 
 const tools: ComposerTool[] = [
-  { label: "Add photos or video", icon: MediaIcon },
-  { label: "Add a GIF", icon: GifIcon },
-  { label: "Add emoji", icon: EmojiIcon },
-  { label: "Tag location", icon: LocationIcon, disabled: true },
-  { label: "Content disclosure", icon: FlagIcon },
+  { label: "Add photos or video", tooltip: "Media", icon: MediaIcon },
+  { label: "Add a GIF", tooltip: "GIF", icon: GifIcon },
+  { label: "Add emoji", tooltip: "Emoji", icon: EmojiIcon },
+  { label: "Tag location", tooltip: "Location", icon: LocationIcon, disabled: true },
+  { label: "Content disclosure", tooltip: "Content disclosure", icon: FlagIcon },
 ];
 
 export function ReplyComposer({

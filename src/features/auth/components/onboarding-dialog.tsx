@@ -1,5 +1,5 @@
 import { useRef, type ReactNode } from "react";
-import { useModalDialog } from "@/features/auth/hooks/use-modal-dialog";
+import { useModalDialog } from "@/hooks/use-modal-dialog";
 
 type OnboardingDialogProps = {
   label: string;

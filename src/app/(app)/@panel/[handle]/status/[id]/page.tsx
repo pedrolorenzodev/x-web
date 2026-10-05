@@ -1,8 +1,8 @@
 import { Suspense } from "react";
 import type { User } from "@/types/user";
+import { PanelTrends } from "@/app/(app)/@panel/_modules/panel-trends";
 import { RightPanel } from "@/components/layout/right-panel/right-panel";
 import { RelevantPeople } from "@/components/layout/right-panel/relevant-people";
-import { TrendsCard } from "@/components/layout/right-panel/trends-card";
 import { getSession } from "@/features/auth/api/get-session";
 import { getProfile } from "@/features/profile/api/get-profile";
 import { toggleFollow } from "@/features/profile/api/toggle-follow";
@@ -48,7 +48,9 @@ export default function TweetPanel({
       <Suspense fallback={null}>
         <People params={params} />
       </Suspense>
-      <TrendsCard />
+      <Suspense fallback={null}>
+        <PanelTrends />
+      </Suspense>
     </RightPanel>
   );
 }

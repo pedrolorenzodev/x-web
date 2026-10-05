@@ -1,10 +1,13 @@
 import { Suspense } from "react";
-import { notFound } from "next/navigation";
+import { SpinnerRow } from "@/components/ui/spinner";
+import { notFound, redirect } from "next/navigation";
+import { routes } from "@/config/routes";
 import { getSession } from "@/features/auth/api/get-session";
 import { getProfile } from "@/features/profile/api/get-profile";
 import { getProfileTweets } from "@/features/profile/api/get-profile-tweets";
 import { getSuggestedUsers } from "@/features/profile/api/get-suggested-users";
 import { ProfilePosts } from "@/features/profile/components/profile-posts";
+import { ProfileNotFound } from "@/features/profile/components/profile-not-found";
 import { ProfileScreen } from "@/features/profile/components/profile-screen";
 import { toggleFollow } from "@/features/profile/api/toggle-follow";
 import { toggleBookmark } from "@/features/tweet/api/toggle-bookmark";
@@ -19,7 +22,11 @@ async function Profile({ params }: { params: PageProps<"/[handle]">["params"] })
     getProfile(handle),
     getSession(),
   ]);
-  if (!profile || !session) notFound();
+  if (!session) notFound();
+  if (!profile) return <ProfileNotFound />;
+  if (profile.handle !== handle) {
+    redirect(routes.profile(profile.handle));
+  }
 
   const [posts, suggestions] = await Promise.all([
     getProfileTweets(handle),
@@ -46,7 +53,7 @@ async function Profile({ params }: { params: PageProps<"/[handle]">["params"] })
 
 export default function ProfilePage({ params }: PageProps<"/[handle]">) {
   return (
-    <Suspense fallback={null}>
+    <Suspense fallback={<SpinnerRow />}>
       <Profile params={params} />
     </Suspense>
   );

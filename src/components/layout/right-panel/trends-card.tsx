@@ -1,5 +1,10 @@
-import { IconButton } from "@/components/ui/icon-button";
-import { MoreHorizontalIcon } from "@/components/ui/icons";
+"use client";
+
+import Link from "next/link";
+import { useState } from "react";
+import type { Trend } from "@/types/trend";
+import { TrendRow } from "@/components/explore/trend-row";
+import { showToast } from "@/components/ui/toast";
 import {
   card,
   heading,
@@ -7,32 +12,28 @@ import {
   showMore,
 } from "@/components/layout/right-panel/styles";
 
-// TODO: decorative only. There is no trends feature in scope.
-const trends = [
-  { category: "Technology · Trending", topic: "Next.js" },
-  { category: "Trending in Argentina", topic: "Supabase" },
-  { category: "Design · Trending", topic: "Design systems" },
-  { category: "Trending in Argentina", topic: "TypeScript" },
-];
+const VISIBLE = 4;
 
-export function TrendsCard() {
+export function TrendsCard({ trends }: { trends: Trend[] }) {
+  const [dismissed, setDismissed] = useState<string[]>([]);
+  const visible = trends
+    .filter((trend) => !dismissed.includes(trend.id))
+    .slice(0, VISIBLE);
+
+  function dismiss(trendId: string) {
+    setDismissed((current) => [...current, trendId]);
+    showToast({ message: "Thanks. Refresh this page to update these trends." });
+  }
+
   return (
     <section className={card}>
       <h2 className={heading}>What&apos;s happening</h2>
-      {trends.map((trend) => (
-        <div key={trend.topic} className={`flex items-start px-4 py-3 ${row}`}>
-          <span className="flex min-w-0 flex-col">
-            <span className="text-xs text-muted">{trend.category}</span>
-            <span className="text-base font-bold">{trend.topic}</span>
-          </span>
-          <IconButton label="More" className="-mr-2 ml-auto">
-            <MoreHorizontalIcon className="size-[18.75px]" />
-          </IconButton>
-        </div>
+      {visible.map((trend) => (
+        <TrendRow key={trend.id} trend={trend} onDismiss={dismiss} />
       ))}
-      <button type="button" className={`${showMore} ${row}`}>
+      <Link href="/explore/tabs/for-you" className={`${showMore} ${row}`}>
         Show more
-      </button>
+      </Link>
     </section>
   );
 }

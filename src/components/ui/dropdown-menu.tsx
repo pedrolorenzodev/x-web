@@ -1,13 +1,16 @@
 "use client";
 
+import Link from "next/link";
 import {
   useEffect,
   useEffectEvent,
   useRef,
   type CSSProperties,
+  type MouseEvent,
   type ReactNode,
 } from "react";
 import { createPortal } from "react-dom";
+import { CheckIcon } from "@/components/ui/icons";
 import { cn } from "@/lib/utils";
 import type { DropdownMenuController } from "@/hooks/use-dropdown-menu";
 import { readCssMilliseconds } from "@/utils/css-custom-property";
@@ -26,9 +29,38 @@ type DropdownMenuProps<Placement> = {
   style: CSSProperties;
   origin: DropdownOrigin;
   className?: string;
+  menuClassName?: string;
   decoration?: ReactNode;
   children: ReactNode;
 };
+
+export type MenuPlacement = {
+  style: CSSProperties;
+  origin: DropdownOrigin;
+};
+
+export function placeOverAnchor(
+  anchor: DOMRect,
+  size: { width: number; height: number },
+  align: "left" | "right" = "left",
+): MenuPlacement {
+  const leftAligned =
+    align === "left"
+      ? anchor.left + size.width <= window.innerWidth
+      : anchor.right - size.width < 0;
+  const fitsBelow = anchor.top + size.height <= window.innerHeight;
+  return {
+    style: {
+      ...(leftAligned
+        ? { left: anchor.left }
+        : { right: window.innerWidth - anchor.right }),
+      ...(fitsBelow
+        ? { top: anchor.top }
+        : { bottom: window.innerHeight - anchor.bottom }),
+    },
+    origin: `${fitsBelow ? "top" : "bottom"}-${leftAligned ? "left" : "right"}`,
+  };
+}
 
 export const menuItem =
   "flex h-11 w-full items-center px-4 text-left text-base font-bold text-foreground outline-none transition-[background-color,box-shadow] duration-200 ease-[ease] hover:bg-menu-hover focus-visible:bg-menu-hover focus-visible:shadow-[inset_0_0_0_2px_var(--color-menu-focus-ring)] active:bg-menu-pressed";
@@ -39,6 +71,7 @@ export function DropdownMenu<Placement>({
   style,
   origin,
   className,
+  menuClassName,
   decoration,
   children,
 }: DropdownMenuProps<Placement>) {
@@ -48,7 +81,7 @@ export function DropdownMenu<Placement>({
 
   useEffect(() => {
     if (isOpen) {
-      menuRef.current?.querySelector<HTMLElement>("[role=menuitem]")?.focus();
+      menuRef.current?.querySelector<HTMLElement>("[role^=menuitem]")?.focus();
     }
   }, [isOpen]);
 
@@ -69,7 +102,7 @@ export function DropdownMenu<Placement>({
         <div
           aria-hidden
           onClick={() => close(true)}
-          className="fixed inset-0 z-30"
+          className="fixed inset-0 z-50"
         />
       )}
       <div
@@ -80,7 +113,7 @@ export function DropdownMenu<Placement>({
           if (event.target === event.currentTarget) finishClosing();
         }}
         className={cn(
-          "t-dropdown fixed z-30",
+          "t-dropdown fixed z-50",
           isOpen ? "is-open" : "is-closing",
           className,
         )}
@@ -90,7 +123,10 @@ export function DropdownMenu<Placement>({
           role="menu"
           aria-label={label}
           onKeyDown={onMenuKeyDown}
-          className="max-h-[480px] overflow-auto rounded-2xl bg-elevated py-3 shadow-menu"
+          className={cn(
+            "max-h-[480px] overflow-auto rounded-2xl bg-elevated py-3 shadow-menu",
+            menuClassName,
+          )}
         >
           {children}
         </div>
@@ -98,5 +134,89 @@ export function DropdownMenu<Placement>({
       </div>
     </>,
     document.body,
+  );
+}
+
+type MenuItemProps = {
+  label: ReactNode;
+  icon?: ReactNode;
+  description?: ReactNode;
+  checked?: boolean;
+  tone?: "default" | "danger";
+  size?: "md" | "lg";
+  href?: string;
+  external?: boolean;
+  onSelect: (event: MouseEvent<HTMLElement>) => void;
+};
+
+export function MenuItem({
+  label,
+  icon,
+  description,
+  checked,
+  tone = "default",
+  size = "md",
+  href,
+  external = false,
+  onSelect,
+}: MenuItemProps) {
+  const className = cn(
+    menuItem,
+    "gap-3",
+    size === "lg" && "h-14 gap-6 p-4 text-xl",
+    description && "h-auto py-3",
+    tone === "danger" && "text-danger",
+  );
+  const content = (
+    <>
+      {icon ? (
+        <span
+          className={cn(
+            "flex shrink-0 items-center",
+            size === "lg" ? "size-6 [&>svg]:size-6" : "[&>svg]:size-[18.75px]",
+          )}
+        >
+          {icon}
+        </span>
+      ) : null}
+      <span className="flex min-w-0 grow flex-col">
+        <span className="truncate">{label}</span>
+        {description ? (
+          <span className="text-xs leading-4 font-normal text-muted">
+            {description}
+          </span>
+        ) : null}
+      </span>
+      {checked ? (
+        <CheckIcon className="size-[18.75px] shrink-0 text-accent" />
+      ) : null}
+    </>
+  );
+
+  if (href) {
+    return (
+      <Link
+        href={href}
+        role="menuitem"
+        onClick={onSelect}
+        target={external ? "_blank" : undefined}
+        rel={external ? "noopener noreferrer" : undefined}
+        className={className}
+      >
+        {content}
+      </Link>
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      role={checked === undefined ? "menuitem" : "menuitemradio"}
+      aria-checked={checked}
+      onClick={onSelect}
+      className={className}
+    >
+      {content}
+    </button>
   );
 }

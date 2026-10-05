@@ -1,11 +1,10 @@
 import { cookies } from "next/headers";
-import type { User } from "@/types/user";
 import { SESSION_COOKIE } from "@/config/auth";
-import { findUserById } from "@/mocks/users";
+import { findUserById, type UserRecord } from "@/mocks/users";
 
 const SESSION_MAX_AGE = 60 * 60 * 24 * 30;
 
-export async function getMockViewer(): Promise<User | null> {
+export async function getMockViewer(): Promise<UserRecord | null> {
   const userId = (await cookies()).get(SESSION_COOKIE)?.value;
   return userId ? findUserById(userId) : null;
 }

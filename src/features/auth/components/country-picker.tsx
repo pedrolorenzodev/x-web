@@ -9,7 +9,7 @@ import {
 import { cn } from "@/lib/utils";
 import { PHONE_COUNTRIES, type PhoneCountry } from "@/config/phone-countries";
 import { SearchIcon, SelectChevronIcon } from "@/components/ui/icons";
-import { useEscapeToClose } from "@/features/auth/hooks/use-escape-to-close";
+import { useEscapeToClose } from "@/hooks/use-escape-to-close";
 import { countryFlag } from "@/features/auth/utils/country-flag";
 
 type CountryPickerProps = {

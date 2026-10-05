@@ -3,7 +3,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { GET_APP_QR_URL } from "@/config/auth";
 import { CloseIcon } from "@/components/ui/icons";
-import { useModalDialog } from "@/features/auth/hooks/use-modal-dialog";
+import { useModalDialog } from "@/hooks/use-modal-dialog";
 
 const EXIT_MS = 200;
 

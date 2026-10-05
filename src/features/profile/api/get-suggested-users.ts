@@ -1,5 +1,6 @@
 import type { User } from "@/types/user";
-import { findUserById, mockSuggestedUserIds } from "@/mocks/users";
+import { findUserById, mockSuggestedUserIds, toUser } from "@/mocks/users";
+import { findFollowedByPreview } from "@/mocks/follows";
 
 export async function getSuggestedUsers(
   limit = 3,
@@ -8,5 +9,6 @@ export async function getSuggestedUsers(
   return mockSuggestedUserIds
     .filter((id) => id !== excludeId)
     .flatMap((id) => findUserById(id) ?? [])
-    .slice(0, limit);
+    .slice(0, limit)
+    .map((user) => toUser(user, findFollowedByPreview(user.id)));
 }

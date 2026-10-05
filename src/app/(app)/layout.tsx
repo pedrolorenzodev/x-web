@@ -3,6 +3,7 @@ import { AppShell } from "@/components/layout/app-shell";
 import { Sidebar } from "@/components/layout/sidebar";
 import { getSession } from "@/features/auth/api/get-session";
 import { routes } from "@/config/routes";
+import { getUnreadNotificationCount } from "@/features/notifications/api/get-unread-notification-count";
 
 export const instant = false;
 
@@ -11,12 +12,15 @@ export default async function AppLayout({
   modal,
   panel,
 }: LayoutProps<"/">) {
-  const session = await getSession();
+  const [session, unreadNotifications] = await Promise.all([
+    getSession(),
+    getUnreadNotificationCount(),
+  ]);
   if (!session) redirect(routes.expiredSession);
 
   return (
     <AppShell
-      sidebar={<Sidebar viewer={session.user} />}
+      sidebar={<Sidebar viewer={session.user} unreadNotifications={unreadNotifications} />}
       panel={panel}
       modal={modal}
     >

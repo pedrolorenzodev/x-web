@@ -1,7 +1,29 @@
-import type { User } from "@/types/user";
+import type { FollowedByPreview, User, UserSummary } from "@/types/user";
 import { DEFAULT_AVATAR_URL } from "@/config/auth";
 
-export const mockUsers: User[] = [
+type ProfileDefaults = Pick<
+  User,
+  | "verified"
+  | "protected"
+  | "location"
+  | "website"
+  | "birthDate"
+  | "professionalCategory"
+  | "verifiedSince"
+  | "mediaCount"
+  | "pinnedTweetId"
+  | "isCreator"
+  | "hasArticles"
+  | "followsViewer"
+  | "notificationsOn"
+>;
+
+export type UserRecord = Omit<User, keyof ProfileDefaults | "followedByPreview"> &
+  Partial<ProfileDefaults>;
+
+const MEDIA_SHARE = 0.08;
+
+export const mockUsers: UserRecord[] = [
   {
     id: "1702741923755094016",
     handle: "Elpepodev",
@@ -14,6 +36,17 @@ export const mockUsers: User[] = [
     followersCount: 18,
     postsCount: 27,
     followedByViewer: false,
+    location: "Buenos Aires, Argentina",
+    website: {
+      url: "https://elpepo.dev",
+      display: "elpepo.dev",
+    },
+    birthDate: {
+      year: 2007,
+      month: 1,
+      day: 1,
+    },
+    pinnedTweetId: "2103253430301627524",
   },
   {
     id: "1767536918198194176",
@@ -27,6 +60,10 @@ export const mockUsers: User[] = [
     followersCount: 4769,
     postsCount: 6076,
     followedByViewer: true,
+    verified: "blue",
+    verifiedSince: "2024-06-11T15:20:00.000Z",
+    location: "Buenos Aires, Argentina",
+    professionalCategory: "Entrepreneur",
   },
   {
     id: "431231040",
@@ -40,6 +77,10 @@ export const mockUsers: User[] = [
     followersCount: 1855,
     postsCount: 56234,
     followedByViewer: true,
+    verified: "blue",
+    verifiedSince: "2023-04-02T12:00:00.000Z",
+    location: "Argentina",
+    professionalCategory: "Entrepreneur",
   },
   {
     id: "1149371887123873794",
@@ -53,6 +94,9 @@ export const mockUsers: User[] = [
     followersCount: 992,
     postsCount: 1143,
     followedByViewer: true,
+    location: "Buenos Aires, Argentina",
+    professionalCategory: "Product/Service",
+    followsViewer: true,
   },
   {
     id: "2010031434896211968",
@@ -66,6 +110,9 @@ export const mockUsers: User[] = [
     followersCount: 33,
     postsCount: 228,
     followedByViewer: true,
+    location: "Argentina",
+    professionalCategory: "Marketing Agency",
+    followsViewer: true,
   },
   {
     id: "1281715860726517766",
@@ -79,6 +126,7 @@ export const mockUsers: User[] = [
     followersCount: 41,
     postsCount: 177,
     followedByViewer: true,
+    followsViewer: true,
   },
   {
     id: "1509287199484825606",
@@ -92,6 +140,8 @@ export const mockUsers: User[] = [
     followersCount: 362,
     postsCount: 4271,
     followedByViewer: true,
+    location: "Buenos Aires, Argentina",
+    followsViewer: true,
   },
   {
     id: "1439687110030761993",
@@ -105,6 +155,17 @@ export const mockUsers: User[] = [
     followersCount: 2776,
     postsCount: 4190,
     followedByViewer: true,
+    verified: "blue",
+    verifiedSince: "2023-11-20T18:45:00.000Z",
+    location: "Buenos Aires, Argentina",
+    website: {
+      url: "https://sounds.sh",
+      display: "sounds.sh",
+    },
+    professionalCategory: "Software Company",
+    pinnedTweetId: "2104662431771320490",
+    followsViewer: true,
+    notificationsOn: true,
   },
   {
     id: "14154963",
@@ -118,6 +179,10 @@ export const mockUsers: User[] = [
     followersCount: 7548,
     postsCount: 67278,
     followedByViewer: true,
+    verified: "blue",
+    verifiedSince: "2023-03-15T09:30:00.000Z",
+    professionalCategory: "Science & Technology",
+    hasArticles: true,
   },
   {
     id: "1915832869416792064",
@@ -144,6 +209,8 @@ export const mockUsers: User[] = [
     followersCount: 89,
     postsCount: 176,
     followedByViewer: true,
+    location: "Argentina",
+    followsViewer: true,
   },
   {
     id: "1897655341073989632",
@@ -157,6 +224,14 @@ export const mockUsers: User[] = [
     followersCount: 259,
     postsCount: 526,
     followedByViewer: true,
+    location: "Argentina",
+    website: {
+      url: "https://artyx.ai",
+      display: "artyx.ai",
+    },
+    professionalCategory: "Artist",
+    pinnedTweetId: "2052426028543603140",
+    followsViewer: true,
   },
   {
     id: "1579352202",
@@ -183,6 +258,15 @@ export const mockUsers: User[] = [
     followersCount: 320,
     postsCount: 815,
     followedByViewer: true,
+    location: "Argentina",
+    website: {
+      url: "https://soweme.com",
+      display: "soweme.com",
+    },
+    professionalCategory: "Digital Creator",
+    pinnedTweetId: "1977708429918539973",
+    followsViewer: true,
+    notificationsOn: true,
   },
   {
     id: "1741957303723610112",
@@ -196,6 +280,8 @@ export const mockUsers: User[] = [
     followersCount: 352,
     postsCount: 759,
     followedByViewer: true,
+    location: "Argentina",
+    followsViewer: true,
   },
   {
     id: "150496130",
@@ -209,6 +295,10 @@ export const mockUsers: User[] = [
     followersCount: 4250,
     postsCount: 85706,
     followedByViewer: true,
+    verified: "blue",
+    verifiedSince: "2024-01-08T14:10:00.000Z",
+    location: "Argentina",
+    professionalCategory: "Entrepreneur",
   },
   {
     id: "612962800",
@@ -222,6 +312,11 @@ export const mockUsers: User[] = [
     followersCount: 2207,
     postsCount: 8147,
     followedByViewer: true,
+    verified: "blue",
+    verifiedSince: "2023-08-21T20:00:00.000Z",
+    location: "Buenos Aires, Argentina",
+    followsViewer: true,
+    notificationsOn: true,
   },
   {
     id: "1929354046868975616",
@@ -235,6 +330,12 @@ export const mockUsers: User[] = [
     followersCount: 7347,
     postsCount: 4609,
     followedByViewer: false,
+    verified: "blue",
+    verifiedSince: "2024-09-30T16:00:00.000Z",
+    website: {
+      url: "https://mu.mormon.garden",
+      display: "mu.mormon.garden",
+    },
   },
   {
     id: "2075322666668482560",
@@ -261,6 +362,11 @@ export const mockUsers: User[] = [
     followersCount: 3088,
     postsCount: 104,
     followedByViewer: false,
+    website: {
+      url: "https://cactuscompute.com",
+      display: "cactuscompute.com",
+    },
+    professionalCategory: "Software Company",
   },
   {
     id: "427089628",
@@ -274,6 +380,15 @@ export const mockUsers: User[] = [
     followersCount: 5522905,
     postsCount: 4023,
     followedByViewer: false,
+    verified: "blue",
+    verifiedSince: "2022-12-12T00:00:00.000Z",
+    website: {
+      url: "https://lexfridman.com",
+      display: "lexfridman.com",
+    },
+    professionalCategory: "Podcast",
+    isCreator: true,
+    hasArticles: true,
   },
   {
     id: "1155898067339501569",
@@ -287,6 +402,13 @@ export const mockUsers: User[] = [
     followersCount: 138632,
     postsCount: 22727,
     followedByViewer: true,
+    verified: "business",
+    verifiedSince: "2023-05-04T00:00:00.000Z",
+    website: {
+      url: "https://threejs.org",
+      display: "threejs.org",
+    },
+    professionalCategory: "Science & Technology",
   },
   {
     id: "151606428",
@@ -313,6 +435,8 @@ export const mockUsers: User[] = [
     followersCount: 4102,
     postsCount: 4026,
     followedByViewer: false,
+    verified: "blue",
+    verifiedSince: "2024-02-19T00:00:00.000Z",
   },
   {
     id: "2029590208656883712",
@@ -326,6 +450,11 @@ export const mockUsers: User[] = [
     followersCount: 26,
     postsCount: 36,
     followedByViewer: false,
+    website: {
+      url: "https://artyx.ai",
+      display: "artyx.ai",
+    },
+    professionalCategory: "Software Company",
   },
   {
     id: "1572819212757864448",
@@ -339,6 +468,8 @@ export const mockUsers: User[] = [
     followersCount: 856,
     postsCount: 12421,
     followedByViewer: false,
+    verified: "blue",
+    verifiedSince: "2025-01-27T00:00:00.000Z",
   },
   {
     id: "1965545045089792000",
@@ -352,6 +483,13 @@ export const mockUsers: User[] = [
     followersCount: 191257,
     postsCount: 602,
     followedByViewer: false,
+    verified: "business",
+    verifiedSince: "2025-07-01T00:00:00.000Z",
+    website: {
+      url: "https://opencode.ai",
+      display: "opencode.ai",
+    },
+    professionalCategory: "Software Company",
   },
   {
     id: "4846569519",
@@ -378,6 +516,8 @@ export const mockUsers: User[] = [
     followersCount: 2388,
     postsCount: 2708,
     followedByViewer: false,
+    verified: "blue",
+    verifiedSince: "2023-07-14T00:00:00.000Z",
   },
   {
     id: "1509273998357630984",
@@ -391,6 +531,9 @@ export const mockUsers: User[] = [
     followersCount: 16524,
     postsCount: 2488,
     followedByViewer: false,
+    verified: "blue",
+    verifiedSince: "2023-10-02T00:00:00.000Z",
+    location: "Argentina",
   },
   {
     id: "1564757821035610114",
@@ -417,6 +560,8 @@ export const mockUsers: User[] = [
     followersCount: 43856,
     postsCount: 24071,
     followedByViewer: false,
+    verified: "blue",
+    verifiedSince: "2023-02-28T00:00:00.000Z",
   },
   {
     id: "1912526359",
@@ -443,6 +588,9 @@ export const mockUsers: User[] = [
     followersCount: 7533,
     postsCount: 40060,
     followedByViewer: false,
+    verified: "blue",
+    verifiedSince: "2024-04-15T00:00:00.000Z",
+    isCreator: true,
   },
   {
     id: "2218603802",
@@ -469,6 +617,8 @@ export const mockUsers: User[] = [
     followersCount: 2510,
     postsCount: 59457,
     followedByViewer: false,
+    verified: "blue",
+    verifiedSince: "2024-08-08T00:00:00.000Z",
   },
   {
     id: "1095539042266083329",
@@ -495,6 +645,8 @@ export const mockUsers: User[] = [
     followersCount: 2945,
     postsCount: 16478,
     followedByViewer: false,
+    verified: "blue",
+    verifiedSince: "2025-03-03T00:00:00.000Z",
   },
   {
     id: "1978921769852416001",
@@ -547,6 +699,12 @@ export const mockUsers: User[] = [
     followersCount: 1321,
     postsCount: 7768,
     followedByViewer: false,
+    verified: "blue",
+    verifiedSince: "2023-06-06T00:00:00.000Z",
+    website: {
+      url: "https://manno.ar",
+      display: "manno.ar",
+    },
   },
   {
     id: "1684485997",
@@ -599,6 +757,12 @@ export const mockUsers: User[] = [
     followersCount: 1018,
     postsCount: 4551,
     followedByViewer: false,
+    verified: "blue",
+    verifiedSince: "2024-10-10T00:00:00.000Z",
+    website: {
+      url: "https://descuentito.app",
+      display: "descuentito.app",
+    },
   },
   {
     id: "1284974850931597312",
@@ -625,6 +789,8 @@ export const mockUsers: User[] = [
     followersCount: 52464,
     postsCount: 39883,
     followedByViewer: false,
+    verified: "blue",
+    verifiedSince: "2023-09-09T00:00:00.000Z",
   },
   {
     id: "2055994209534902272",
@@ -638,6 +804,10 @@ export const mockUsers: User[] = [
     followersCount: 21,
     postsCount: 100,
     followedByViewer: false,
+    website: {
+      url: "https://growclub.io",
+      display: "growclub.io",
+    },
   },
   {
     id: "17629617",
@@ -651,6 +821,8 @@ export const mockUsers: User[] = [
     followersCount: 893,
     postsCount: 12575,
     followedByViewer: false,
+    verified: "blue",
+    verifiedSince: "2024-05-21T00:00:00.000Z",
   },
   {
     id: "888438721",
@@ -664,6 +836,12 @@ export const mockUsers: User[] = [
     followersCount: 3001,
     postsCount: 29113,
     followedByViewer: false,
+    verified: "blue",
+    verifiedSince: "2023-12-01T00:00:00.000Z",
+    website: {
+      url: "https://paranoia.digital",
+      display: "paranoia.digital",
+    },
   },
   {
     id: "1206415311978848256",
@@ -690,6 +868,8 @@ export const mockUsers: User[] = [
     followersCount: 10169,
     postsCount: 22672,
     followedByViewer: false,
+    verified: "blue",
+    verifiedSince: "2024-03-30T00:00:00.000Z",
   },
   {
     id: "1757953535134588928",
@@ -716,6 +896,7 @@ export const mockUsers: User[] = [
     followersCount: 17,
     postsCount: 6647,
     followedByViewer: false,
+    protected: true,
   },
   {
     id: "1504481302736637957",
@@ -729,6 +910,8 @@ export const mockUsers: User[] = [
     followersCount: 4651,
     postsCount: 13380,
     followedByViewer: false,
+    verified: "blue",
+    verifiedSince: "2024-07-07T00:00:00.000Z",
   },
   {
     id: "1490200495419539463",
@@ -755,6 +938,8 @@ export const mockUsers: User[] = [
     followersCount: 1970,
     postsCount: 12402,
     followedByViewer: false,
+    verified: "blue",
+    verifiedSince: "2023-05-25T00:00:00.000Z",
   },
   {
     id: "1872488212356046848",
@@ -781,6 +966,10 @@ export const mockUsers: User[] = [
     followersCount: 1058,
     postsCount: 2321,
     followedByViewer: false,
+    website: {
+      url: "https://cobrando.app",
+      display: "cobrando.app",
+    },
   },
   {
     id: "810944776082178048",
@@ -794,6 +983,8 @@ export const mockUsers: User[] = [
     followersCount: 534,
     postsCount: 746,
     followedByViewer: false,
+    verified: "blue",
+    verifiedSince: "2025-02-14T00:00:00.000Z",
   },
   {
     id: "65702359",
@@ -820,6 +1011,8 @@ export const mockUsers: User[] = [
     followersCount: 1824,
     postsCount: 20570,
     followedByViewer: false,
+    verified: "blue",
+    verifiedSince: "2024-11-11T00:00:00.000Z",
   },
   {
     id: "1089868478864084992",
@@ -872,6 +1065,10 @@ export const mockUsers: User[] = [
     followersCount: 33554,
     postsCount: 15699,
     followedByViewer: false,
+    verified: "business",
+    verifiedSince: "2023-08-01T00:00:00.000Z",
+    location: "Argentina",
+    professionalCategory: "Financial Services",
   },
   {
     id: "718186956",
@@ -898,6 +1095,8 @@ export const mockUsers: User[] = [
     followersCount: 2330,
     postsCount: 4974,
     followedByViewer: false,
+    verified: "blue",
+    verifiedSince: "2024-06-30T00:00:00.000Z",
   },
   {
     id: "291496724",
@@ -911,6 +1110,11 @@ export const mockUsers: User[] = [
     followersCount: 10093,
     postsCount: 36447,
     followedByViewer: false,
+    verified: "blue",
+    verifiedSince: "2023-04-20T00:00:00.000Z",
+    location: "Argentina",
+    isCreator: true,
+    hasArticles: true,
   },
   {
     id: "1937691004787916802",
@@ -976,6 +1180,7 @@ export const mockUsers: User[] = [
     followersCount: 46,
     postsCount: 10319,
     followedByViewer: false,
+    protected: true,
   },
   {
     id: "1052399447953424386",
@@ -989,6 +1194,9 @@ export const mockUsers: User[] = [
     followersCount: 3857,
     postsCount: 9204,
     followedByViewer: false,
+    verified: "blue",
+    verifiedSince: "2024-09-01T00:00:00.000Z",
+    location: "Perú",
   },
   {
     id: "1947377247327031296",
@@ -1054,6 +1262,9 @@ export const mockUsers: User[] = [
     followersCount: 135212,
     postsCount: 159441,
     followedByViewer: false,
+    verified: "blue",
+    verifiedSince: "2023-03-01T00:00:00.000Z",
+    isCreator: true,
   },
   {
     id: "1029140973249552390",
@@ -1132,6 +1343,7 @@ export const mockUsers: User[] = [
     followersCount: 278,
     postsCount: 3857,
     followedByViewer: false,
+    location: "Argentina",
   },
   {
     id: "1450867498862235648",
@@ -1210,6 +1422,10 @@ export const mockUsers: User[] = [
     followersCount: 513,
     postsCount: 9485,
     followedByViewer: false,
+    website: {
+      url: "https://contentboard.com.ar",
+      display: "contentboard.com.ar",
+    },
   },
   {
     id: "1798723556190113792",
@@ -1223,6 +1439,9 @@ export const mockUsers: User[] = [
     followersCount: 2158,
     postsCount: 10118,
     followedByViewer: false,
+    verified: "blue",
+    verifiedSince: "2024-01-25T00:00:00.000Z",
+    location: "Europa",
   },
   {
     id: "1919754595661955072",
@@ -1275,6 +1494,9 @@ export const mockUsers: User[] = [
     followersCount: 2884,
     postsCount: 1908,
     followedByViewer: false,
+    verified: "blue",
+    verifiedSince: "2024-12-12T00:00:00.000Z",
+    location: "Argentina",
   },
   {
     id: "1057646914693406721",
@@ -1301,6 +1523,8 @@ export const mockUsers: User[] = [
     followersCount: 6946,
     postsCount: 4996,
     followedByViewer: false,
+    verified: "blue",
+    verifiedSince: "2023-11-05T00:00:00.000Z",
   },
   {
     id: "819518729843339264",
@@ -1314,6 +1538,8 @@ export const mockUsers: User[] = [
     followersCount: 3195,
     postsCount: 1729,
     followedByViewer: false,
+    verified: "blue",
+    verifiedSince: "2023-10-30T00:00:00.000Z",
   },
   {
     id: "1892214891898937345",
@@ -1340,6 +1566,11 @@ export const mockUsers: User[] = [
     followersCount: 170,
     postsCount: 9488,
     followedByViewer: false,
+    website: {
+      url: "https://twitch.tv/Evanfall",
+      display: "twitch.tv/Evanfall",
+    },
+    professionalCategory: "Gamer",
   },
   {
     id: "2011082590112112640",
@@ -1366,6 +1597,10 @@ export const mockUsers: User[] = [
     followersCount: 122,
     postsCount: 274,
     followedByViewer: false,
+    website: {
+      url: "https://timejourney.ai",
+      display: "timejourney.ai",
+    },
   },
   {
     id: "626466280",
@@ -1405,6 +1640,10 @@ export const mockUsers: User[] = [
     followersCount: 16419,
     postsCount: 16052,
     followedByViewer: false,
+    verified: "blue",
+    verifiedSince: "2023-06-18T00:00:00.000Z",
+    isCreator: true,
+    professionalCategory: "Artist",
   },
   {
     id: "389496365",
@@ -1444,6 +1683,10 @@ export const mockUsers: User[] = [
     followersCount: 1780,
     postsCount: 48785,
     followedByViewer: false,
+    website: {
+      url: "https://ahodzil.com",
+      display: "ahodzil.com",
+    },
   },
   {
     id: "1287352086267432961",
@@ -1470,6 +1713,10 @@ export const mockUsers: User[] = [
     followersCount: 2153,
     postsCount: 6760,
     followedByViewer: false,
+    website: {
+      url: "https://heycollabify.com",
+      display: "heycollabify.com",
+    },
   },
   {
     id: "1313903685907382273",
@@ -1509,6 +1756,8 @@ export const mockUsers: User[] = [
     followersCount: 15646,
     postsCount: 76796,
     followedByViewer: false,
+    verified: "blue",
+    verifiedSince: "2024-02-02T00:00:00.000Z",
   },
   {
     id: "157823050",
@@ -1535,6 +1784,7 @@ export const mockUsers: User[] = [
     followersCount: 30,
     postsCount: 92,
     followedByViewer: false,
+    followsViewer: true,
   },
   {
     id: "3115776514",
@@ -1574,6 +1824,8 @@ export const mockUsers: User[] = [
     followersCount: 12454,
     postsCount: 29293,
     followedByViewer: false,
+    verified: "blue",
+    verifiedSince: "2023-09-17T00:00:00.000Z",
   },
   {
     id: "419859995",
@@ -1600,6 +1852,102 @@ export const mockUsers: User[] = [
     followersCount: 320,
     postsCount: 688,
     followedByViewer: false,
+    location: "Buenos Aires, Argentina",
+    website: {
+      url: "https://keepanalog.com",
+      display: "keepanalog.com",
+    },
+    pinnedTweetId: "2105472051423359454",
+  },
+  {
+    id: "9100000000000000001",
+    handle: "anatorres_dev",
+    displayName: "Ana Torres",
+    avatarUrl: "/avatars/ana.svg",
+    bio: "Frontend dev. Design systems, CSS y café.",
+    bannerUrl: null,
+    joinedAt: "2022-01-10T12:00:00.000Z",
+    followingCount: 180,
+    followersCount: 240,
+    postsCount: 320,
+    followedByViewer: true,
+    followsViewer: true,
+    location: "Córdoba, Argentina",
+  },
+  {
+    id: "9100000000000000002",
+    handle: "lucasmendez_js",
+    displayName: "Lucas Méndez",
+    avatarUrl: "/avatars/lucas.svg",
+    bio: "Full-stack. Next.js, Postgres y mate.",
+    bannerUrl: null,
+    joinedAt: "2023-02-11T12:00:00.000Z",
+    followingCount: 217,
+    followersCount: 331,
+    postsCount: 378,
+    followedByViewer: true,
+    followsViewer: true,
+    location: "Rosario, Argentina",
+  },
+  {
+    id: "9100000000000000003",
+    handle: "martinruiz_dev",
+    displayName: "Martín Ruiz",
+    avatarUrl: "/avatars/martin.svg",
+    bio: "Backend & infra. Siempre deployando un viernes.",
+    bannerUrl: null,
+    joinedAt: "2024-03-12T12:00:00.000Z",
+    followingCount: 254,
+    followersCount: 422,
+    postsCount: 436,
+    followedByViewer: true,
+    followsViewer: true,
+    location: "Buenos Aires, Argentina",
+  },
+  {
+    id: "9100000000000000004",
+    handle: "nicofdz_ui",
+    displayName: "Nico Fernández",
+    avatarUrl: "/avatars/nico.svg",
+    bio: "UI engineer. Animaciones y micro-interacciones.",
+    bannerUrl: null,
+    joinedAt: "2022-04-13T12:00:00.000Z",
+    followingCount: 291,
+    followersCount: 513,
+    postsCount: 494,
+    followedByViewer: true,
+    followsViewer: true,
+    location: "Mendoza, Argentina",
+  },
+  {
+    id: "9100000000000000005",
+    handle: "valesosa_codes",
+    displayName: "Valentina Sosa",
+    avatarUrl: "/avatars/valen.svg",
+    bio: "Mobile & web. Fan de Boca 💙💛",
+    bannerUrl: null,
+    joinedAt: "2023-05-14T12:00:00.000Z",
+    followingCount: 328,
+    followersCount: 604,
+    postsCount: 552,
+    followedByViewer: true,
+    followsViewer: true,
+    location: "La Plata, Argentina",
+  },
+  {
+    id: "9100000000000000006",
+    handle: "sofiaherrera_ai",
+    displayName: "Sofía Herrera",
+    avatarUrl: "/avatars/sofia.svg",
+    bio: "AI engineer. Agentes, evals y prompts.",
+    bannerUrl: null,
+    joinedAt: "2024-06-15T12:00:00.000Z",
+    followingCount: 365,
+    followersCount: 695,
+    postsCount: 610,
+    followedByViewer: true,
+    followsViewer: true,
+    location: "Montevideo, Uruguay",
   },
 ];
 
@@ -1610,19 +1958,51 @@ export const mockSuggestedUserIds = [
   "1164367860564713472",
 ];
 
-export function findUserById(id: string): User | null {
+export function findUserById(id: string): UserRecord | null {
   return mockUsers.find((user) => user.id === id) ?? null;
 }
 
-export function findUserByHandle(handle: string): User | null {
-  return mockUsers.find((user) => user.handle === handle) ?? null;
+export function findUserByHandle(handle: string): UserRecord | null {
+  const target = handle.toLowerCase();
+  return mockUsers.find((user) => user.handle.toLowerCase() === target) ?? null;
 }
 
-export function toSummary(user: User) {
+export function toSummary(user: UserRecord): UserSummary {
   return {
     id: user.id,
     handle: user.handle,
     displayName: user.displayName,
     avatarUrl: user.avatarUrl,
+    verified: user.verified ?? null,
+    protected: user.protected ?? false,
+    affiliate: user.affiliate ?? null,
+  };
+}
+
+export function toUser(
+  user: UserRecord,
+  followedByPreview: FollowedByPreview,
+): User {
+  return {
+    ...toSummary(user),
+    bio: user.bio,
+    bannerUrl: user.bannerUrl,
+    location: user.location ?? null,
+    website: user.website ?? null,
+    birthDate: user.birthDate ?? null,
+    professionalCategory: user.professionalCategory ?? null,
+    joinedAt: user.joinedAt,
+    verifiedSince: user.verifiedSince ?? null,
+    followingCount: user.followingCount,
+    followersCount: user.followersCount,
+    postsCount: user.postsCount,
+    mediaCount: user.mediaCount ?? Math.round(user.postsCount * MEDIA_SHARE),
+    pinnedTweetId: user.pinnedTweetId ?? null,
+    isCreator: user.isCreator ?? false,
+    hasArticles: user.hasArticles ?? false,
+    followedByViewer: user.followedByViewer,
+    followsViewer: user.followsViewer ?? false,
+    notificationsOn: user.notificationsOn ?? false,
+    followedByPreview,
   };
 }

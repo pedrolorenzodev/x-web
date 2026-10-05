@@ -8,6 +8,10 @@ export async function toggleBookmark(tweetId: string) {
   if (!record) return;
 
   record.bookmarkedByViewer = !record.bookmarkedByViewer;
+  record.bookmarkedAt = record.bookmarkedByViewer
+    ? new Date().toISOString()
+    : undefined;
+  record.stats.bookmarks += record.bookmarkedByViewer ? 1 : -1;
 
   refresh();
 }

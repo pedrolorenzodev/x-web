@@ -9,7 +9,7 @@ async function ViewerComposeModal() {
   const session = await getSession();
   if (!session) redirect(routes.expiredSession);
 
-  return <ComposeModal viewer={session.user} dismiss="home" />;
+  return <ComposeModal viewer={session.user} dismiss={{ replace: routes.home }} />;
 }
 
 export default function ComposePostPage() {

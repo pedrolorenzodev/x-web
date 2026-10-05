@@ -5,6 +5,7 @@ import type { Page } from "@/types/pagination";
 import type { TimelineItem, TweetActions } from "@/types/tweet";
 import { getTimeline } from "@/features/feed/api/get-timeline";
 import { TweetCard } from "@/components/tweet/tweet-card";
+import { SpinnerRow } from "@/components/ui/spinner";
 
 type TimelineFeedProps = {
   firstPage: Page<TimelineItem>;
@@ -101,7 +102,9 @@ export function TimelineFeed({ firstPage, actions }: TimelineFeedProps) {
             actions={restActions}
           />
         ))}
-      <div ref={sentinel} aria-hidden />
+      <div ref={sentinel}>
+        {nextCursor ? <SpinnerRow label="Loading timeline" /> : null}
+      </div>
     </>
   );
 }
