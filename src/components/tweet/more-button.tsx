@@ -157,7 +157,7 @@ export function MoreButton({ tweet }: MoreButtonProps) {
             <MenuItem
               label="Add/remove from Lists"
               icon={<ListPlusIcon />}
-              href="/i/lists/add_member"
+              href={`${routes.listAddMember}?user_id=${author.id}`}
               onSelect={menu.selectItem}
             />
           ),

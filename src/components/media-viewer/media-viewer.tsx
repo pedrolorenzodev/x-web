@@ -32,6 +32,8 @@ export type MediaViewerItem = {
   alt: string;
   width: number;
   height: number;
+  maxWidth?: number;
+  round?: boolean;
 };
 
 type MediaViewerProps = {
@@ -142,15 +144,20 @@ function MediaViewerContent({
             key={item.url}
             style={{
               aspectRatio: aspect,
-              width: `min(100cqw, ${100 * aspect}cqh)`,
+              width: item.maxWidth
+                ? `min(100cqw, ${100 * aspect}cqh, ${item.maxWidth}px)`
+                : `min(100cqw, ${100 * aspect}cqh)`,
             }}
-            className="relative"
+            className={cn(
+              "relative",
+              item.round && "overflow-hidden rounded-full",
+            )}
           >
             <Image
               src={item.url}
               alt={item.alt}
               fill
-              sizes="100vw"
+              sizes={item.maxWidth ? `${item.maxWidth}px` : "100vw"}
               preload
               className="object-contain"
             />
@@ -176,13 +183,13 @@ function MediaViewerContent({
           ) : null}
         </div>
 
-        <div {...barClick} className="flex h-12 shrink-0 justify-center">
-          {actions ? (
+        {actions ? (
+          <div {...barClick} className="flex h-12 shrink-0 justify-center">
             <div className="flex w-full max-w-[568px] items-center px-3 text-white [&_.text-muted:not(:hover)]:text-white [&>[role=group]]:mt-0 [&>[role=group]]:w-full">
               {actions}
             </div>
-          ) : null}
-        </div>
+          </div>
+        ) : null}
 
         <ViewerButton
           label="Close"

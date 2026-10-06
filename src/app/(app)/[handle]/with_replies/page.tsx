@@ -1,55 +1,52 @@
 import { Suspense } from "react";
 import { SpinnerRow } from "@/components/ui/spinner";
-import { notFound, redirect } from "next/navigation";
 import { routes } from "@/config/routes";
-import { getSession } from "@/features/auth/api/get-session";
-import { getProfile } from "@/features/profile/api/get-profile";
 import { getProfileReplies } from "@/features/profile/api/get-profile-replies";
-import { ProfileReplies } from "@/features/profile/components/profile-replies";
-import { ProfileNotFound } from "@/features/profile/components/profile-not-found";
-import { ProfileScreen } from "@/features/profile/components/profile-screen";
 import { toggleFollow } from "@/features/profile/api/toggle-follow";
-import { toggleBookmark } from "@/features/tweet/api/toggle-bookmark";
-import { toggleLike } from "@/features/tweet/api/toggle-like";
-import { toggleRetweet } from "@/features/tweet/api/toggle-retweet";
+import { ProfileEmptyState } from "@/features/profile/components/profile-empty-state";
+import { ProfileNotFound } from "@/features/profile/components/profile-not-found";
+import { ProfileReplies } from "@/features/profile/components/profile-replies";
+import { ProfileScreen } from "@/features/profile/components/profile-screen";
+import { loadProfile, tweetActions } from "@/app/(app)/[handle]/_lib/load-profile";
 
-const tweetActions = { toggleLike, toggleRetweet, toggleBookmark };
-
-async function Replies({
-  params,
-}: {
-  params: PageProps<"/[handle]/with_replies">["params"];
-}) {
+async function Replies({ params }: PageProps<"/[handle]/with_replies">) {
   const { handle } = await params;
-  const [profile, session, replies] = await Promise.all([
-    getProfile(handle),
-    getSession(),
-    getProfileReplies(handle),
-  ]);
-  if (!session) notFound();
-  if (!profile) return <ProfileNotFound />;
-  if (profile.handle !== handle) {
-    redirect(routes.profileReplies(profile.handle));
-  }
+  const loaded = await loadProfile(handle, routes.profileReplies);
+  if (!loaded) return <ProfileNotFound />;
+  const { profile, isViewer, postsVisible } = loaded;
+  const firstPage = postsVisible ? await getProfileReplies(profile.handle) : null;
 
   return (
     <ProfileScreen
       profile={profile}
-      isViewer={profile.id === session.user.id}
+      isViewer={isViewer}
       tab="replies"
       toggleFollow={toggleFollow}
     >
-      <ProfileReplies items={replies.items} actions={tweetActions} />
+      {firstPage ? (
+        <ProfileReplies
+          handle={profile.handle}
+          firstPage={firstPage}
+          actions={tweetActions}
+          empty={
+            <ProfileEmptyState
+              kind="replies"
+              handle={profile.handle}
+              isViewer={isViewer}
+            />
+          }
+        />
+      ) : null}
     </ProfileScreen>
   );
 }
 
-export default function ProfileRepliesPage({
-  params,
-}: PageProps<"/[handle]/with_replies">) {
+export default function ProfileRepliesPage(
+  props: PageProps<"/[handle]/with_replies">,
+) {
   return (
     <Suspense fallback={<SpinnerRow />}>
-      <Replies params={params} />
+      <Replies {...props} />
     </Suspense>
   );
 }

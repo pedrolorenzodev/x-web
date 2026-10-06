@@ -7,7 +7,17 @@ export type ListRecord = Omit<
 > & {
   ownerId: string;
   followerPreviewIds: string[];
+  pinnedAt?: string;
 };
+
+const TWITTER_EPOCH_MS = BigInt(1288834974657);
+let listSequence = BigInt(0);
+
+export function createListId() {
+  listSequence = (listSequence + BigInt(1)) % BigInt(4096);
+  const elapsed = BigInt(Date.now()) - TWITTER_EPOCH_MS;
+  return ((elapsed << BigInt(22)) + listSequence).toString();
+}
 
 export const mockLists: ListRecord[] = [
   {

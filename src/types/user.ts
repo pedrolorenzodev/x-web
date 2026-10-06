@@ -26,6 +26,13 @@ export type BirthDate = {
   day: number;
 };
 
+export type Visibility = "public" | "followers" | "following" | "mutual" | "self";
+
+export type BirthDateVisibility = {
+  monthDay: Visibility;
+  year: Visibility;
+};
+
 export type FollowedByPreview = {
   users: UserSummary[];
   total: number;
@@ -37,6 +44,7 @@ export type User = UserSummary & {
   location: string | null;
   website: UserWebsite | null;
   birthDate: BirthDate | null;
+  birthDateVisibility: BirthDateVisibility;
   professionalCategory: string | null;
   joinedAt: string;
   verifiedSince: string | null;

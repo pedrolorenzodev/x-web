@@ -8,12 +8,7 @@ export async function getDiscoverLists(limit = 3): Promise<List[]> {
   const viewer = await getMockViewer();
 
   return mockLists
-    .filter(
-      (record) =>
-        !record.private &&
-        record.ownerId !== viewer?.id &&
-        !record.followedByViewer,
-    )
+    .filter((record) => !record.private && record.ownerId !== viewer?.id)
     .sort((a, b) => b.followerCount - a.followerCount)
     .slice(0, limit)
     .flatMap((record) => toList(record) ?? []);

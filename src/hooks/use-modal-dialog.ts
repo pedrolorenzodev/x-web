@@ -5,8 +5,14 @@ import {
   useState,
   type RefObject,
 } from "react";
-import { useEscapeToClose } from "@/hooks/use-escape-to-close";
 import { trapFocus } from "@/utils/trap-focus";
+
+const openDialogs: HTMLElement[] = [];
+let savedRootStyle = { overflow: "", scrollbarGutter: "" };
+
+function isTopDialog(dialog: HTMLElement) {
+  return openDialogs[openDialogs.length - 1] === dialog;
+}
 
 type ModalDialogOptions = {
   onEscape: () => void;
@@ -27,14 +33,19 @@ export function useModalDialog(
     else if (!dialog.contains(document.activeElement)) dialog.focus();
   });
 
-  useEscapeToClose(true, onEscape);
+  const escape = useEffectEvent(onEscape);
 
   useEffect(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
 
     function onKeyDown(event: KeyboardEvent) {
-      if (event.key === "Tab" && dialog) trapFocus(event, dialog);
+      if (!dialog || !isTopDialog(dialog)) return;
+      if (event.key === "Tab") trapFocus(event, dialog);
+      if (event.key === "Escape" && !event.defaultPrevented) {
+        event.preventDefault();
+        escape();
+      }
     }
 
     const active = document.activeElement;
@@ -46,15 +57,24 @@ export function useModalDialog(
     const returnFocus = returnFocusRef.current;
 
     const root = document.documentElement;
-    const { overflow, scrollbarGutter } = root.style;
+    if (openDialogs.length === 0) {
+      savedRootStyle = {
+        overflow: root.style.overflow,
+        scrollbarGutter: root.style.scrollbarGutter,
+      };
+    }
     root.style.scrollbarGutter = "stable";
     root.style.overflow = "hidden";
+    openDialogs.push(dialog);
     moveFocusIn(dialog);
     document.addEventListener("keydown", onKeyDown);
 
     return () => {
-      root.style.overflow = overflow;
-      root.style.scrollbarGutter = scrollbarGutter;
+      openDialogs.splice(openDialogs.indexOf(dialog), 1);
+      if (openDialogs.length === 0) {
+        root.style.overflow = savedRootStyle.overflow;
+        root.style.scrollbarGutter = savedRootStyle.scrollbarGutter;
+      }
       document.removeEventListener("keydown", onKeyDown);
       if (
         restoreFocusOnUnmount &&

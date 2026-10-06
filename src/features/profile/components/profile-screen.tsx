@@ -1,17 +1,22 @@
 import type { ReactNode } from "react";
 import type { ToggleFollow, User } from "@/types/user";
-import { PageHeader } from "@/components/layout/page-header";
+import { ProfileAppBar } from "@/features/profile/components/profile-app-bar";
+import { ProtectedPostsState } from "@/features/profile/components/profile-empty-state";
 import { ProfileHeader } from "@/features/profile/components/profile-header";
-import {
-  ProfileTabs,
-  type ProfileTab,
-} from "@/features/profile/components/profile-tabs";
-import { formatProfileCount } from "@/utils/format-profile-count";
+import { ProfileTabs } from "@/features/profile/components/profile-tabs";
+import type {
+  ProfileMediaFilter,
+  ProfileSort,
+  ProfileTab,
+} from "@/features/profile/types/profile-tab";
+import { canViewPosts } from "@/features/profile/utils/can-view-posts";
 
 type ProfileScreenProps = {
   profile: User;
   isViewer: boolean;
   tab: ProfileTab;
+  sort?: ProfileSort;
+  mediaFilter?: ProfileMediaFilter;
   toggleFollow: ToggleFollow;
   children: ReactNode;
 };
@@ -20,24 +25,38 @@ export function ProfileScreen({
   profile,
   isViewer,
   tab,
+  sort = "recent",
+  mediaFilter = "video",
   toggleFollow,
   children,
 }: ProfileScreenProps) {
-  const posts = profile.postsCount === 1 ? "post" : "posts";
+  const visible = canViewPosts(profile, isViewer);
 
   return (
     <>
-      <PageHeader
-        title={profile.displayName}
-        subtitle={`${formatProfileCount(profile.postsCount)} ${posts}`}
+      <ProfileAppBar
+        profile={profile}
+        isViewer={isViewer}
+        media={visible && tab === "media"}
       />
       <ProfileHeader
         profile={profile}
         isViewer={isViewer}
         toggleFollow={toggleFollow}
       />
-      <ProfileTabs handle={profile.handle} active={tab} />
-      <div className="pb-[200px]">{children}</div>
+      {visible ? (
+        <>
+          <ProfileTabs
+            handle={profile.handle}
+            active={tab}
+            sort={sort}
+            mediaFilter={mediaFilter}
+          />
+          <div className="pb-[200px]">{children}</div>
+        </>
+      ) : (
+        <ProtectedPostsState handle={profile.handle} />
+      )}
     </>
   );
 }

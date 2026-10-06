@@ -1,6 +1,12 @@
 import type { TimelineItem } from "@/types/tweet";
-import type { TimelineKind } from "@/features/feed/types/timeline-kind";
+import {
+  isListTimelineKind,
+  listIdOf,
+  type ListTimelineKind,
+  type TimelineKind,
+} from "@/features/feed/types/timeline-kind";
 import { findUserById, toSummary } from "@/mocks/users";
+import { mockListMembers } from "@/mocks/lists";
 import {
   byNewest,
   mockRetweets,
@@ -9,13 +15,40 @@ import {
   type TweetRecord,
 } from "@/mocks/tweets";
 import { rankForYou } from "@/features/feed/utils/rank-for-you";
+import { findPinnedList } from "@/features/feed/api/find-pinned-list";
 
 const POPULAR_MIN_LIKES = 50;
+
+function buildListItems(
+  kind: ListTimelineKind,
+  viewerId: string | null,
+): TimelineItem[] {
+  const listId = listIdOf(kind);
+  if (!findPinnedList(listId, viewerId)) return [];
+
+  const memberIds = new Set(
+    mockListMembers
+      .filter((member) => member.listId === listId)
+      .map((member) => member.userId),
+  );
+
+  return mockTweets
+    .filter(
+      (record) => record.replyToId === null && memberIds.has(record.authorId),
+    )
+    .sort(byNewest)
+    .flatMap((record) => {
+      const tweet = toTweet(record);
+      return tweet ? [{ tweet, retweetedBy: null }] : [];
+    });
+}
 
 export function buildTimelineItems(
   kind: TimelineKind,
   viewerId: string | null,
 ): TimelineItem[] {
+  if (isListTimelineKind(kind)) return buildListItems(kind, viewerId);
+
   const isFollowedOrViewer = (userId: string) =>
     userId === viewerId || Boolean(findUserById(userId)?.followedByViewer);
 

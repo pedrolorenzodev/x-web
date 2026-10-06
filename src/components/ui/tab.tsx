@@ -7,6 +7,7 @@ type TabProps = {
   active?: boolean;
   href?: string;
   icon?: ReactNode;
+  leadingIcon?: ReactNode;
   onClick?: () => void;
 };
 
@@ -18,6 +19,7 @@ export function Tab({
   active = false,
   href,
   icon,
+  leadingIcon,
   onClick,
 }: TabProps) {
   const content = (
@@ -27,6 +29,7 @@ export function Tab({
         active ? "font-bold" : "font-medium text-muted",
       )}
     >
+      {leadingIcon ? <span className="mr-2 flex">{leadingIcon}</span> : null}
       {label}
       {icon ? <>&nbsp;{icon}</> : null}
       {active ? (

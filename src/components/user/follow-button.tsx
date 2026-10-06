@@ -1,8 +1,14 @@
 "use client";
 
-import { startTransition, useOptimistic } from "react";
+import {
+  startTransition,
+  useOptimistic,
+  useState,
+  type SyntheticEvent,
+} from "react";
 import type { ToggleFollow } from "@/types/user";
 import { Button } from "@/components/ui/button";
+import { ConfirmSheet } from "@/components/ui/confirm-sheet";
 import { cn } from "@/lib/utils";
 
 type FollowButtonProps = {
@@ -14,6 +20,10 @@ type FollowButtonProps = {
   className?: string;
 };
 
+function stopPropagation(event: SyntheticEvent) {
+  event.stopPropagation();
+}
+
 export function FollowButton({
   userId,
   handle,
@@ -23,6 +33,7 @@ export function FollowButton({
   className,
 }: FollowButtonProps) {
   const [optimisticFollowing, setOptimisticFollowing] = useOptimistic(following);
+  const [confirming, setConfirming] = useState(false);
 
   function toggle() {
     startTransition(async () => {
@@ -31,12 +42,18 @@ export function FollowButton({
     });
   }
 
+  function confirmUnfollow() {
+    setConfirming(false);
+    toggle();
+  }
+
   if (!optimisticFollowing) {
     return (
       <Button
         size={size}
         aria-label={`Follow @${handle}`}
         onClick={toggle}
+        onPointerDown={stopPropagation}
         className={cn("relative shrink-0", className)}
       >
         Follow
@@ -45,24 +62,42 @@ export function FollowButton({
   }
 
   return (
-    <Button
-      size={size}
-      variant="outline"
-      aria-label={`Following @${handle}`}
-      onClick={toggle}
-      className={cn(
-        "group/follow relative shrink-0 duration-200 ease-[ease] hover:border-danger-border hover:bg-danger/10 hover:text-danger",
-        className,
-      )}
-    >
-      <span className="grid">
-        <span className="col-start-1 row-start-1 group-hover/follow:invisible">
-          Following
+    <>
+      <Button
+        size={size}
+        variant="outline"
+        aria-label={`Following @${handle}`}
+        onClick={() => setConfirming(true)}
+        onPointerDown={stopPropagation}
+        className={cn(
+          "group/follow relative shrink-0 border-outline duration-200 ease-[ease] hover:border-danger-border hover:bg-danger/10 hover:text-danger",
+          className,
+        )}
+      >
+        <span className="grid">
+          <span className="col-start-1 row-start-1 group-hover/follow:invisible">
+            Following
+          </span>
+          <span className="invisible col-start-1 row-start-1 group-hover/follow:visible">
+            Unfollow
+          </span>
         </span>
-        <span className="invisible col-start-1 row-start-1 group-hover/follow:visible">
-          Unfollow
+      </Button>
+      {confirming ? (
+        <span
+          className="contents"
+          onClick={stopPropagation}
+          onPointerDown={stopPropagation}
+        >
+          <ConfirmSheet
+            title={`Unfollow @${handle}?`}
+            body="Their posts will no longer show up in your Following timeline. You can still view their profile, unless their posts are protected."
+            confirmLabel="Unfollow"
+            onConfirm={confirmUnfollow}
+            onCancel={() => setConfirming(false)}
+          />
         </span>
-      </span>
-    </Button>
+      ) : null}
+    </>
   );
 }

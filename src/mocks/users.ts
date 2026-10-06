@@ -8,6 +8,7 @@ type ProfileDefaults = Pick<
   | "location"
   | "website"
   | "birthDate"
+  | "birthDateVisibility"
   | "professionalCategory"
   | "verifiedSince"
   | "mediaCount"
@@ -1888,6 +1889,16 @@ export const mockUsers: UserRecord[] = [
     followedByViewer: true,
     followsViewer: true,
     location: "Rosario, Argentina",
+    professionalCategory: "Software Engineer",
+    birthDate: {
+      year: 1996,
+      month: 3,
+      day: 4,
+    },
+    birthDateVisibility: {
+      monthDay: "public",
+      year: "self",
+    },
   },
   {
     id: "9100000000000000003",
@@ -1990,6 +2001,10 @@ export function toUser(
     location: user.location ?? null,
     website: user.website ?? null,
     birthDate: user.birthDate ?? null,
+    birthDateVisibility: user.birthDateVisibility ?? {
+      monthDay: "self",
+      year: "self",
+    },
     professionalCategory: user.professionalCategory ?? null,
     joinedAt: user.joinedAt,
     verifiedSince: user.verifiedSince ?? null,

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useSyncExternalStore, type ReactNode } from "react";
+import { useEffect, useRef, useSyncExternalStore, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { BackIcon, CloseIcon } from "@/components/ui/icons";
 import { IconButton } from "@/components/ui/icon-button";
@@ -43,6 +43,8 @@ const sizes: Record<ModalSize, string> = {
 
 const subscribeToNothing = () => () => {};
 
+export const MODAL_EVENT = "x-web:modal";
+
 export function Modal(props: ModalProps) {
   const isClient = useSyncExternalStore(
     subscribeToNothing,
@@ -69,6 +71,13 @@ function ModalContent({
 }: ModalProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const pressedMask = useRef(false);
+
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent(MODAL_EVENT, { detail: "open" }));
+    return () => {
+      window.dispatchEvent(new CustomEvent(MODAL_EVENT, { detail: "close" }));
+    };
+  }, []);
 
   useModalDialog(dialogRef, {
     onEscape: onClose,

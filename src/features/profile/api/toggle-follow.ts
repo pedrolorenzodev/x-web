@@ -10,6 +10,7 @@ export async function toggleFollow(userId: string) {
   if (!user || !viewer || user.id === viewer.id) return;
 
   user.followedByViewer = !user.followedByViewer;
+  if (!user.followedByViewer) user.notificationsOn = false;
   const delta = user.followedByViewer ? 1 : -1;
   user.followersCount += delta;
   viewer.followingCount += delta;

@@ -9,6 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import { createPortal } from "react-dom";
+import { MODAL_EVENT } from "@/components/ui/modal";
 import {
   placeBelowCentered,
   type FloatingPosition,
@@ -35,6 +36,7 @@ export function HoverCard({
   const openTimer = useRef<number | undefined>(undefined);
   const closeTimer = useRef<number | undefined>(undefined);
   const [anchor, setAnchor] = useState<DOMRect | null>(null);
+  const [covered, setCovered] = useState(false);
 
   function clearTimers() {
     window.clearTimeout(openTimer.current);
@@ -52,6 +54,7 @@ export function HoverCard({
   }
 
   function scheduleClose() {
+    if (covered) return;
     clearTimers();
     closeTimer.current = window.setTimeout(() => setAnchor(null), CLOSE_DELAY);
   }
@@ -65,6 +68,22 @@ export function HoverCard({
 
   useEffect(() => {
     if (!anchor) return;
+    function onModal(event: Event) {
+      const state = (event as CustomEvent<"open" | "close">).detail;
+      clearTimers();
+      if (state === "open") {
+        setCovered(true);
+      } else {
+        setCovered(false);
+        setAnchor(null);
+      }
+    }
+    window.addEventListener(MODAL_EVENT, onModal);
+    return () => window.removeEventListener(MODAL_EVENT, onModal);
+  }, [anchor]);
+
+  useEffect(() => {
+    if (!anchor || covered) return;
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") setAnchor(null);
     }
@@ -77,7 +96,7 @@ export function HoverCard({
       document.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("scroll", onScroll);
     };
-  }, [anchor]);
+  }, [anchor, covered]);
 
   return (
     <span
@@ -92,6 +111,7 @@ export function HoverCard({
         <HoverCardPanel
           anchor={anchor}
           label={label}
+          hidden={covered}
           onPointerEnter={clearTimers}
           onPointerLeave={scheduleClose}
         >
@@ -105,6 +125,7 @@ export function HoverCard({
 type HoverCardPanelProps = {
   anchor: DOMRect;
   label: string;
+  hidden: boolean;
   onPointerEnter: () => void;
   onPointerLeave: () => void;
   children: ReactNode;
@@ -113,6 +134,7 @@ type HoverCardPanelProps = {
 function HoverCardPanel({
   anchor,
   label,
+  hidden,
   onPointerEnter,
   onPointerLeave,
   children,
@@ -148,9 +170,13 @@ function HoverCardPanel({
       onPointerLeave={onPointerLeave}
       onClick={(event) => event.stopPropagation()}
       style={
-        position
+        position && !hidden
           ? { top: position.top, left: position.left }
-          : { top: 0, left: 0, visibility: "hidden" }
+          : {
+              top: position?.top ?? 0,
+              left: position?.left ?? 0,
+              visibility: "hidden",
+            }
       }
       className="t-hover-card fixed z-70 w-[300px] rounded-2xl bg-elevated p-4 text-left shadow-menu"
     >

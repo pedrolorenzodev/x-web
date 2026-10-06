@@ -1,3 +1,5 @@
+"use server";
+
 import { connection } from "next/server";
 import type { Page } from "@/types/pagination";
 import type { ProfileReply } from "@/features/profile/types/profile-reply";
@@ -10,6 +12,7 @@ const PAGE_SIZE = 20;
 export async function getProfileReplies(
   handle: string,
   cursor: string | null = null,
+  limit = PAGE_SIZE,
 ): Promise<Page<ProfileReply>> {
   await connection();
 
@@ -33,5 +36,5 @@ export async function getProfileReplies(
       return [{ parent, reply }];
     });
 
-  return paginate(items, cursor, PAGE_SIZE, (item) => item.reply.id);
+  return paginate(items, cursor, limit, (item) => item.reply.id);
 }

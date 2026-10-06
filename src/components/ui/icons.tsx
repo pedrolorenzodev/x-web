@@ -1156,3 +1156,27 @@ export function NotInterestedIcon(props: IconProps) {
     </Icon>
   );
 }
+
+export function BalloonIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M8 10c0-2.21 1.79-4 4-4v2c-1.1 0-2 .9-2 2H8zm12 1c0 4.27-2.69 8.01-6.44 8.83L15 22H9l1.45-2.17C6.7 19.01 4 15.27 4 11c0-4.84 3.46-9 8-9s8 4.16 8 9zm-8 7c3.19 0 6-3 6-7s-2.81-7-6-7-6 3-6 7 2.81 7 6 7z" />
+    </Icon>
+  );
+}
+
+export function ClockIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M12 3.75c-4.55 0-8.25 3.69-8.25 8.25s3.7 8.25 8.25 8.25 8.25-3.69 8.25-8.25S16.56 3.75 12 3.75zM1.75 12C1.75 6.34 6.34 1.75 12 1.75S22.25 6.34 22.25 12 17.66 22.25 12 22.25 1.75 17.66 1.75 12zM11 6h2v5.28l3.82 1.27-.63 1.9L11 12.72V6z" />
+    </Icon>
+  );
+}
+
+export function PinMinusIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M12 22.25c5.66 0 10.25-4.59 10.25-10.25S17.66 1.75 12 1.75 1.75 6.34 1.75 12 6.34 22.25 12 22.25zM8 11h8v2H8v-2z" />
+    </Icon>
+  );
+}
