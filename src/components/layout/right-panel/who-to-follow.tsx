@@ -14,12 +14,14 @@ type WhoToFollowProps = {
   suggestions: User[];
   toggleFollow: ToggleFollow;
   title?: string;
+  similarToId?: string;
 };
 
 export function WhoToFollow({
   suggestions,
   toggleFollow,
   title = "Who to follow",
+  similarToId,
 }: WhoToFollowProps) {
   return (
     <section className={card}>
@@ -52,7 +54,14 @@ export function WhoToFollow({
           />
         </div>
       ))}
-      <Link href={routes.connectPeople} className={`${showMore} ${row}`}>
+      <Link
+        href={
+          similarToId
+            ? routes.connectPeopleSimilarTo(similarToId)
+            : routes.connectPeople
+        }
+        className={`${showMore} ${row}`}
+      >
         Show more
       </Link>
     </section>

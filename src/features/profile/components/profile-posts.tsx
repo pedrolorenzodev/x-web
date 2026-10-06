@@ -9,6 +9,7 @@ const MODULE_AFTER = 5;
 type ProfilePostsProps = {
   items: TimelineItem[];
   suggestions: User[];
+  profileId: string;
   viewerId: string;
   actions: TweetActions;
   toggleFollow: ToggleFollow;
@@ -17,6 +18,7 @@ type ProfilePostsProps = {
 export function ProfilePosts({
   items,
   suggestions,
+  profileId,
   viewerId,
   actions,
   toggleFollow,
@@ -27,6 +29,7 @@ export function ProfilePosts({
       <WhoToFollowModule
         users={suggestions}
         viewerId={viewerId}
+        similarToId={profileId}
         toggleFollow={toggleFollow}
       />
     ) : null;

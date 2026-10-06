@@ -43,6 +43,7 @@ async function Profile({ params }: { params: PageProps<"/[handle]">["params"] })
       <ProfilePosts
         items={posts.items}
         suggestions={suggestions}
+        profileId={profile.id}
         viewerId={session.user.id}
         actions={tweetActions}
         toggleFollow={toggleFollow}

@@ -1,3 +1,5 @@
+"use server";
+
 import { connection } from "next/server";
 import type { Notification, NotificationTab } from "@/types/notification";
 import type { Page } from "@/types/pagination";
@@ -12,6 +14,7 @@ const MENTION_TYPES = new Set(["mention", "reply", "quote"]);
 export async function getNotifications(
   tab: NotificationTab = "all",
   cursor: string | null = null,
+  limit = PAGE_SIZE,
 ): Promise<Page<Notification>> {
   await connection();
   const viewer = await getMockViewer();
@@ -21,10 +24,10 @@ export async function getNotifications(
     .filter(
       (record) =>
         record.recipientId === viewer.id &&
-        (tab === "all" || MENTION_TYPES.has(record.type)),
+        (tab !== "mentions" || MENTION_TYPES.has(record.type)),
     )
     .sort(byNewest)
     .flatMap((record) => toNotification(record) ?? []);
 
-  return paginate(items, cursor, PAGE_SIZE, (item) => item.id);
+  return paginate(items, cursor, limit, (item) => item.id);
 }

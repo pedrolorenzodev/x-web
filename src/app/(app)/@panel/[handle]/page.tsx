@@ -20,6 +20,7 @@ async function YouMightLike({
       suggestions={suggestions}
       toggleFollow={toggleFollow}
       title="You might like"
+      similarToId={profile?.id}
     />
   );
 }

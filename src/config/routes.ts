@@ -11,7 +11,12 @@ export const routes = {
   explore: "/explore",
   search: "/search",
   notifications: "/notifications",
+  notificationsMentions: "/notifications/mentions",
+  notificationsSettings: "/settings/notifications",
+  settingsSessions: "/settings/sessions",
   connectPeople: "/i/connect_people",
+  connectPeopleSimilarTo: (userId: string) =>
+    `/i/connect_people?user_id=${userId}`,
   chat: "/i/chat",
   grok: "/i/grok",
   history: "/i/history",

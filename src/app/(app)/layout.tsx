@@ -11,6 +11,15 @@ import { toggleFollow } from "@/features/profile/api/toggle-follow";
 import { getSession } from "@/features/auth/api/get-session";
 import { routes } from "@/config/routes";
 import { getUnreadNotificationCount } from "@/features/notifications/api/get-unread-notification-count";
+import { SearchServicesProvider } from "@/components/search/search-services-context";
+import { getTypeahead } from "@/features/search/api/get-typeahead";
+import {
+  clearRecentSearches,
+  getRecentSearches,
+  removeRecentSearch,
+  saveRecentQuery,
+  saveRecentUser,
+} from "@/features/search/api/recent-searches";
 
 export const instant = false;
 
@@ -37,6 +46,14 @@ export default async function AppLayout({
         deleteTweet={deleteTweet}
         togglePinTweet={togglePinTweet}
       >
+      <SearchServicesProvider
+        getTypeahead={getTypeahead}
+        getRecentSearches={getRecentSearches}
+        saveRecentQuery={saveRecentQuery}
+        saveRecentUser={saveRecentUser}
+        removeRecentSearch={removeRecentSearch}
+        clearRecentSearches={clearRecentSearches}
+      >
       <AppShell
         sidebar={
           <Sidebar
@@ -49,6 +66,7 @@ export default async function AppLayout({
       >
         {children}
       </AppShell>
+      </SearchServicesProvider>
       </TweetServicesProvider>
     </UserCardProvider>
   );

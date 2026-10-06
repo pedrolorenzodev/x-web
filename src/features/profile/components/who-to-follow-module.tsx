@@ -1,15 +1,19 @@
+import Link from "next/link";
 import type { ToggleFollow, User } from "@/types/user";
+import { routes } from "@/config/routes";
 import { UserCell } from "@/components/user/user-cell";
 
 type WhoToFollowModuleProps = {
   users: User[];
   viewerId: string;
+  similarToId: string;
   toggleFollow: ToggleFollow;
 };
 
 export function WhoToFollowModule({
   users,
   viewerId,
+  similarToId,
   toggleFollow,
 }: WhoToFollowModuleProps) {
   return (
@@ -23,12 +27,12 @@ export function WhoToFollowModule({
           toggleFollow={toggleFollow}
         />
       ))}
-      <button
-        type="button"
+      <Link
+        href={routes.connectPeopleSimilarTo(similarToId)}
         className="flex h-13 w-full items-center px-4 text-base text-accent transition-colors duration-200 ease-[ease] hover:bg-white/3"
       >
         Show more
-      </button>
+      </Link>
     </section>
   );
 }

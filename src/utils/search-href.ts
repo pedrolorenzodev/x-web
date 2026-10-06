@@ -1,4 +1,9 @@
-type SearchSource = "typed_query" | "trend_click" | "hashtag_click";
+export type SearchSource =
+  | "typed_query"
+  | "trend_click"
+  | "hashtag_click"
+  | "typeahead_click"
+  | "recent_search_click";
 
 export function searchHref(query: string, src: SearchSource = "typed_query") {
   const params = new URLSearchParams({ q: query, src });

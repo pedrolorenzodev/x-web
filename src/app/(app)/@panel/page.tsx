@@ -6,11 +6,21 @@ import { PremiumCard } from "@/components/layout/right-panel/premium-card";
 import { WhoToFollow } from "@/components/layout/right-panel/who-to-follow";
 import { getSuggestedUsers } from "@/features/profile/api/get-suggested-users";
 import { toggleFollow } from "@/features/profile/api/toggle-follow";
+import { getSession } from "@/features/auth/api/get-session";
 
 async function Suggestions() {
-  const suggestions = await getSuggestedUsers();
+  const [suggestions, session] = await Promise.all([
+    getSuggestedUsers(),
+    getSession(),
+  ]);
 
-  return <WhoToFollow suggestions={suggestions} toggleFollow={toggleFollow} />;
+  return (
+    <WhoToFollow
+      suggestions={suggestions}
+      toggleFollow={toggleFollow}
+      similarToId={session?.user.id}
+    />
+  );
 }
 
 export default function HomePanel() {
