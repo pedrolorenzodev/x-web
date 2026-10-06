@@ -8,6 +8,8 @@ import { Composer } from "@/features/compose/components/composer";
 import { getSession } from "@/features/auth/api/get-session";
 import { routes } from "@/config/routes";
 import { getTimeline } from "@/features/feed/api/get-timeline";
+import { getTimelineKind } from "@/features/feed/api/get-timeline-kind";
+import { TimelineTabsProvider } from "@/features/feed/components/timeline-tabs-provider";
 import { toggleLike } from "@/features/tweet/api/toggle-like";
 import { toggleRetweet } from "@/features/tweet/api/toggle-retweet";
 import { toggleBookmark } from "@/features/tweet/api/toggle-bookmark";
@@ -18,10 +20,24 @@ export const metadata: Metadata = {
 
 const tweetActions = { toggleLike, toggleRetweet, toggleBookmark };
 
-async function Timeline() {
-  const firstPage = await getTimeline();
+async function Header() {
+  const kind = await getTimelineKind();
 
-  return <TimelineFeed firstPage={firstPage} actions={tweetActions} />;
+  return <TimelineHeader kind={kind} />;
+}
+
+async function Timeline() {
+  const kind = await getTimelineKind();
+  const firstPage = await getTimeline(kind);
+
+  return (
+    <TimelineFeed
+      key={kind}
+      kind={kind}
+      firstPage={firstPage}
+      actions={tweetActions}
+    />
+  );
 }
 
 async function ViewerComposer() {
@@ -33,8 +49,10 @@ async function ViewerComposer() {
 
 export default function HomePage() {
   return (
-    <>
-      <TimelineHeader />
+    <TimelineTabsProvider>
+      <Suspense fallback={<TimelineHeader kind={null} />}>
+        <Header />
+      </Suspense>
       <Suspense fallback={null}>
         <ViewerComposer />
       </Suspense>
@@ -43,6 +61,6 @@ export default function HomePage() {
           <Timeline />
         </Suspense>
       </div>
-    </>
+    </TimelineTabsProvider>
   );
 }

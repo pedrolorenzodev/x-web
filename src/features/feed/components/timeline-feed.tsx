@@ -6,15 +6,28 @@ import type { TimelineItem, TweetActions } from "@/types/tweet";
 import { getTimeline } from "@/features/feed/api/get-timeline";
 import { TweetCard } from "@/components/tweet/tweet-card";
 import { SpinnerRow } from "@/components/ui/spinner";
+import type { TimelineKind } from "@/features/feed/types/timeline-kind";
+import { useTimelineTabs } from "@/features/feed/components/timeline-tabs-provider";
 
 type TimelineFeedProps = {
+  kind: TimelineKind;
   firstPage: Page<TimelineItem>;
   actions: TweetActions;
 };
 
 const emptyPage: Page<TimelineItem> = { items: [], nextCursor: null };
 
-export function TimelineFeed({ firstPage, actions }: TimelineFeedProps) {
+export function TimelineFeed(props: TimelineFeedProps) {
+  const { pending, generation } = useTimelineTabs();
+
+  if (pending && pending.kind !== props.kind) {
+    return <SpinnerRow label="Loading timeline" />;
+  }
+
+  return <TimelineFeedList key={generation} {...props} />;
+}
+
+function TimelineFeedList({ kind, firstPage, actions }: TimelineFeedProps) {
   const [rest, setRest] = useState(emptyPage);
   const latest = useRef({ firstPage, rest });
   const loading = useRef(false);
@@ -31,10 +44,10 @@ export function TimelineFeed({ firstPage, actions }: TimelineFeedProps) {
     if (!rest.items.length) return;
 
     const page = firstPage.nextCursor
-      ? await getTimeline(firstPage.nextCursor, rest.items.length)
+      ? await getTimeline(kind, firstPage.nextCursor, rest.items.length)
       : emptyPage;
     startTransition(() => setRest(page));
-  }, []);
+  }, [kind]);
 
   const loadMore = useCallback(async () => {
     const { firstPage, rest } = latest.current;
@@ -42,13 +55,13 @@ export function TimelineFeed({ firstPage, actions }: TimelineFeedProps) {
     if (loading.current || !cursor) return;
 
     loading.current = true;
-    const page = await getTimeline(cursor);
+    const page = await getTimeline(kind, cursor);
     setRest((current) => ({
       items: [...current.items, ...page.items],
       nextCursor: page.nextCursor,
     }));
     loading.current = false;
-  }, []);
+  }, [kind]);
 
   useEffect(() => {
     reloadRest();

@@ -82,6 +82,7 @@ export type TimelineItem = {
 export type NewTweetInput = {
   text: string;
   replyToId: string | null;
+  quotedId?: string | null;
 };
 
 export type TweetActions = {

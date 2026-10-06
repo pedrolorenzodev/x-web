@@ -7,12 +7,19 @@ type TabProps = {
   active?: boolean;
   href?: string;
   icon?: ReactNode;
+  onClick?: () => void;
 };
 
 const tab =
   "flex h-[53px] flex-auto justify-center px-4 transition-colors duration-200 ease-[ease] hover:bg-foreground/10";
 
-export function Tab({ label, active = false, href, icon }: TabProps) {
+export function Tab({
+  label,
+  active = false,
+  href,
+  icon,
+  onClick,
+}: TabProps) {
   const content = (
     <span
       className={cn(
@@ -37,7 +44,13 @@ export function Tab({ label, active = false, href, icon }: TabProps) {
   }
 
   return (
-    <button type="button" role="tab" aria-selected={active} className={tab}>
+    <button
+      type="button"
+      role="tab"
+      aria-selected={active}
+      onClick={onClick}
+      className={tab}
+    >
       {content}
     </button>
   );

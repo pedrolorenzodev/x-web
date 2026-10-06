@@ -7,14 +7,21 @@ import {
   useRouteModalClose,
   type RouteModalDismiss,
 } from "@/hooks/use-route-modal-close";
+import type { ComposeTarget } from "@/features/compose/types/compose-target";
 import { Composer } from "@/features/compose/components/composer";
+import { ReplyParent } from "@/features/compose/components/reply-parent";
 
 type ComposeModalProps = {
   viewer: UserSummary;
   dismiss: RouteModalDismiss;
+  target?: ComposeTarget | null;
 };
 
-export function ComposeModal({ viewer, dismiss }: ComposeModalProps) {
+export function ComposeModal({
+  viewer,
+  dismiss,
+  target = null,
+}: ComposeModalProps) {
   const closeRoute = useRouteModalClose(dismiss);
   const bodyRef = useRef<HTMLDivElement>(null);
   const [draft, setDraft] = useState(0);
@@ -45,10 +52,12 @@ export function ComposeModal({ viewer, dismiss }: ComposeModalProps) {
         }
       />
       <div ref={bodyRef} className="overflow-y-auto">
+        {target?.kind === "reply" ? <ReplyParent tweet={target.tweet} /> : null}
         <Composer
           key={draft}
           viewer={viewer}
           variant="modal"
+          target={target}
           onPublished={close}
         />
       </div>

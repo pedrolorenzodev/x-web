@@ -11,21 +11,27 @@ type CreatedTweet = {
   handle: string;
 };
 
+function findRecord(id: string | null | undefined) {
+  return id ? mockTweets.find((item) => item.id === id) : undefined;
+}
+
 export async function createTweet({
   text,
   replyToId,
+  quotedId = null,
 }: NewTweetInput): Promise<CreatedTweet> {
   const viewer = await getMockViewer();
   const body = text.trim();
   if (!viewer) throw new Error("No viewer session");
-  if (!body || [...body].length > MAX_TWEET_LENGTH) {
+  if ((!body && !quotedId) || [...body].length > MAX_TWEET_LENGTH) {
     throw new Error("Invalid tweet length");
   }
 
-  const parent = replyToId
-    ? mockTweets.find((item) => item.id === replyToId)
-    : null;
+  const parent = findRecord(replyToId);
   if (replyToId && !parent) throw new Error("Parent tweet not found");
+
+  const quoted = findRecord(quotedId);
+  if (quotedId && !quoted) throw new Error("Quoted tweet not found");
 
   const id = `t${Date.now()}`;
   mockTweets.push({
@@ -35,7 +41,7 @@ export async function createTweet({
     media: [],
     createdAt: new Date().toISOString(),
     replyToId: parent?.id ?? null,
-    quotedId: null,
+    quotedId: quoted?.id ?? null,
     stats: {
       replies: 0,
       retweets: 0,
@@ -50,6 +56,7 @@ export async function createTweet({
   });
 
   if (parent) parent.stats.replies += 1;
+  if (quoted) quoted.stats.quotes += 1;
   viewer.postsCount += 1;
 
   refresh();

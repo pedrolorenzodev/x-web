@@ -6,6 +6,8 @@ export const routes = {
   landing: "/i/landing",
   expiredSession: "/i/session-expired",
   composePost: "/compose/post",
+  composeReply: (tweetId: string) => `/compose/post?in_reply_to=${tweetId}`,
+  composeQuote: (tweetId: string) => `/compose/post?quote=${tweetId}`,
   explore: "/explore",
   search: "/search",
   notifications: "/notifications",
@@ -24,4 +26,10 @@ export const routes = {
   lists: (handle: string) => `/${handle}/lists`,
   communities: (handle: string) => `/${handle}/communities`,
   tweet: (handle: string, id: string) => `/${handle}/status/${id}`,
+  tweetPhoto: (handle: string, id: string, index: number) =>
+    `/${handle}/status/${id}/photo/${index}`,
+  tweetQuotes: (handle: string, id: string) => `/${handle}/status/${id}/quotes`,
+  tweetRetweets: (handle: string, id: string) =>
+    `/${handle}/status/${id}/retweets`,
+  tweetLikes: (handle: string, id: string) => `/${handle}/status/${id}/likes`,
 } as const;

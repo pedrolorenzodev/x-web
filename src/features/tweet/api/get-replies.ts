@@ -9,6 +9,7 @@ const PAGE_SIZE = 20;
 export async function getReplies(
   tweetId: string,
   cursor: string | null = null,
+  limit = PAGE_SIZE,
 ): Promise<Page<Tweet>> {
   await connection();
 
@@ -20,5 +21,5 @@ export async function getReplies(
       return tweet ? [tweet] : [];
     });
 
-  return paginate(replies, cursor, PAGE_SIZE, (tweet) => tweet.id);
+  return paginate(replies, cursor, limit, (tweet) => tweet.id);
 }

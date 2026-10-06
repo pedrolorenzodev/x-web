@@ -1,15 +1,14 @@
 "use client";
 
 import type { MouseEvent } from "react";
-import { QuoteIcon, RetweetIcon } from "@/components/ui/icons";
+import { QuotePencilIcon, RetweetIcon } from "@/components/ui/icons";
 import {
   DropdownMenu,
-  menuItem,
+  MenuItem,
   placeOverAnchor,
   type MenuPlacement,
 } from "@/components/ui/dropdown-menu";
 import type { DropdownMenuController } from "@/hooks/use-dropdown-menu";
-import { cn } from "@/lib/utils";
 
 const MENU_SIZE = { width: 200, height: 112 };
 
@@ -22,13 +21,19 @@ export function placeRepostMenu(anchor: DOMRect): RepostMenuPlacement {
 type RepostMenuProps = {
   menu: DropdownMenuController<RepostMenuPlacement>;
   retweeted: boolean;
+  quoteHref: string;
   onRepost: () => void;
 };
 
-export function RepostMenu({ menu, retweeted, onRepost }: RepostMenuProps) {
+export function RepostMenu({
+  menu,
+  retweeted,
+  quoteHref,
+  onRepost,
+}: RepostMenuProps) {
   if (!menu.placement) return null;
 
-  function repost(event: MouseEvent<HTMLButtonElement>) {
+  function repost(event: MouseEvent<HTMLElement>) {
     menu.selectItem(event);
     onRepost();
   }
@@ -40,25 +45,19 @@ export function RepostMenu({ menu, retweeted, onRepost }: RepostMenuProps) {
       style={menu.placement.style}
       origin={menu.placement.origin}
       className="w-max min-w-[150px]"
+      menuClassName="rounded-xl py-0"
     >
-      <button
-        type="button"
-        role="menuitem"
-        onClick={repost}
-        className={cn(menuItem, "gap-3")}
-      >
-        <RetweetIcon className="size-[18.75px] shrink-0" />
-        {retweeted ? "Undo repost" : "Repost"}
-      </button>
-      <button
-        type="button"
-        role="menuitem"
-        onClick={menu.selectItem}
-        className={cn(menuItem, "gap-3")}
-      >
-        <QuoteIcon className="size-[18.75px] shrink-0" />
-        Quote
-      </button>
+      <MenuItem
+        label={retweeted ? "Undo repost" : "Repost"}
+        icon={<RetweetIcon />}
+        onSelect={repost}
+      />
+      <MenuItem
+        label="Quote"
+        icon={<QuotePencilIcon />}
+        href={quoteHref}
+        onSelect={menu.selectItem}
+      />
     </DropdownMenu>
   );
 }

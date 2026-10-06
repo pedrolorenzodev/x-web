@@ -3,7 +3,9 @@ import { cn } from "@/lib/utils";
 
 const sizes = {
   xs: 24,
+  sm: 32,
   md: 40,
+  lg: 64,
   xl: 133.5,
 } as const;
 

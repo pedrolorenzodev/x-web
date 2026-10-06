@@ -9,57 +9,88 @@ import type { TweetMedia } from "@/types/tweet";
 import { ArrowRightIcon, BackIcon } from "@/components/ui/icons";
 import { cn } from "@/lib/utils";
 
-const BORDER = 2;
-const TWEET_TILE_HEIGHT = 352.23;
-const TWEET_TILE_MAX_WIDTH = 414.39;
+const GAP = 4;
+const PEEK_SCALE = 1.2;
+const MIN_FILL_HEIGHT_RATIO = 0.37;
+const MAX_HEIGHT_RATIO = 1.2444;
+const FALLBACK_HEIGHT_RATIO = 0.68;
+const MAX_TILE_WIDTH_RATIO = 0.8;
 
-function tweetTileWidth(photo: TweetMedia) {
-  const inner = TWEET_TILE_HEIGHT - BORDER;
-  return Math.min(
-    (photo.width / photo.height) * inner + BORDER,
-    TWEET_TILE_MAX_WIDTH,
-  );
+type TileLayout = {
+  height: number;
+  width: (photo: TweetMedia) => number;
+};
+
+function aspect(photo: TweetMedia) {
+  return photo.width / photo.height;
 }
 
-function quoteTile(height: number) {
+function rowLayout(media: TweetMedia[], rowWidth: number): TileLayout {
+  const span = rowWidth - GAP;
+  const pair = aspect(media[0]) + aspect(media[1]);
+  const peeks = media.length > 2;
+  const fillHeight = peeks ? ((span - 1) * PEEK_SCALE) / pair : span / pair;
+  const fallbackHeight = rowWidth * FALLBACK_HEIGHT_RATIO;
+  const minHeight = peeks ? fallbackHeight : rowWidth * MIN_FILL_HEIGHT_RATIO;
+
+  if (fillHeight < minHeight) {
+    const maxWidth = rowWidth * MAX_TILE_WIDTH_RATIO;
+    return {
+      height: fallbackHeight,
+      width: (photo) => Math.min(aspect(photo) * fallbackHeight, maxWidth),
+    };
+  }
+
+  const height = Math.min(fillHeight, rowWidth * MAX_HEIGHT_RATIO);
+  const maxWidth = span * MAX_TILE_WIDTH_RATIO;
   return {
     height,
-    width: (photo: TweetMedia) => (photo.width / photo.height) * height,
+    width: (photo) => Math.min(aspect(photo) * height, maxWidth),
   };
 }
 
-const tweetTile = { height: TWEET_TILE_HEIGHT, width: tweetTileWidth };
+function fixedLayout(height: number): TileLayout {
+  return { height, width: (photo) => aspect(photo) * height };
+}
+
+type Variant = {
+  layout: (media: TweetMedia[]) => TileLayout;
+  scrollPadding: number;
+  frame: string;
+  list: string;
+  arrows: { prev: string; next: string };
+};
 
 const variants = {
   card: {
-    tile: tweetTile,
+    layout: (media) => rowLayout(media, 518),
     scrollPadding: 64,
     frame: "mt-3",
     list: "-mr-4 -ml-16 scroll-pl-16 pr-4 pl-16",
     arrows: { prev: "left-0.5", next: "right-0.5" },
   },
   focal: {
-    tile: tweetTile,
+    layout: (media) => rowLayout(media, 566),
     scrollPadding: 16,
     frame: "mt-3",
     list: "-mr-4 -ml-4 scroll-pl-4 pr-4 pl-4",
     arrows: { prev: "left-0.5", next: "right-0.5" },
   },
   quote: {
-    tile: quoteTile(284.4),
+    layout: () => fixedLayout(284.4),
     scrollPadding: 12,
     frame: "mt-1 mb-3",
     list: "scroll-pl-3 px-3",
     arrows: { prev: "left-3.5", next: "right-3.5" },
   },
   quoteFocal: {
-    tile: quoteTile(312.1),
+    layout: () => fixedLayout(312.1),
     scrollPadding: 12,
     frame: "mt-1 mb-3",
     list: "scroll-pl-3 px-3",
     arrows: { prev: "left-3.5", next: "right-3.5" },
   },
-} as const;
+} satisfies Record<string, Variant>;
 
 export type PhotosVariant = keyof typeof variants;
 
@@ -117,6 +148,7 @@ function Arrow({ label, icon: Icon, visible, className, onClick }: ArrowProps) {
 
 export function PhotoCarousel({ media, href, variant }: PhotoCarouselProps) {
   const config = variants[variant];
+  const tile = config.layout(media);
   const router = useRouter();
   const listRef = useRef<HTMLDivElement | null>(null);
   const [canPrev, setCanPrev] = useState(false);
@@ -161,9 +193,9 @@ export function PhotoCarousel({ media, href, variant }: PhotoCarouselProps) {
         {media.map((photo, index) => (
           <Link
             key={photo.url}
-            href={href}
+            href={`${href}/photo/${index + 1}`}
             aria-label={`Image ${index + 1} of ${media.length}`}
-            style={{ width: config.tile.width(photo), height: config.tile.height }}
+            style={{ width: tile.width(photo), height: tile.height }}
             className="relative shrink-0 snap-start overflow-hidden rounded-lg border border-border"
           >
             <Image

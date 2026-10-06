@@ -4,6 +4,8 @@ import type { QuotedTweet as QuotedTweetData, TweetMedia } from "@/types/tweet";
 import { routes } from "@/config/routes";
 import { cn } from "@/lib/utils";
 import { Avatar } from "@/components/ui/avatar";
+import { RichText } from "@/components/ui/rich-text";
+import { UserBadges } from "@/components/ui/verified-badge";
 import { PhotoCarousel } from "@/components/tweet/photo-carousel";
 import { formatRelativeTime } from "@/utils/format-relative-time";
 
@@ -90,7 +92,8 @@ export function QuotedTweet({
   const { author, replyingTo, media } = tweet;
   const tweetHref = routes.tweet(author.handle, tweet.id);
   const showCondensed = condensed && media.length > 0;
-  const textClamp = replyingTo && !showCondensed ? "line-clamp-4" : "line-clamp-5";
+  const textClamp =
+    replyingTo && !showCondensed ? "line-clamp-4" : "line-clamp-5";
 
   const replyingToLine = replyingTo ? (
     <ReplyingTo handle={replyingTo.handle} />
@@ -103,7 +106,7 @@ export function QuotedTweet({
         textClamp,
       )}
     >
-      {tweet.text}
+      <RichText text={tweet.text} inert />
     </p>
   ) : null;
 
@@ -117,12 +120,19 @@ export function QuotedTweet({
 
       <div className="mx-3 mt-3 flex h-6 min-w-0 items-center gap-1 text-base">
         <Avatar src={author.avatarUrl} alt={author.displayName} size="xs" />
-        <span className="truncate font-bold">{author.displayName}</span>
+        <span className="flex min-w-0 items-center">
+          <span className="truncate font-bold">{author.displayName}</span>
+          <UserBadges user={author} />
+        </span>
         <span className="truncate text-muted">@{author.handle}</span>
         <span aria-hidden className="text-muted">
           ·
         </span>
-        <time dateTime={tweet.createdAt} className="shrink-0 text-muted">
+        <time
+          dateTime={tweet.createdAt}
+          suppressHydrationWarning
+          className="shrink-0 text-muted"
+        >
           {formatRelativeTime(tweet.createdAt)}
         </time>
       </div>

@@ -7,8 +7,10 @@ import {
   useRef,
   useState,
 } from "react";
+import Link from "next/link";
 import type { ComponentType, MouseEvent, Ref, SVGProps } from "react";
 import type { Tweet, TweetActions as Actions } from "@/types/tweet";
+import { routes } from "@/config/routes";
 import {
   BookmarkActiveIcon,
   BookmarkIcon,
@@ -21,8 +23,11 @@ import {
   ViewsIcon,
 } from "@/components/ui/icons";
 import { AnimatedCount } from "@/components/ui/animated-count";
+import { showToast } from "@/components/ui/toast";
+import { Tooltip } from "@/components/ui/tooltip";
 import { createLikeBurst, type LikeBurst } from "@/components/tweet/like-burst";
 import { placeRepostMenu, RepostMenu } from "@/components/tweet/repost-menu";
+import { placeShareMenu, ShareMenu } from "@/components/tweet/share-menu";
 import { useDropdownMenu } from "@/hooks/use-dropdown-menu";
 import { formatCount } from "@/utils/format-count";
 import { cn } from "@/lib/utils";
@@ -46,10 +51,16 @@ const tones = {
 } as const;
 
 const variants = {
-  card: { bar: "mt-3", icon: "size-[18.75px]" },
+  card: { bar: "mt-3", icon: "size-[18.75px]", idle: "text-muted" },
   focal: {
-    bar: "h-12 items-center border-y border-border px-1",
+    bar: "h-12 items-center border-t border-border px-1",
     icon: "size-[22.5px]",
+    idle: "text-muted",
+  },
+  viewer: {
+    bar: "h-12 items-center px-3",
+    icon: "size-[22.5px]",
+    idle: "text-foreground",
   },
 } as const;
 
@@ -57,6 +68,8 @@ type Variant = keyof typeof variants;
 
 type ActionButtonProps = {
   label: string;
+  tooltip: string;
+  href?: string;
   variant: Variant;
   icon: ComponentType<SVGProps<SVGSVGElement>>;
   activeIcon?: ComponentType<SVGProps<SVGSVGElement>>;
@@ -72,6 +85,8 @@ type ActionButtonProps = {
 
 function ActionButton({
   label,
+  tooltip,
+  href,
   variant,
   icon: Icon,
   activeIcon: ActiveIcon = Icon,
@@ -101,22 +116,15 @@ function ActionButton({
 
   const hasMenu = expanded !== undefined;
 
-  return (
-    <button
-      ref={ref}
-      type="button"
-      aria-label={label}
-      aria-pressed={onClick && !hasMenu ? active : undefined}
-      aria-haspopup={hasMenu ? "menu" : undefined}
-      aria-expanded={expanded}
-      onClick={handleClick}
-      className={cn(
-        "group/action pointer-events-auto relative flex h-5 items-center transition-colors",
-        active ? colors.active : ["text-muted", colors.hover],
-        celebrate && "t-like",
-        burst && "is-bursting",
-      )}
-    >
+  const className = cn(
+    "group/action pointer-events-auto relative flex h-5 items-center transition-colors",
+    active ? colors.active : [variants[variant].idle, colors.hover],
+    celebrate && "t-like",
+    burst && "is-bursting",
+  );
+
+  const content = (
+    <>
       <span className={cn("relative flex", iconSize)}>
         <span
           className={cn(
@@ -156,9 +164,38 @@ function ActionButton({
       {count !== undefined ? (
         <AnimatedCount value={count} format={formatCount} className="px-1 text-xs" />
       ) : null}
-    </button>
+    </>
+  );
+
+  if (href) {
+    return (
+      <Tooltip label={tooltip}>
+        <Link href={href} scroll={false} aria-label={label} className={className}>
+          {content}
+        </Link>
+      </Tooltip>
+    );
+  }
+
+  return (
+    <Tooltip label={tooltip}>
+      <button
+        ref={ref}
+        type="button"
+        aria-label={label}
+        aria-pressed={onClick && !hasMenu ? active : undefined}
+        aria-haspopup={hasMenu ? "menu" : undefined}
+        aria-expanded={expanded}
+        onClick={handleClick}
+        className={className}
+      >
+        {content}
+      </button>
+    </Tooltip>
   );
 }
+
+
 
 type TweetActionsProps = {
   tweet: Tweet;
@@ -172,6 +209,7 @@ type ToggleState = {
   retweeted: boolean;
   retweets: number;
   bookmarked: boolean;
+  bookmarks: number;
 };
 
 type Toggle = "like" | "retweet" | "bookmark";
@@ -191,7 +229,11 @@ function applyToggle(state: ToggleState, toggle: Toggle): ToggleState {
       retweets: state.retweets + (state.retweeted ? -1 : 1),
     };
   }
-  return { ...state, bookmarked: !state.bookmarked };
+  return {
+    ...state,
+    bookmarked: !state.bookmarked,
+    bookmarks: state.bookmarks + (state.bookmarked ? -1 : 1),
+  };
 }
 
 export function TweetActions({
@@ -206,6 +248,7 @@ export function TweetActions({
       retweeted: tweet.retweetedByViewer,
       retweets: tweet.stats.retweets,
       bookmarked: tweet.bookmarkedByViewer,
+      bookmarks: tweet.stats.bookmarks,
     },
     applyToggle,
   );
@@ -219,9 +262,25 @@ export function TweetActions({
 
   const repostRef = useRef<HTMLButtonElement>(null);
   const repostMenu = useDropdownMenu(repostRef, placeRepostMenu);
+  const shareRef = useRef<HTMLButtonElement>(null);
+  const shareMenu = useDropdownMenu(shareRef, placeShareMenu);
+  const tweetHref = routes.tweet(tweet.author.handle, tweet.id);
+
+  function toggleBookmark() {
+    showToast(
+      state.bookmarked
+        ? { message: "Removed from your Bookmarks" }
+        : {
+            message: "Added to your Bookmarks",
+            action: { label: "Add to Folder", href: routes.premium },
+          },
+    );
+    run("bookmark", actions.toggleBookmark);
+  }
 
   const views = tweet.stats.views;
   const focal = variant === "focal";
+  const viewer = variant === "viewer";
 
   return (
     <div
@@ -235,6 +294,8 @@ export function TweetActions({
         <ActionButton
           variant={variant}
           label={`${tweet.stats.replies} Replies. Reply`}
+          tooltip="Reply"
+          href={routes.composeReply(tweet.id)}
           icon={ReplyIcon}
           tone="accent"
           count={tweet.stats.replies}
@@ -244,6 +305,7 @@ export function TweetActions({
         <ActionButton
           variant={variant}
           label={`${state.retweets} reposts. ${state.retweeted ? "Undo repost" : "Repost"}`}
+          tooltip={state.retweeted ? "Undo repost" : "Repost"}
           icon={RetweetIcon}
           activeIcon={RetweetActiveIcon}
           swapIcons
@@ -257,6 +319,7 @@ export function TweetActions({
         <RepostMenu
           menu={repostMenu}
           retweeted={state.retweeted}
+          quoteHref={routes.composeQuote(tweet.id)}
           onRepost={() => run("retweet", actions.toggleRetweet)}
         />
       </div>
@@ -264,6 +327,7 @@ export function TweetActions({
         <ActionButton
           variant={variant}
           label={`${state.likes} Likes. ${state.liked ? "Unlike" : "Like"}`}
+          tooltip={state.liked ? "Unlike" : "Like"}
           icon={LikeIcon}
           activeIcon={LikeActiveIcon}
           tone="like"
@@ -278,31 +342,42 @@ export function TweetActions({
           <ActionButton
             variant={variant}
             label={`${views} views. View post analytics`}
+            tooltip="View"
+            href={`${tweetHref}/analytics`}
             icon={ViewsIcon}
             tone="accent"
             count={views}
           />
         </div>
       )}
-      <div className={cn("flex", focal ? "flex-1" : "mr-2")}>
-        <ActionButton
-          variant={variant}
-          label={state.bookmarked ? "Remove Bookmark" : "Bookmark"}
-          icon={BookmarkIcon}
-          activeIcon={BookmarkActiveIcon}
-          swapIcons
-          tone="accent"
-          active={state.bookmarked}
-          onClick={() => run("bookmark", actions.toggleBookmark)}
-        />
-      </div>
+      {viewer ? null : (
+        <div className={cn("flex", focal ? "flex-1" : "mr-2")}>
+          <ActionButton
+            variant={variant}
+            label={state.bookmarked ? "Remove Bookmark" : "Bookmark"}
+            tooltip="Bookmark"
+            count={focal ? state.bookmarks : undefined}
+            icon={BookmarkIcon}
+            activeIcon={BookmarkActiveIcon}
+            swapIcons
+            tone="accent"
+            active={state.bookmarked}
+            onClick={toggleBookmark}
+          />
+        </div>
+      )}
       <div className="flex">
         <ActionButton
           variant={variant}
           label="Share post"
+          tooltip="Share"
           icon={ShareIcon}
           tone="accent"
+          expanded={shareMenu.isOpen}
+          ref={shareRef}
+          onClick={shareMenu.toggle}
         />
+        <ShareMenu menu={shareMenu} path={tweetHref} />
       </div>
     </div>
   );

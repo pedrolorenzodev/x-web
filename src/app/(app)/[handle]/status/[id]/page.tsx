@@ -13,6 +13,9 @@ import { toggleBookmark } from "@/features/tweet/api/toggle-bookmark";
 import { toggleLike } from "@/features/tweet/api/toggle-like";
 import { toggleRetweet } from "@/features/tweet/api/toggle-retweet";
 import { FocalTweet } from "@/features/tweet/components/focal-tweet";
+import { RepliesSection } from "@/features/tweet/components/replies-section";
+import { getProfile } from "@/features/profile/api/get-profile";
+import { toggleFollow } from "@/features/profile/api/toggle-follow";
 
 const tweetActions = { toggleLike, toggleRetweet, toggleBookmark };
 
@@ -24,7 +27,7 @@ async function Conversation({
   const { handle, id } = await params;
   const [conversation, replies, session] = await Promise.all([
     getConversation(id),
-    getReplies(id),
+    getReplies(id, null, 100),
     getSession(),
   ]);
   if (!conversation || !session) notFound();
@@ -33,6 +36,9 @@ async function Conversation({
   if (tweet.author.handle.toLowerCase() !== handle.toLowerCase()) {
     redirect(routes.tweet(tweet.author.handle, tweet.id));
   }
+  const author = await getProfile(tweet.author.handle);
+  const showFollow =
+    tweet.author.id !== session.user.id && !author?.followedByViewer;
 
   return (
     <>
@@ -52,15 +58,21 @@ async function Conversation({
           tweet={tweet}
           actions={tweetActions}
           threaded={ancestors.length > 0}
+          showFollow={showFollow}
+          toggleFollow={toggleFollow}
         />
-        <ReplyComposer
-          viewer={session.user}
-          replyTo={tweet.author}
-          tweetId={tweet.id}
+        <RepliesSection
+          replies={replies.items}
+          quotesHref={routes.tweetQuotes(tweet.author.handle, tweet.id)}
+          actions={tweetActions}
+          composer={
+            <ReplyComposer
+              viewer={session.user}
+              replyTo={tweet.author}
+              tweetId={tweet.id}
+            />
+          }
         />
-        {replies.items.map((reply) => (
-          <TweetCard key={reply.id} tweet={reply} actions={tweetActions} />
-        ))}
       </div>
     </>
   );
