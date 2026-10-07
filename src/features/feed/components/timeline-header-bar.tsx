@@ -1,13 +1,17 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
-import { PlusIcon } from "@/components/ui/icons";
+import type { UserSummary } from "@/types/user";
+import { Avatar } from "@/components/ui/avatar";
+import { PlusIcon, XLogoIcon } from "@/components/ui/icons";
 import { ProgressBar } from "@/components/ui/spinner";
 import { TabBar } from "@/components/ui/tab-bar";
 import { Tooltip } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { routes } from "@/config/routes";
 import { useNavReselect } from "@/hooks/use-nav-reselect";
+import { useScrollingDown } from "@/hooks/use-scroll-direction";
 import {
   isListTimelineKind,
   listTimelineKind,
@@ -29,10 +33,47 @@ const homeTabs: { kind: TimelineKind; label: string }[] = [
 type TimelineHeaderBarProps = {
   kind: TimelineKind | null;
   lists: TimelineList[] | null;
+  viewer: UserSummary | null;
 };
 
-export function TimelineHeaderBar({ kind, lists }: TimelineHeaderBarProps) {
+function MobileTopBar({ viewer }: { viewer: UserSummary | null }) {
+  return (
+    <div className="relative flex h-[53px] items-center justify-between px-4 min-[500px]:hidden">
+      {viewer ? (
+        <Link
+          href={routes.profile(viewer.handle)}
+          aria-label={`Profile menu ${viewer.displayName}`}
+          className="flex"
+        >
+          <Avatar src={viewer.avatarUrl} alt="" size="sm" />
+        </Link>
+      ) : (
+        <span className="size-8" />
+      )}
+      <Link
+        href={routes.home}
+        aria-label="X"
+        className="absolute left-1/2 -translate-x-1/2"
+      >
+        <XLogoIcon className="h-6 w-[25px]" />
+      </Link>
+      <Link
+        href={routes.premium}
+        className="flex h-9 items-center rounded-full border border-outline px-4 text-base font-bold transition-colors duration-200 ease-[ease] hover:bg-foreground/10"
+      >
+        Subscribe
+      </Link>
+    </div>
+  );
+}
+
+export function TimelineHeaderBar({
+  kind,
+  lists,
+  viewer,
+}: TimelineHeaderBarProps) {
   const { pending, select } = useTimelineTabs();
+  const scrollingDown = useScrollingDown();
   const [managing, setManaging] = useState(false);
   const activeKind = pending?.kind ?? kind;
   useNavReselect(routes.home, () => {
@@ -46,8 +87,14 @@ export function TimelineHeaderBar({ kind, lists }: TimelineHeaderBarProps) {
   ];
 
   return (
-    <div className="sticky top-0 z-3">
+    <div
+      className={cn(
+        "sticky top-0 z-3 transition-transform duration-350 ease-[cubic-bezier(0,0,0,1)]",
+        scrollingDown && "max-[499px]:-translate-y-[106px]",
+      )}
+    >
       <div className="relative z-0 border-b border-border bg-background/65 backdrop-blur-[12px]">
+        <MobileTopBar viewer={viewer} />
         <div className="flex">
           <TabBar label="Timelines" className="min-w-0 flex-1 border-b-0">
             {tabs.map((tab) => {

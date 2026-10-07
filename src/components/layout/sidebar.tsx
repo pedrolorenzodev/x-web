@@ -2,13 +2,21 @@ import Link from "next/link";
 import type { UserSummary } from "@/types/user";
 import { routes } from "@/config/routes";
 import { Avatar } from "@/components/ui/avatar";
-import { buttonStyles } from "@/components/ui/button";
+import { SidebarTooltip } from "@/components/layout/sidebar-tooltip";
 import { cn } from "@/lib/utils";
 import { NavItem } from "@/components/layout/nav-item";
 import { MoreMenu } from "@/components/layout/more-menu";
 import { AccountMenu } from "@/components/layout/account-menu";
 import {
+  collapsedOnly,
+  expandedOnly,
+  sidebarAlign,
+  sidebarGutter,
+  sidebarWidth,
+} from "@/components/layout/sidebar-styles";
+import {
   BookmarkActiveIcon,
+  ComposeIcon,
   ChatActiveIcon,
   ChatIcon,
   CreatorStudioActiveIcon,
@@ -43,8 +51,15 @@ export function Sidebar({ viewer, unreadNotifications }: SidebarProps) {
   const profile = routes.profile(viewer.handle);
 
   return (
-    <header className="w-sidebar shrink-0">
-      <div className="fixed top-0 flex h-screen w-sidebar flex-col px-2">
+    <header className={cn("shrink-0 max-[499px]:hidden", sidebarWidth)}>
+      <div
+        className={cn(
+          "fixed top-0 flex h-screen flex-col",
+          sidebarWidth,
+          sidebarGutter,
+          sidebarAlign,
+        )}
+      >
         <Link
           href={routes.home}
           aria-label="X"
@@ -53,7 +68,7 @@ export function Sidebar({ viewer, unreadNotifications }: SidebarProps) {
           <XLogoIcon className="size-[30px]" />
         </Link>
 
-        <nav aria-label="Primary" className="mt-1 flex flex-col">
+        <nav aria-label="Primary" className="mt-1 flex w-full flex-col">
           <NavItem
             label="Home"
             href={routes.home}
@@ -86,7 +101,7 @@ export function Sidebar({ viewer, unreadNotifications }: SidebarProps) {
           <NavItem
             label="Chat"
             href={routes.chat}
-            match={{ prefixes: [routes.chat, "/messages"] }}
+            match={{ prefixes: [routes.chat, "/messages"], exclude: [routes.chatShare] }}
             icon={<ChatIcon className={icon} />}
             activeIcon={<ChatActiveIcon className={icon} />}
           />
@@ -129,20 +144,28 @@ export function Sidebar({ viewer, unreadNotifications }: SidebarProps) {
           <MoreMenu handle={viewer.handle} />
         </nav>
 
-        <Link
-          href={routes.composePost}
-          className={cn(buttonStyles({ size: "lg" }), "mt-4 w-[90%]")}
-        >
-          Post
-        </Link>
+        <SidebarTooltip label="Post">
+          <Link
+            href={routes.composePost}
+            aria-label="Post"
+            className="mt-4 flex size-13 items-center justify-center rounded-full bg-inverted text-inverted-foreground transition-colors duration-200 hover:bg-inverted/90 min-[1265px]:w-[90%] layout-fullwidth:w-13!"
+          >
+            <ComposeIcon className={cn("size-6", collapsedOnly)} />
+            <span data-nav-label className={cn("text-lg font-bold", expandedOnly)}>
+              Post
+            </span>
+          </Link>
+        </SidebarTooltip>
 
         <AccountMenu handle={viewer.handle}>
           <Avatar src={viewer.avatarUrl} alt={viewer.displayName} />
-          <span className="flex flex-col items-start">
+          <span className={cn("flex-col items-start", expandedOnly, "min-[1265px]:flex")}>
             <span className="text-base font-bold">{viewer.displayName}</span>
             <span className="text-base text-muted">@{viewer.handle}</span>
           </span>
-          <MoreHorizontalIcon className="ml-auto size-[18.75px]" />
+          <MoreHorizontalIcon
+            className={cn("ml-auto size-[18.75px]", expandedOnly)}
+          />
         </AccountMenu>
       </div>
     </header>

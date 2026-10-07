@@ -21,9 +21,9 @@ export const metadata: Metadata = {
 const tweetActions = { toggleLike, toggleRetweet, toggleBookmark };
 
 async function Header() {
-  const kind = await getTimelineKind();
+  const [kind, session] = await Promise.all([getTimelineKind(), getSession()]);
 
-  return <TimelineHeader kind={kind} />;
+  return <TimelineHeader kind={kind} viewer={session?.user ?? null} />;
 }
 
 async function Timeline() {
@@ -50,7 +50,7 @@ async function ViewerComposer() {
 export default function HomePage() {
   return (
     <TimelineTabsProvider>
-      <Suspense fallback={<TimelineHeader kind={null} />}>
+      <Suspense fallback={<TimelineHeader kind={null} viewer={null} />}>
         <Header />
       </Suspense>
       <Suspense fallback={null}>

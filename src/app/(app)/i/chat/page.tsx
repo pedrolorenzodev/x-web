@@ -1,10 +1,16 @@
 import type { Metadata } from "next";
-import { PlaceholderScreen } from "@/components/layout/placeholder-screen";
+import { LayoutMode } from "@/components/layout/layout-mode";
+import { ChatPasscodeFlow } from "@/features/chat/components/chat-passcode-flow";
 
 export const metadata: Metadata = {
-  title: "Chat / X",
+  title: "X",
 };
 
 export default function ChatPage() {
-  return <PlaceholderScreen title="Chat" />;
+  return (
+    <>
+      <LayoutMode mode="fullwidth" />
+      <ChatPasscodeFlow />
+    </>
+  );
 }

@@ -5,6 +5,11 @@ import {
   NavItemContent,
   type NavMatch,
 } from "@/components/layout/nav-item-content";
+import {
+  expandedOnly,
+  navLink,
+  navPill,
+} from "@/components/layout/sidebar-styles";
 
 type NavItemProps = {
   label: string;
@@ -24,16 +29,16 @@ export function NavItem({
   badge = 0,
 }: NavItemProps) {
   const fallback = (
-    <span className="flex items-center gap-5 rounded-full py-3 pr-7 pl-3">
+    <span className={navPill}>
       {icon}
-      <span className="text-xl">{label}</span>
+      <span className={`text-xl ${expandedOnly}`}>{label}</span>
     </span>
   );
 
   return (
     <Suspense
       fallback={
-        <Link href={href} className="group flex w-full py-1">
+        <Link href={href} className={navLink}>
           {fallback}
         </Link>
       }

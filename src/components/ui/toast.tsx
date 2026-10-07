@@ -59,7 +59,7 @@ export function Toaster() {
   );
 
   return (
-    <div className="pointer-events-none fixed bottom-8 z-60 flex w-feed max-w-full justify-center">
+    <div className="pointer-events-none fixed bottom-8 z-60 flex w-feed max-w-full justify-center max-[499px]:bottom-[73px]">
       {toast ? (
         <div
           key={toast.id}

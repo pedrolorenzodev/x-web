@@ -17,6 +17,12 @@ import {
   SpacesIcon,
 } from "@/components/ui/icons";
 import { useDropdownMenu } from "@/hooks/use-dropdown-menu";
+import { SidebarTooltip } from "@/components/layout/sidebar-tooltip";
+import {
+  expandedOnly,
+  navLink,
+  navPill,
+} from "@/components/layout/sidebar-styles";
 
 const MENU_WIDTH = 318;
 
@@ -55,20 +61,24 @@ export function MoreMenu({ handle }: { handle: string }) {
 
   return (
     <>
-      <button
-        ref={anchorRef}
-        type="button"
-        aria-label="More menu items"
-        aria-haspopup="menu"
-        aria-expanded={menu.isOpen}
-        onClick={menu.toggle}
-        className="group flex w-full py-1 outline-none"
-      >
-        <span className="flex items-center gap-5 rounded-full py-3 pr-7 pl-3 transition-[background-color,box-shadow] duration-200 ease-[ease] group-hover:bg-foreground/10 group-focus-visible:shadow-[0_0_0_2px_rgb(135,138,140)]">
-          <MoreIcon className="size-[26.25px]" />
-          <span className="text-xl">More</span>
-        </span>
-      </button>
+      <SidebarTooltip label="More">
+        <button
+          ref={anchorRef}
+          type="button"
+          aria-label="More menu items"
+          aria-haspopup="menu"
+          aria-expanded={menu.isOpen}
+          onClick={menu.toggle}
+          className={navLink}
+        >
+          <span className={navPill}>
+            <MoreIcon className="size-[26.25px]" />
+            <span data-nav-label className={`text-xl ${expandedOnly}`}>
+              More
+            </span>
+          </span>
+        </button>
+      </SidebarTooltip>
 
       {menu.placement ? (
         <DropdownMenu

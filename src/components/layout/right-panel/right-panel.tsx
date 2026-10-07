@@ -10,9 +10,9 @@ type RightPanelProps = {
 
 export function RightPanel({ search = true, children }: RightPanelProps) {
   return (
-    <aside className="h-full w-panel shrink-0">
+    <aside className="h-full w-[290px] shrink-0 min-[1078px]:w-panel">
       {search ? (
-        <div className="fixed top-0 z-2 flex h-[53px] w-panel items-center bg-background pt-1">
+        <div className="fixed top-0 z-2 flex h-[53px] w-[290px] items-center bg-background pt-1 min-[1078px]:w-panel">
           <SearchBox />
         </div>
       ) : null}

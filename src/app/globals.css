@@ -1,6 +1,9 @@
 @import "tailwindcss";
 @import "./transitions.css";
 
+@custom-variant layout-fullwidth (:where([data-app-shell]:has([data-layout-mode="fullwidth"])) &);
+@custom-variant layout-no-panel (:where([data-app-shell]:has([data-layout-mode="no-panel"])) &);
+
 @theme {
   --color-background: #000000;
   --color-elevated: #141414;
@@ -32,6 +35,7 @@
   --color-button-focus-ring: #f7f9fa;
   --color-overflow-highlight: rgb(138 13 32);
   --color-premium-tint: rgb(2 17 61);
+  --color-keycap-border: rgb(32 35 39);
 
   --shadow-menu: 0 4px 12px rgb(0 0 0 / 0.5), 0 0 2px rgb(0 0 0 / 0.35);
 
@@ -136,4 +140,10 @@ body {
 button:not(:disabled),
 [role="button"]:not([aria-disabled="true"]) {
   cursor: pointer;
+}
+
+article[data-testid="tweet"]:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--color-menu-focus-ring);
+  background-color: var(--color-menu-hover);
 }

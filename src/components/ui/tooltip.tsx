@@ -21,10 +21,16 @@ const GAP = 2;
 type TooltipProps = {
   label: string;
   disabled?: boolean;
+  showWhen?: (trigger: Element) => boolean;
   children: ReactNode;
 };
 
-export function Tooltip({ label, disabled = false, children }: TooltipProps) {
+export function Tooltip({
+  label,
+  disabled = false,
+  showWhen,
+  children,
+}: TooltipProps) {
   const wrapperRef = useRef<HTMLSpanElement>(null);
   const timer = useRef<number | undefined>(undefined);
   const [anchor, setAnchor] = useState<DOMRect | null>(null);
@@ -34,7 +40,8 @@ export function Tooltip({ label, disabled = false, children }: TooltipProps) {
     window.clearTimeout(timer.current);
     timer.current = window.setTimeout(() => {
       const target = wrapperRef.current?.firstElementChild;
-      if (target) setAnchor(target.getBoundingClientRect());
+      if (!target || (showWhen && !showWhen(target))) return;
+      setAnchor(target.getBoundingClientRect());
     }, OPEN_DELAY);
   }
 

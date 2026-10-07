@@ -140,7 +140,7 @@ export function TweetVideo(props: TweetVideoProps) {
         poster={media.url}
         muted
         playsInline
-        loop={gif}
+        loop
         preload="none"
         aria-label={media.alt || (gif ? "Embedded GIF" : "Embedded video")}
         onPlay={() => {

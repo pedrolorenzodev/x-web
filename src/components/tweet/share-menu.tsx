@@ -65,7 +65,7 @@ export function ShareMenu({ menu, path }: ShareMenuProps) {
       <MenuItem
         label="Send via Chat"
         icon={<ChatBubbleIcon />}
-        href={routes.chat}
+        href={routes.chatShare}
         onSelect={menu.selectItem}
       />
       <MenuItem label="Copy link" icon={<LinkIcon />} onSelect={copyLink} />

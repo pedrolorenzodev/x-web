@@ -80,7 +80,7 @@ export function AccountMenu({ handle, children }: AccountMenuProps) {
         aria-haspopup="menu"
         aria-expanded={menu.isOpen}
         onClick={menu.toggle}
-        className="mt-auto mb-3 flex w-full items-center gap-3 rounded-full p-3 transition-colors duration-200 ease-[ease] hover:bg-foreground/10 active:bg-foreground/20"
+        className="mt-auto mb-3 flex items-center gap-3 rounded-full p-3 transition-colors min-[1265px]:w-full layout-fullwidth:w-auto! duration-200 ease-[ease] hover:bg-foreground/10 active:bg-foreground/20"
       >
         {children}
       </button>

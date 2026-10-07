@@ -21,6 +21,9 @@ export const routes = {
   connectPeopleSimilarTo: (userId: string) =>
     `/i/connect_people?user_id=${userId}`,
   chat: "/i/chat",
+  chatPasscode: "/i/chat/pin/new",
+  chatShare: "/messages/compose",
+  settingsDirectMessages: "/settings/direct_messages",
   grok: "/i/grok",
   history: "/i/history",
   creatorStudio: "/i/jf/creators/studio",
@@ -28,6 +31,8 @@ export const routes = {
   business: "/i/verified-orgs-signup",
   spaces: "/i/spaces/start",
   settings: "/settings",
+  settingsDisplay: "/settings/display",
+  keyboardShortcuts: "/i/keyboard_shortcuts",
   ads: "https://ads.x.com/?ref=gl-tw-tw-twitter-ads-rweb",
   profile: (handle: string) => `/${handle}`,
   profileReplies: (handle: string) => `/${handle}/with_replies`,

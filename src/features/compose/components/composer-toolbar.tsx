@@ -8,6 +8,7 @@ export type ComposerTool = {
   icon: ComponentType<SVGProps<SVGSVGElement>>;
   disabled?: boolean;
   active?: boolean;
+  wideOnly?: boolean;
   buttonRef?: Ref<HTMLButtonElement>;
   onClick?: () => void;
 };
@@ -18,7 +19,16 @@ export function ComposerToolbar({ tools }: { tools: ComposerTool[] }) {
   return (
     <div className="-ml-2 flex h-10 items-center">
       {tools.map(
-        ({ label, tooltip, icon: Icon, disabled, active, buttonRef, onClick }) => (
+        ({
+          label,
+          tooltip,
+          icon: Icon,
+          disabled,
+          active,
+          wideOnly,
+          buttonRef,
+          onClick,
+        }) => (
           <Tooltip key={label} label={tooltip} disabled={disabled}>
             <button
               ref={buttonRef}
@@ -28,6 +38,7 @@ export function ComposerToolbar({ tools }: { tools: ComposerTool[] }) {
               onClick={onClick}
               className={cn(
                 "group/tool m-0.5 flex size-9 items-center justify-center rounded-full",
+                wideOnly && "max-[599px]:hidden",
                 disabled
                   ? "opacity-50"
                   : `transition-colors ${easing} hover:bg-inverted/10`,

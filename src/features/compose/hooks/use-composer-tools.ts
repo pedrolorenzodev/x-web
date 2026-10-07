@@ -56,6 +56,7 @@ export function useComposerTools(
           {
             label: "Add poll",
             tooltip: "Poll",
+            wideOnly: true,
             icon: PollIcon,
             disabled: hasPoll || hasMedia,
             onClick: () =>
@@ -76,6 +77,7 @@ export function useComposerTools(
           {
             label: "Schedule post",
             tooltip: "Schedule",
+            wideOnly: true,
             icon: ScheduleIcon,
             disabled: hasPoll || thread,
             active: Boolean(snapshot.scheduledAt),

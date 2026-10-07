@@ -1,9 +1,15 @@
 import type { NewsStory } from "@/types/news";
-import { findUserById, toSummary } from "@/mocks/users";
+import { mockTweets } from "@/mocks/tweets";
+import {
+  findUserById,
+  mockUsers,
+  toSummary,
+  type UserRecord,
+} from "@/mocks/users";
 
-export type NewsStoryRecord = Omit<NewsStory, "facepile"> & {
-  facepileIds: string[];
-};
+export type NewsStoryRecord = Omit<NewsStory, "facepile">;
+
+const FACEPILE_SIZE = 3;
 
 export const mockNews: NewsStoryRecord[] = [
   {
@@ -13,11 +19,6 @@ export const mockNews: NewsStoryRecord[] = [
     postCount: 3400,
     publishedAt: "2026-10-01T20:30:00.000Z",
     isTrendingNow: true,
-    facepileIds: [
-      "9100000000000000004",
-      "9100000000000000002",
-      "9100000000000000001",
-    ],
     summary: "Posts on X show drivers comparing their vehicle inspection experiences across Buenos Aires. Some say emissions are never checked, while others report exhaust tests in specific cities and argue the program has helped reduce road accidents.",
     relatedUserIds: [
       "9100000000000000004",
@@ -38,11 +39,6 @@ export const mockNews: NewsStoryRecord[] = [
     postCount: 12700,
     publishedAt: "2026-09-30T23:10:00.000Z",
     isTrendingNow: false,
-    facepileIds: [
-      "9100000000000000001",
-      "9100000000000000004",
-      "9100000000000000002",
-    ],
     summary: "Users on X are sharing frustrations about a desktop messaging app that skips between conversations and loses track of unread messages. Many say they have gone back to the browser version while waiting for a fix.",
     relatedUserIds: [
       "9100000000000000001",
@@ -62,11 +58,6 @@ export const mockNews: NewsStoryRecord[] = [
     postCount: 860,
     publishedAt: "2026-09-06T18:00:00.000Z",
     isTrendingNow: false,
-    facepileIds: [
-      "9100000000000000001",
-      "9100000000000000005",
-      "9100000000000000003",
-    ],
     summary: "Teams spent the weekend building hardware and software projects at a local hackathon. Participants celebrated the winners on X and shared photos of the prototypes built on site.",
     relatedUserIds: [
       "9100000000000000001",
@@ -86,11 +77,6 @@ export const mockNews: NewsStoryRecord[] = [
     postCount: 5900,
     publishedAt: "2026-10-01T22:00:00.000Z",
     isTrendingNow: false,
-    facepileIds: [
-      "9100000000000000005",
-      "9100000000000000002",
-      "9100000000000000006",
-    ],
     summary: "Developers are posting how quickly they use up their AI coding subscriptions, with some juggling several plans at once. The conversation mixes jokes about usage limits with tips for spending tokens more carefully.",
     relatedUserIds: [
       "9100000000000000005",
@@ -110,11 +96,6 @@ export const mockNews: NewsStoryRecord[] = [
     postCount: 1900,
     publishedAt: "2026-09-26T15:30:00.000Z",
     isTrendingNow: false,
-    facepileIds: [
-      "9100000000000000005",
-      "9100000000000000004",
-      "9100000000000000006",
-    ],
     summary: "Digital nomads and remote workers in Latin America are sharing their favourite cities to work from, weighing internet quality, cost of living and time zones.",
     relatedUserIds: [
       "9100000000000000005",
@@ -133,11 +114,6 @@ export const mockNews: NewsStoryRecord[] = [
     postCount: 48200,
     publishedAt: "2026-10-04T13:00:00.000Z",
     isTrendingNow: true,
-    facepileIds: [
-      "9100000000000000006",
-      "9100000000000000001",
-      "9100000000000000003",
-    ],
     summary: "Supporters are already preparing for the weekend's Superclásico, sharing jerseys, travel plans and predictions. Talk of the match is dominating offices and group chats across the country.",
     relatedUserIds: [
       "9100000000000000006",
@@ -158,11 +134,6 @@ export const mockNews: NewsStoryRecord[] = [
     postCount: 2300,
     publishedAt: "2026-09-28T19:00:00.000Z",
     isTrendingNow: false,
-    facepileIds: [
-      "9100000000000000001",
-      "9100000000000000003",
-      "9100000000000000002",
-    ],
     summary: "A skateboarding game that runs in the browser is drawing comparisons with classic console titles. Players are sharing high scores and asking for more parks.",
     relatedUserIds: [
       "9100000000000000001",
@@ -181,11 +152,6 @@ export const mockNews: NewsStoryRecord[] = [
     postCount: 31400,
     publishedAt: "2026-10-03T20:00:00.000Z",
     isTrendingNow: false,
-    facepileIds: [
-      "9100000000000000006",
-      "9100000000000000001",
-      "9100000000000000003",
-    ],
     summary: "With the derby days away, Boca fans are trading lineup predictions and arguing over who should start up front.",
     relatedUserIds: [
       "9100000000000000006",
@@ -204,11 +170,6 @@ export const mockNews: NewsStoryRecord[] = [
     postCount: 4100,
     publishedAt: "2026-10-01T12:00:00.000Z",
     isTrendingNow: false,
-    facepileIds: [
-      "9100000000000000001",
-      "9100000000000000002",
-      "9100000000000000003",
-    ],
     summary: "Players are flocking back to private servers of a classic online role-playing game, with slots filling within minutes of opening and towns full of returning players.",
     relatedUserIds: [
       "9100000000000000001",
@@ -229,11 +190,6 @@ export const mockNews: NewsStoryRecord[] = [
     postCount: 640,
     publishedAt: "2026-09-07T10:00:00.000Z",
     isTrendingNow: false,
-    facepileIds: [
-      "9100000000000000001",
-      "9100000000000000002",
-      "9100000000000000006",
-    ],
     summary: "Teams at a weekend hackathon described demo day as a cup final, complete with chants, rivalries and a contested vote for the winner.",
     relatedUserIds: [
       "9100000000000000001",
@@ -252,11 +208,6 @@ export const mockNews: NewsStoryRecord[] = [
     postCount: 9800,
     publishedAt: "2026-09-30T16:00:00.000Z",
     isTrendingNow: true,
-    facepileIds: [
-      "9100000000000000004",
-      "9100000000000000003",
-      "9100000000000000001",
-    ],
     summary: "A site that lets people choose the nine albums that defined them has generated thousands of posters in a day, with users comparing picks and debating omissions.",
     relatedUserIds: [
       "9100000000000000004",
@@ -276,11 +227,6 @@ export const mockNews: NewsStoryRecord[] = [
     postCount: 15800,
     publishedAt: "2026-09-30T21:00:00.000Z",
     isTrendingNow: false,
-    facepileIds: [
-      "9100000000000000005",
-      "9100000000000000002",
-      "9100000000000000006",
-    ],
     summary: "A short post about dressing up for a virtual job interview has been shared tens of thousands of times, with users adding their own stories of over-preparing for video calls.",
     relatedUserIds: [
       "9100000000000000005",
@@ -299,11 +245,6 @@ export const mockNews: NewsStoryRecord[] = [
     postCount: 6400,
     publishedAt: "2026-09-28T12:00:00.000Z",
     isTrendingNow: false,
-    facepileIds: [
-      "9100000000000000005",
-      "9100000000000000004",
-      "9100000000000000006",
-    ],
     summary: "An interview recorded with photorealistic avatars is circulating again, prompting fresh debate about where virtual presence is heading.",
     relatedUserIds: [
       "9100000000000000005",
@@ -322,11 +263,6 @@ export const mockNews: NewsStoryRecord[] = [
     postCount: 2100,
     publishedAt: "2026-09-27T18:00:00.000Z",
     isTrendingNow: false,
-    facepileIds: [
-      "9100000000000000004",
-      "9100000000000000005",
-      "9100000000000000006",
-    ],
     summary: "An animated music video exploring fears about artificial intelligence is being shared widely, with viewers praising its art direction.",
     relatedUserIds: [
       "9100000000000000004",
@@ -345,11 +281,6 @@ export const mockNews: NewsStoryRecord[] = [
     postCount: 1200,
     publishedAt: "2026-07-31T23:30:00.000Z",
     isTrendingNow: false,
-    facepileIds: [
-      "9100000000000000003",
-      "9100000000000000002",
-      "9100000000000000005",
-    ],
     summary: "Artists are showing how AI-assisted sculpting tools take a character from concept to a printable collectible figure.",
     relatedUserIds: [
       "9100000000000000003",
@@ -369,11 +300,6 @@ export const mockNews: NewsStoryRecord[] = [
     postCount: 7600,
     publishedAt: "2026-09-17T22:00:00.000Z",
     isTrendingNow: false,
-    facepileIds: [
-      "9100000000000000003",
-      "9100000000000000005",
-      "9100000000000000001",
-    ],
     summary: "A new family of compact automation models small enough to run on phones is drawing attention for benchmark results close to far larger models.",
     relatedUserIds: [
       "9100000000000000003",
@@ -392,11 +318,6 @@ export const mockNews: NewsStoryRecord[] = [
     postCount: 3300,
     publishedAt: "2026-09-27T21:00:00.000Z",
     isTrendingNow: true,
-    facepileIds: [
-      "9100000000000000005",
-      "9100000000000000006",
-      "9100000000000000001",
-    ],
     summary: "Developers in Argentina are meeting up around open-source coding agents, sharing workflows and photos from community weekends.",
     relatedUserIds: [
       "9100000000000000005",
@@ -415,11 +336,6 @@ export const mockNews: NewsStoryRecord[] = [
     postCount: 2800,
     publishedAt: "2026-09-30T20:00:00.000Z",
     isTrendingNow: false,
-    facepileIds: [
-      "9100000000000000003",
-      "9100000000000000002",
-      "9100000000000000004",
-    ],
     summary: "A thread about reusing agent skills sparked a discussion on whether shared skills should be adopted as-is or treated as a starting point.",
     relatedUserIds: [
       "9100000000000000003",
@@ -438,11 +354,6 @@ export const mockNews: NewsStoryRecord[] = [
     postCount: 1700,
     publishedAt: "2026-09-21T20:00:00.000Z",
     isTrendingNow: false,
-    facepileIds: [
-      "9100000000000000001",
-      "9100000000000000003",
-      "9100000000000000005",
-    ],
     summary: "Creative developers are posting interactive 3D experiences built with Three.js, from jelly-like particles to full browser games.",
     relatedUserIds: [
       "9100000000000000001",
@@ -463,11 +374,6 @@ export const mockNews: NewsStoryRecord[] = [
     postCount: 900,
     publishedAt: "2026-08-02T18:00:00.000Z",
     isTrendingNow: false,
-    facepileIds: [
-      "9100000000000000002",
-      "9100000000000000003",
-      "9100000000000000004",
-    ],
     summary: "Small teams launching Android apps are asking for testers on X to meet store requirements, with others offering tips on running QA rounds.",
     relatedUserIds: [
       "9100000000000000002",
@@ -486,11 +392,6 @@ export const mockNews: NewsStoryRecord[] = [
     postCount: 1500,
     publishedAt: "2026-10-01T19:00:00.000Z",
     isTrendingNow: false,
-    facepileIds: [
-      "9100000000000000003",
-      "9100000000000000006",
-      "9100000000000000001",
-    ],
     summary: "A peelable 3D gummy candy has people posting reviews and asking where to buy it.",
     relatedUserIds: [
       "9100000000000000003",
@@ -509,11 +410,6 @@ export const mockNews: NewsStoryRecord[] = [
     postCount: 700,
     publishedAt: "2026-08-19T15:00:00.000Z",
     isTrendingNow: false,
-    facepileIds: [
-      "9100000000000000004",
-      "9100000000000000002",
-      "9100000000000000001",
-    ],
     summary: "A short animated film tells the tongue-in-cheek origin story of a studio's robot mascot, and employees are sharing their favourite scenes.",
     relatedUserIds: [
       "9100000000000000001",
@@ -532,11 +428,6 @@ export const mockNews: NewsStoryRecord[] = [
     postCount: 1100,
     publishedAt: "2026-10-01T03:00:00.000Z",
     isTrendingNow: false,
-    facepileIds: [
-      "9100000000000000005",
-      "9100000000000000004",
-      "9100000000000000003",
-    ],
     summary: "A new service that collects saved links over chat and sends them back in print at the end of the month has readers rethinking how they save articles.",
     relatedUserIds: [
       "9100000000000000005",
@@ -555,11 +446,6 @@ export const mockNews: NewsStoryRecord[] = [
     postCount: 480,
     publishedAt: "2026-09-30T17:00:00.000Z",
     isTrendingNow: false,
-    facepileIds: [
-      "9100000000000000005",
-      "9100000000000000004",
-      "9100000000000000006",
-    ],
     summary: "Travellers are sharing photos of shops abroad that share names with brands from home.",
     relatedUserIds: [
       "9100000000000000005",
@@ -578,11 +464,6 @@ export const mockNews: NewsStoryRecord[] = [
     postCount: 530,
     publishedAt: "2026-09-29T21:00:00.000Z",
     isTrendingNow: false,
-    facepileIds: [
-      "9100000000000000001",
-      "9100000000000000006",
-      "9100000000000000002",
-    ],
     summary: "Students are asking for and sharing advice on presenting a thesis, from rehearsing out loud to keeping slides short.",
     relatedUserIds: [
       "9100000000000000001",
@@ -596,13 +477,39 @@ export const mockNews: NewsStoryRecord[] = [
   },
 ];
 
-export function toNewsStory(record: NewsStoryRecord): NewsStory {
-  const { facepileIds, ...story } = record;
-  return {
-    ...story,
-    facepile: facepileIds.flatMap((id) => {
-      const user = findUserById(id);
-      return user ? [toSummary(user)] : [];
-    }),
-  };
+function hasRealAvatar(user: UserRecord) {
+  return !user.avatarUrl.startsWith("/avatars/");
+}
+
+function storyAuthors(record: NewsStoryRecord) {
+  return [...record.topTweetIds, ...record.latestTweetIds].flatMap((id) => {
+    const tweet = mockTweets.find((item) => item.id === id);
+    const author = tweet ? findUserById(tweet.authorId) : null;
+    return author ? [author] : [];
+  });
+}
+
+function fallbackUsers(record: NewsStoryRecord) {
+  const pool = mockUsers.filter(hasRealAvatar);
+  const offset = Number(BigInt(record.id) % BigInt(pool.length));
+  return [...pool.slice(offset), ...pool.slice(0, offset)];
+}
+
+function facepileFor(record: NewsStoryRecord, viewerId: string | null) {
+  const seen = new Set<string>(viewerId ? [viewerId] : []);
+  return [...storyAuthors(record), ...fallbackUsers(record)]
+    .filter((user) => {
+      if (!hasRealAvatar(user) || seen.has(user.id)) return false;
+      seen.add(user.id);
+      return true;
+    })
+    .slice(0, FACEPILE_SIZE)
+    .map(toSummary);
+}
+
+export function toNewsStory(
+  record: NewsStoryRecord,
+  viewerId: string | null,
+): NewsStory {
+  return { ...record, facepile: facepileFor(record, viewerId) };
 }

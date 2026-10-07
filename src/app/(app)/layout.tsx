@@ -1,5 +1,9 @@
+import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { AppShell } from "@/components/layout/app-shell";
+import { KeyboardShortcuts } from "@/components/layout/keyboard-shortcuts";
+import { MobileNav } from "@/components/layout/mobile-nav";
+import { UnreadTitle } from "@/components/layout/unread-title";
 import { Sidebar } from "@/components/layout/sidebar";
 import { UserCardProvider } from "@/components/user/user-card-context";
 import { TweetServicesProvider } from "@/components/tweet/tweet-services-context";
@@ -63,11 +67,18 @@ export default async function AppLayout({
             unreadNotifications={unreadNotifications}
           />
         }
+        mobileNav={
+          <Suspense fallback={null}>
+            <MobileNav unreadNotifications={unreadNotifications} />
+          </Suspense>
+        }
         panel={panel}
         modal={modal}
       >
         {children}
       </AppShell>
+      <KeyboardShortcuts handle={session.user.handle} />
+      <UnreadTitle count={unreadNotifications} />
       </SearchServicesProvider>
       </TweetServicesProvider>
     </UserCardProvider>
