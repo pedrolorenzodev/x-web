@@ -225,7 +225,7 @@ export function TweetVideo(props: TweetVideoProps) {
             fade,
             controlsPinned
               ? "opacity-100"
-              : "opacity-0 group-focus-within/video:opacity-100 group-hover/video:opacity-100",
+              : "opacity-0 group-has-focus-visible/video:opacity-100 group-hover/video:opacity-100",
           )}
         />
       ) : null}

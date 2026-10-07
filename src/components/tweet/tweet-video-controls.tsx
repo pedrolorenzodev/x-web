@@ -165,8 +165,8 @@ function VolumeControl({
 
   return (
     <div className="group/volume relative">
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 rounded-full bg-white/10 opacity-0 transition-opacity duration-200 ease-[ease] group-focus-within/volume:opacity-100 group-hover/volume:opacity-100" />
-      <div className="invisible absolute bottom-[52px] left-1/2 -translate-x-1/2 group-focus-within/volume:visible group-hover/volume:visible">
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 rounded-full bg-white/10 opacity-0 transition-opacity duration-200 ease-[ease] group-has-focus-visible/volume:opacity-100 group-hover/volume:opacity-100" />
+      <div className="invisible absolute bottom-[52px] left-1/2 -translate-x-1/2 group-has-focus-visible/volume:visible group-hover/volume:visible">
         <div
           role="slider"
           tabIndex={0}
