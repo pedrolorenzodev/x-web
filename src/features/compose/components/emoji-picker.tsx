@@ -117,11 +117,12 @@ export function EmojiPicker({ anchorRef, onSelect, onClose }: EmojiPickerProps) 
     if (!grid || searching) return;
     function onScroll() {
       if (!grid) return;
-      const headings = grid.querySelectorAll<HTMLElement>("[data-section]");
-      let current = headings[0]?.dataset.section;
-      headings.forEach((heading) => {
-        if (heading.offsetTop - grid.offsetTop <= grid.scrollTop + 1) {
-          current = heading.dataset.section;
+      const gridTop = grid.getBoundingClientRect().top;
+      const sections = grid.querySelectorAll<HTMLElement>("[data-section]");
+      let current = sections[0]?.dataset.section;
+      sections.forEach((section) => {
+        if (section.getBoundingClientRect().top - gridTop <= 1) {
+          current = section.dataset.section;
         }
       });
       if (current) setActiveSection(current);
@@ -135,10 +136,12 @@ export function EmojiPicker({ anchorRef, onSelect, onClose }: EmojiPickerProps) 
     setActiveSection(sectionId);
     requestAnimationFrame(() => {
       const grid = gridRef.current;
-      const heading = grid?.querySelector<HTMLElement>(
+      const section = grid?.querySelector<HTMLElement>(
         `[data-section="${sectionId}"]`,
       );
-      if (grid && heading) grid.scrollTop = heading.offsetTop - grid.offsetTop;
+      if (!grid || !section) return;
+      grid.scrollTop +=
+        section.getBoundingClientRect().top - grid.getBoundingClientRect().top;
     });
   }
 
@@ -222,9 +225,8 @@ export function EmojiPicker({ anchorRef, onSelect, onClose }: EmojiPickerProps) 
           className="relative min-h-0 flex-1 overflow-y-auto overscroll-contain px-2"
         >
           {sections.map((section) => (
-            <div key={section.id} className="[content-visibility:auto]">
+            <div key={section.id} data-section={section.id}>
               <h3
-                data-section={section.id}
                 className="sticky top-0 z-1 bg-background/95 px-1 pt-3 pb-2 text-lg font-bold"
               >
                 {section.label}

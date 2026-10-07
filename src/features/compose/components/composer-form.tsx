@@ -26,6 +26,7 @@ import { AudienceMenu } from "@/features/compose/components/audience-menu";
 import {
   canPublish,
   countCharacters,
+  hasContent,
 } from "@/features/compose/utils/composer-status";
 import {
   isPostEmpty,
@@ -33,6 +34,8 @@ import {
 } from "@/features/compose/utils/composer-snapshot";
 import { formatScheduleDate } from "@/features/compose/utils/format-schedule";
 import { cn } from "@/lib/utils";
+
+const FLOATING_LAYERS = "[role=menu], [role=dialog]";
 
 const placeholders = {
   post: "What’s happening?",
@@ -210,6 +213,15 @@ export function ComposerForm({
   return (
     <div
       onFocusCapture={() => setEngaged(true)}
+      onBlurCapture={(event) => {
+        if (modal || picker || hasContent(snapshot)) return;
+        const next = event.relatedTarget;
+        if (next instanceof Element) {
+          if (event.currentTarget.contains(next)) return;
+          if (next.closest(FLOATING_LAYERS)) return;
+        }
+        setEngaged(false);
+      }}
       className={cn(
         "relative",
         modal ? "flex flex-col" : "border-b border-border",
