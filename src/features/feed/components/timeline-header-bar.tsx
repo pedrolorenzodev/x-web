@@ -6,13 +6,17 @@ import { ProgressBar } from "@/components/ui/spinner";
 import { TabBar } from "@/components/ui/tab-bar";
 import { Tooltip } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
+import { routes } from "@/config/routes";
+import { useNavReselect } from "@/hooks/use-nav-reselect";
 import {
+  isListTimelineKind,
   listTimelineKind,
   type TimelineKind,
 } from "@/features/feed/types/timeline-kind";
 import type { TimelineList } from "@/features/feed/types/timeline-list";
 import { useTimelineTabs } from "@/features/feed/components/timeline-tabs-provider";
 import { ManageTimelinesModal } from "@/features/feed/components/manage-timelines-modal";
+import { NewPostsPill } from "@/features/feed/components/new-posts-pill";
 
 const interactive =
   "transition-colors duration-200 ease-[ease] hover:bg-foreground/10";
@@ -31,6 +35,9 @@ export function TimelineHeaderBar({ kind, lists }: TimelineHeaderBarProps) {
   const { pending, select } = useTimelineTabs();
   const [managing, setManaging] = useState(false);
   const activeKind = pending?.kind ?? kind;
+  useNavReselect(routes.home, () => {
+    if (activeKind) select(activeKind, activeKind);
+  });
   const tabs = [
     ...homeTabs,
     ...(lists ?? [])
@@ -89,6 +96,9 @@ export function TimelineHeaderBar({ kind, lists }: TimelineHeaderBarProps) {
           </Tooltip>
         </div>
       </div>
+      {kind && lists && !isListTimelineKind(kind) ? (
+        <NewPostsPill key={kind} kind={kind} />
+      ) : null}
       {pending?.reselected ? (
         <div className="absolute inset-x-0 top-full">
           <ProgressBar label="Refreshing timeline" />

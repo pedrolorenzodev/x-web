@@ -5,9 +5,12 @@ import {
   PhotoCarousel,
   type PhotosVariant,
 } from "@/components/tweet/photo-carousel";
+import { TweetVideo } from "@/components/tweet/tweet-video";
 
 const SINGLE_MAX_HEIGHT = 510;
 const BORDER = 2;
+const FRAME =
+  "relative mt-3 block overflow-hidden rounded-2xl border border-border";
 
 type TweetPhotosProps = {
   media: TweetMedia[];
@@ -20,20 +23,28 @@ type SinglePhotoProps = {
   href: string;
 };
 
-function SinglePhoto({ photo, href }: SinglePhotoProps) {
-  const frame =
-    "relative mt-3 block overflow-hidden rounded-2xl border border-border";
+function portraitSize(media: TweetMedia) {
+  return {
+    width: (media.width / media.height) * SINGLE_MAX_HEIGHT,
+    height: SINGLE_MAX_HEIGHT + BORDER,
+  };
+}
 
+function SingleVideo({ video }: { video: TweetMedia }) {
+  const style =
+    video.height > video.width
+      ? portraitSize(video)
+      : { aspectRatio: video.width / video.height };
+
+  return (
+    <TweetVideo media={video} style={style} sizes="516px" className={FRAME} />
+  );
+}
+
+function SinglePhoto({ photo, href }: SinglePhotoProps) {
   if (photo.height > photo.width) {
     return (
-      <Link
-        href={href}
-        style={{
-          width: (photo.width / photo.height) * SINGLE_MAX_HEIGHT,
-          height: SINGLE_MAX_HEIGHT + BORDER,
-        }}
-        className={frame}
-      >
+      <Link href={href} style={portraitSize(photo)} className={FRAME}>
         <Image
           src={photo.url}
           alt={photo.alt}
@@ -46,7 +57,7 @@ function SinglePhoto({ photo, href }: SinglePhotoProps) {
   }
 
   return (
-    <Link href={href} className={frame}>
+    <Link href={href} className={FRAME}>
       <Image
         src={photo.url}
         alt={photo.alt}
@@ -65,7 +76,9 @@ export function TweetPhotos({
   variant = "card",
 }: TweetPhotosProps) {
   if (media.length === 1) {
-    return <SinglePhoto photo={media[0]} href={`${href}/photo/1`} />;
+    const [item] = media;
+    if (item.type === "video") return <SingleVideo video={item} />;
+    return <SinglePhoto photo={item} href={`${href}/photo/1`} />;
   }
 
   return <PhotoCarousel media={media} href={href} variant={variant} />;

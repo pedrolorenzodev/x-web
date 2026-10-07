@@ -6,6 +6,7 @@ import { TweetServicesProvider } from "@/components/tweet/tweet-services-context
 import { getProfile } from "@/features/profile/api/get-profile";
 import { deleteTweet } from "@/features/tweet/api/delete-tweet";
 import { togglePinTweet } from "@/features/tweet/api/toggle-pin-tweet";
+import { votePoll } from "@/features/tweet/api/vote-poll";
 import { getUserCard } from "@/features/profile/api/get-user-card";
 import { toggleFollow } from "@/features/profile/api/toggle-follow";
 import { getSession } from "@/features/auth/api/get-session";
@@ -45,6 +46,7 @@ export default async function AppLayout({
         pinnedTweetId={viewer?.pinnedTweetId ?? null}
         deleteTweet={deleteTweet}
         togglePinTweet={togglePinTweet}
+        votePoll={votePoll}
       >
       <SearchServicesProvider
         getTypeahead={getTypeahead}

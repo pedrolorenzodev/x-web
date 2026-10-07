@@ -7,6 +7,7 @@ import {
 } from "@/features/feed/types/timeline-kind";
 import { findUserById, toSummary } from "@/mocks/users";
 import { mockListMembers } from "@/mocks/lists";
+import { isIncomingDelivered } from "@/mocks/incoming-tweets";
 import {
   byNewest,
   mockRetweets,
@@ -77,5 +78,26 @@ export function buildTimelineItems(
       return [{ tweet, retweetedBy: retweeter ? toSummary(retweeter) : null }];
     });
 
-  return kind === "for-you" ? rankForYou(items, viewerId) : items;
+  if (kind !== "for-you") return items;
+
+  const isIncoming = (item: TimelineItem) =>
+    !item.retweetedBy && isIncomingDelivered(item.tweet.id);
+  const isOwn = (item: TimelineItem) =>
+    !item.retweetedBy && item.tweet.author.id === viewerId;
+  const newestRankedAt = Math.max(
+    ...items
+      .filter((item) => !isIncoming(item) && !isOwn(item))
+      .map((item) => Date.parse(item.tweet.createdAt)),
+  );
+  const leadsTimeline = (item: TimelineItem) =>
+    isIncoming(item) ||
+    (isOwn(item) && Date.parse(item.tweet.createdAt) > newestRankedAt);
+
+  return [
+    ...items.filter(leadsTimeline),
+    ...rankForYou(
+      items.filter((item) => !leadsTimeline(item)),
+      viewerId,
+    ),
+  ];
 }

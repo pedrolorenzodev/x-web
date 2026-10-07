@@ -20,7 +20,12 @@ export type TweetMedia = {
   isGif?: boolean;
 };
 
-export type ReplySettings = "everyone" | "following" | "verified" | "mentioned";
+export type ReplySettings =
+  | "everyone"
+  | "following"
+  | "following_extended"
+  | "mentioned"
+  | "verified";
 
 export type PollOption = {
   label: string;
@@ -67,22 +72,47 @@ export type Tweet = {
   likedAt: string | null;
   bookmarkedAt: string | null;
   quotedTweet: QuotedTweet | null;
+  quoteUnavailable?: boolean;
+};
+
+export type NestedQuote = Pick<
+  Tweet,
+  "id" | "author" | "text" | "createdAt"
+> & {
+  thumbnail: TweetMedia | null;
 };
 
 export type QuotedTweet = Pick<
   Tweet,
   "id" | "author" | "text" | "media" | "createdAt" | "replyingTo"
->;
+> & {
+  nestedQuote?: NestedQuote | null;
+  nestedQuoteUnavailable?: boolean;
+};
 
 export type TimelineItem = {
   tweet: Tweet;
   retweetedBy: UserSummary | null;
 };
 
-export type NewTweetInput = {
+export type NewPollInput = {
+  choices: string[];
+  durationMinutes: number;
+};
+
+export type NewPost = {
   text: string;
+  media: TweetMedia[];
+  poll: NewPollInput | null;
+};
+
+export type NewTweetInput = {
+  posts: NewPost[];
   replyToId: string | null;
-  quotedId?: string | null;
+  quotedId: string | null;
+  replySettings: ReplySettings;
+  scheduledAt: string | null;
+  draftId: string | null;
 };
 
 export type TweetActions = {

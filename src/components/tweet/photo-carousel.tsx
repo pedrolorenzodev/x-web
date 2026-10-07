@@ -7,6 +7,7 @@ import { useCallback, useRef, useState } from "react";
 import type { ComponentType, MouseEvent, SVGProps } from "react";
 import type { TweetMedia } from "@/types/tweet";
 import { ArrowRightIcon, BackIcon } from "@/components/ui/icons";
+import { TweetVideo } from "@/components/tweet/tweet-video";
 import { cn } from "@/lib/utils";
 
 const GAP = 4;
@@ -15,6 +16,8 @@ const MIN_FILL_HEIGHT_RATIO = 0.37;
 const MAX_HEIGHT_RATIO = 1.2444;
 const FALLBACK_HEIGHT_RATIO = 0.68;
 const MAX_TILE_WIDTH_RATIO = 0.8;
+const TILE =
+  "relative shrink-0 snap-start overflow-hidden rounded-lg border border-border";
 
 type TileLayout = {
   height: number;
@@ -190,23 +193,33 @@ export function PhotoCarousel({ media, href, variant }: PhotoCarouselProps) {
           config.list,
         )}
       >
-        {media.map((photo, index) => (
-          <Link
-            key={photo.url}
-            href={`${href}/photo/${index + 1}`}
-            aria-label={`Image ${index + 1} of ${media.length}`}
-            style={{ width: tile.width(photo), height: tile.height }}
-            className="relative shrink-0 snap-start overflow-hidden rounded-lg border border-border"
-          >
-            <Image
-              src={photo.url}
-              alt={photo.alt}
-              fill
+        {media.map((photo, index) =>
+          photo.type === "video" ? (
+            <TweetVideo
+              key={photo.url}
+              media={photo}
               sizes="414px"
-              className="object-cover"
+              style={{ width: tile.width(photo), height: tile.height }}
+              className={TILE}
             />
-          </Link>
-        ))}
+          ) : (
+            <Link
+              key={photo.url}
+              href={`${href}/photo/${index + 1}`}
+              aria-label={`Image ${index + 1} of ${media.length}`}
+              style={{ width: tile.width(photo), height: tile.height }}
+              className={TILE}
+            >
+              <Image
+                src={photo.url}
+                alt={photo.alt}
+                fill
+                sizes="414px"
+                className="object-cover"
+              />
+            </Link>
+          ),
+        )}
       </div>
 
       <Arrow

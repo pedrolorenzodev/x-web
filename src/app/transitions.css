@@ -207,3 +207,15 @@
 @media (prefers-reduced-motion: reduce) {
   .t-progress-indeterminate { animation-duration: 2.2s; }
 }
+
+.t-progress-fill {
+  animation: t-progress-fill 1.6s cubic-bezier(0.1, 0.6, 0.3, 1) forwards;
+}
+@keyframes t-progress-fill {
+  0%   { width: 0%; }
+  100% { width: 92%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .t-progress-fill { animation: none; width: 100%; }
+}

@@ -13,6 +13,9 @@ import { TweetActions } from "@/components/tweet/tweet-actions";
 import { TweetPhotos } from "@/components/tweet/tweet-photos";
 import { TweetText } from "@/components/tweet/tweet-text";
 import { QuotedTweet } from "@/components/tweet/quoted-tweet";
+import { LinkCard } from "@/components/tweet/link-card";
+import { TweetPoll } from "@/components/tweet/tweet-poll";
+import { UnavailableQuote } from "@/components/tweet/unavailable-quote";
 import { formatDetailCount } from "@/utils/format-detail-count";
 import { formatFullDate } from "@/utils/format-full-date";
 
@@ -102,13 +105,18 @@ export function FocalTweet({
         />
       ) : null}
 
+      {tweet.poll ? <TweetPoll tweetId={tweet.id} poll={tweet.poll} /> : null}
       {tweet.media.length > 0 ? (
         <TweetPhotos media={tweet.media} href={tweetHref} variant="focal" />
+      ) : null}
+      {tweet.card && tweet.media.length === 0 ? (
+        <LinkCard card={tweet.card} />
       ) : null}
 
       {tweet.quotedTweet ? (
         <QuotedTweet tweet={tweet.quotedTweet} variant="focal" />
       ) : null}
+      {tweet.quoteUnavailable ? <UnavailableQuote className="mt-3" /> : null}
 
       <div className="my-4 flex flex-wrap items-center gap-1 text-base text-muted">
         <Link href={tweetHref} className="hover:underline">

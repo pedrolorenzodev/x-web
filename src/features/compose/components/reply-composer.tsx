@@ -7,22 +7,25 @@ import { routes } from "@/config/routes";
 import { MAX_TWEET_LENGTH } from "@/config/tweet";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import {
-  EmojiIcon,
-  FlagIcon,
-  GifIcon,
-  LocationIcon,
-  MediaIcon,
-} from "@/components/ui/icons";
-import {
-  ComposerToolbar,
-  type ComposerTool,
-} from "@/features/compose/components/composer-toolbar";
-import {
-  CharacterCounter,
-  countCharacters,
-} from "@/features/compose/components/character-counter";
+import { useComposer } from "@/features/compose/hooks/use-composer";
+import { useComposerTools } from "@/features/compose/hooks/use-composer-tools";
 import { usePublish } from "@/features/compose/hooks/use-publish";
+import { ComposerToolbar } from "@/features/compose/components/composer-toolbar";
+import { ComposerPickers } from "@/features/compose/components/composer-pickers";
+import { CharacterCounter } from "@/features/compose/components/character-counter";
+import {
+  ComposerTextarea,
+  PremiumUpsell,
+} from "@/features/compose/components/composer-textarea";
+import { ComposerMedia } from "@/features/compose/components/composer-media";
+import {
+  canPublish,
+  countCharacters,
+} from "@/features/compose/utils/composer-status";
+import {
+  createEmptySnapshot,
+  toNewPosts,
+} from "@/features/compose/utils/composer-snapshot";
 import { cn } from "@/lib/utils";
 
 type ReplyComposerProps = {
@@ -31,33 +34,36 @@ type ReplyComposerProps = {
   tweetId: string;
 };
 
-const tools: ComposerTool[] = [
-  { label: "Add photos or video", tooltip: "Media", icon: MediaIcon },
-  { label: "Add a GIF", tooltip: "GIF", icon: GifIcon },
-  { label: "Add emoji", tooltip: "Emoji", icon: EmojiIcon },
-  { label: "Tag location", tooltip: "Location", icon: LocationIcon, disabled: true },
-  { label: "Content disclosure", tooltip: "Content disclosure", icon: FlagIcon },
-];
-
 export function ReplyComposer({
   viewer,
   replyTo,
   tweetId,
 }: ReplyComposerProps) {
-  const [text, setText] = useState("");
+  const composer = useComposer(createEmptySnapshot);
+  const { snapshot, activePost: post } = composer;
+  const { tools, picker, setPicker, emojiButtonRef, fileInputRef } =
+    useComposerTools(composer, { withPollAndSchedule: false });
   const [expanded, setExpanded] = useState(false);
   const { pending, publish } = usePublish();
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const length = countCharacters(text);
-  const empty = text.trim().length === 0;
-  const tooLong = length > MAX_TWEET_LENGTH;
+  const textareas = useRef(new Map<string, HTMLTextAreaElement>());
+  const length = countCharacters(post.text);
 
   function reply() {
-    publish({ text, replyToId: tweetId }, () => {
-      setText("");
-      setExpanded(false);
-      textareaRef.current?.blur();
-    });
+    publish(
+      {
+        posts: toNewPosts(snapshot.posts),
+        replyToId: tweetId,
+        quotedId: null,
+        replySettings: snapshot.replySettings,
+        scheduledAt: null,
+        draftId: null,
+      },
+      () => {
+        composer.reset();
+        setExpanded(false);
+        textareas.current.forEach((textarea) => textarea.blur());
+      },
+    );
   }
 
   return (
@@ -71,8 +77,10 @@ export function ReplyComposer({
         <div
           role="progressbar"
           aria-label="Posting"
-          className="absolute inset-x-0 top-0 h-[3px] bg-accent"
-        />
+          className="absolute inset-x-0 top-0 h-[3px]"
+        >
+          <div className="t-progress-fill h-full bg-accent" />
+        </div>
       ) : null}
 
       {expanded ? (
@@ -102,19 +110,29 @@ export function ReplyComposer({
           )}
         >
           <div className={cn("min-w-0 flex-1", expanded && "min-h-12 pt-1.5")}>
-            <textarea
-              ref={textareaRef}
-              value={text}
-              onChange={(event) => setText(event.target.value)}
+            <ComposerTextarea
+              textareaRef={(element) => {
+                if (element) textareas.current.set(post.id, element);
+                else textareas.current.delete(post.id);
+              }}
+              value={post.text}
+              onValueChange={(text) => composer.setText(0, text)}
               onFocus={() => setExpanded(true)}
               placeholder="Post your reply"
               aria-label="Post text"
               rows={1}
-              className={cn(
-                "field-sizing-content block w-full resize-none bg-transparent px-0.5 text-xl outline-none placeholder:text-muted",
-                expanded && "py-0.5",
-              )}
+              className={cn(!expanded && "py-0")}
             />
+            {length > MAX_TWEET_LENGTH ? <PremiumUpsell /> : null}
+            {post.media.length > 0 ? (
+              <ComposerMedia
+                media={post.media}
+                onRemove={(mediaId) => composer.removeMedia(0, mediaId)}
+                onAltChange={(mediaId, alt) =>
+                  composer.updateMedia(0, mediaId, { alt })
+                }
+              />
+            ) : null}
           </div>
 
           <div className={cn("flex items-center", expanded && "pt-2")}>
@@ -127,7 +145,7 @@ export function ReplyComposer({
             >
               {expanded ? <CharacterCounter length={length} /> : null}
               <Button
-                disabled={empty || tooLong || pending}
+                disabled={!canPublish(snapshot, false) || pending}
                 onClick={reply}
                 className="disabled:opacity-25"
               >
@@ -137,6 +155,15 @@ export function ReplyComposer({
           </div>
         </div>
       </div>
+
+      <ComposerPickers
+        composer={composer}
+        picker={picker}
+        setPicker={setPicker}
+        emojiButtonRef={emojiButtonRef}
+        fileInputRef={fileInputRef}
+        textareas={textareas}
+      />
     </div>
   );
 }

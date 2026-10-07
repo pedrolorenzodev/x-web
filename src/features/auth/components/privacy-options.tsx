@@ -1,7 +1,7 @@
 import { useState, type FocusEvent, type MouseEvent } from "react";
 import { ChevronDownIcon } from "@/components/ui/icons";
 import { useEscapeToClose } from "@/hooks/use-escape-to-close";
-import { ToggleSwitch } from "@/features/auth/components/toggle-switch";
+import { Switch } from "@/components/ui/switch";
 
 const TITLE = "Connect with friends you know";
 
@@ -55,7 +55,7 @@ export function PrivacyOptions() {
                   Let people find your account by your phone number or email
                 </p>
               </div>
-              <ToggleSwitch
+              <Switch
                 checked={discoverable}
                 label={TITLE}
                 onChange={setDiscoverable}

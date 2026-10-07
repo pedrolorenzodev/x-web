@@ -6,6 +6,7 @@ type TweetServices = {
   pinnedTweetId: string | null;
   deleteTweet: (tweetId: string) => Promise<void>;
   togglePinTweet: (tweetId: string) => Promise<void>;
+  votePoll: (tweetId: string, optionIndex: number) => Promise<void>;
 };
 
 const TweetServicesContext = createContext<TweetServices | null>(null);

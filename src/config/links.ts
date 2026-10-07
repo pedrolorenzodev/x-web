@@ -2,6 +2,8 @@ export const legalLinks = {
   termsOfService: "https://x.com/tos",
   privacyPolicy: "https://x.com/privacy",
   cookieUse: "https://help.x.com/rules-and-policies/twitter-cookies",
+  paidPartnerships:
+    "https://help.x.com/rules-and-policies/paid-partnerships-policy",
 } as const;
 
 export type FooterLink = {

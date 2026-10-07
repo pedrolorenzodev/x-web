@@ -30,6 +30,8 @@
   --color-inverted-hover: #d7dbdc;
   --color-inverted-pressed: #bfc2c3;
   --color-button-focus-ring: #f7f9fa;
+  --color-overflow-highlight: rgb(138 13 32);
+  --color-premium-tint: rgb(2 17 61);
 
   --shadow-menu: 0 4px 12px rgb(0 0 0 / 0.5), 0 0 2px rgb(0 0 0 / 0.35);
 

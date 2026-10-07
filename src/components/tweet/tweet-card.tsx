@@ -15,6 +15,9 @@ import { TweetActions } from "@/components/tweet/tweet-actions";
 import { TweetPhotos } from "@/components/tweet/tweet-photos";
 import { TweetText } from "@/components/tweet/tweet-text";
 import { QuotedTweet } from "@/components/tweet/quoted-tweet";
+import { LinkCard } from "@/components/tweet/link-card";
+import { TweetPoll } from "@/components/tweet/tweet-poll";
+import { UnavailableQuote } from "@/components/tweet/unavailable-quote";
 import { formatFullDate } from "@/utils/format-full-date";
 import { formatRelativeTime } from "@/utils/format-relative-time";
 
@@ -170,8 +173,14 @@ export function TweetCard({
             <TweetText text={tweet.text} className="mt-0.5" />
           ) : null}
 
+          {tweet.poll ? (
+            <TweetPoll tweetId={tweet.id} poll={tweet.poll} />
+          ) : null}
           {tweet.media.length > 0 ? (
             <TweetPhotos media={tweet.media} href={tweetHref} />
+          ) : null}
+          {tweet.card && tweet.media.length === 0 ? (
+            <LinkCard card={tweet.card} />
           ) : null}
 
           {tweet.quotedTweet ? (
@@ -179,6 +188,9 @@ export function TweetCard({
               tweet={tweet.quotedTweet}
               condensed={tweet.media.length > 0}
             />
+          ) : null}
+          {tweet.quoteUnavailable ? (
+            <UnavailableQuote className="mt-3" />
           ) : null}
 
           <TweetActions tweet={tweet} actions={actions} />

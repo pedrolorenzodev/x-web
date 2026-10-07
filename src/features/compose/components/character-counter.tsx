@@ -3,8 +3,11 @@ import { cn } from "@/lib/utils";
 
 const WARNING_AT = 20;
 
-export function countCharacters(text: string) {
-  return [...text].length;
+function describeRemaining(remaining: number) {
+  if (remaining < 0) {
+    return `You have exceeded the character limit by ${-remaining}`;
+  }
+  return `${remaining} ${remaining === 1 ? "character" : "characters"} remaining`;
 }
 
 export function CharacterCounter({ length }: { length: number }) {
@@ -23,12 +26,16 @@ export function CharacterCounter({ length }: { length: number }) {
       aria-valuemin={0}
       aria-valuemax={MAX_TWEET_LENGTH}
       aria-valuenow={length}
+      aria-valuetext={describeRemaining(remaining)}
       className="relative flex items-center justify-center"
       style={{ width: size, height: size }}
     >
       <svg
         viewBox={`0 0 ${size + 4} ${size + 4}`}
-        className="absolute -inset-0.5 -rotate-90 overflow-visible"
+        className={cn(
+          "absolute -inset-0.5 -rotate-90 overflow-visible",
+          remaining < -9 && "opacity-0",
+        )}
       >
         <circle
           cx="50%"
@@ -57,6 +64,7 @@ export function CharacterCounter({ length }: { length: number }) {
       </svg>
       {warning ? (
         <span
+          aria-hidden
           className={cn(
             "relative text-xs",
             remaining < 0 ? "text-danger" : "text-muted",

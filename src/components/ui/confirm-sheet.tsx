@@ -18,6 +18,7 @@ type ConfirmSheetProps = {
   backdrop?: "mask" | "opaque-mask";
   onConfirm: () => void;
   onCancel: () => void;
+  onDismiss?: () => void;
 };
 
 const sheetButton =
@@ -41,6 +42,7 @@ export function ConfirmSheet({
   backdrop = "mask",
   onConfirm,
   onCancel,
+  onDismiss = onCancel,
 }: ConfirmSheetProps) {
   const headingId = useId();
   const confirmRef = useRef<HTMLButtonElement>(null);
@@ -53,7 +55,7 @@ export function ConfirmSheet({
       backdrop={backdrop}
       restoreFocusOnUnmount
       onClose={() => {
-        if (!pending) onCancel();
+        if (!pending) onDismiss();
       }}
       focusOnOpen={() => {
         if (confirmRef.current) focusKeepingModality(confirmRef.current);

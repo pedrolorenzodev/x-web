@@ -1,5 +1,6 @@
 import type {
   LinkCard,
+  NestedQuote,
   Poll,
   QuotedTweet,
   ReplySettings,
@@ -285,6 +286,7 @@ export const mockTweets: TweetRecord[] = [
         height: 426,
         alt: "",
         isGif: true,
+        videoUrl: "https://video.twimg.com/tweet_video/HTjxd4nXYAE52dZ.mp4",
       },
     ],
     createdAt: "2026-10-01T16:36:17.000Z",
@@ -1085,7 +1087,8 @@ export const mockTweets: TweetRecord[] = [
         width: 1080,
         height: 1920,
         alt: "",
-        durationMs: 142034,
+        durationMs: 47166,
+        videoUrl: "https://video.twimg.com/amplify_video/2105471924486778880/vid/avc1/720x1280/ryC-3zS3r1nIFsS4.mp4",
       },
     ],
     createdAt: "2026-10-01T01:37:09.000Z",
@@ -1223,6 +1226,7 @@ export const mockTweets: TweetRecord[] = [
         height: 300,
         alt: "Posing Red Carpet GIF by Rocketman",
         isGif: true,
+        videoUrl: "https://video.twimg.com/tweet_video/HTgJTdCXEAAyGCi.mp4",
       },
     ],
     createdAt: "2026-09-30T23:41:57.000Z",
@@ -1566,7 +1570,8 @@ export const mockTweets: TweetRecord[] = [
         width: 2560,
         height: 1440,
         alt: "",
-        durationMs: 27446,
+        durationMs: 464733,
+        videoUrl: "https://video.twimg.com/amplify_video/2105051078144282625/vid/avc1/1280x720/nxLD395afQqDGHQ8.mp4?tag=14",
       },
     ],
     createdAt: "2026-09-30T21:18:10.000Z",
@@ -1711,7 +1716,8 @@ export const mockTweets: TweetRecord[] = [
         width: 540,
         height: 540,
         alt: "",
-        durationMs: 119709,
+        durationMs: 6176,
+        videoUrl: "https://video.twimg.com/amplify_video/2104293139997413377/vid/avc1/540x540/Ad9RGfWR5JFTlGNX.mp4",
       },
     ],
     createdAt: "2026-09-30T18:53:01.000Z",
@@ -2456,7 +2462,8 @@ export const mockTweets: TweetRecord[] = [
         width: 1920,
         height: 1080,
         alt: "",
-        durationMs: 122825,
+        durationMs: 12000,
+        videoUrl: "https://video.twimg.com/amplify_video/2105088336108896256/vid/avc1/1280x720/1G1g-s5sH99tTnyy.mp4",
       },
     ],
     createdAt: "2026-09-30T00:18:59.000Z",
@@ -2757,7 +2764,8 @@ export const mockTweets: TweetRecord[] = [
         width: 1920,
         height: 1080,
         alt: "",
-        durationMs: 108445,
+        durationMs: 15000,
+        videoUrl: "https://video.twimg.com/amplify_video/2104630046623195137/vid/avc1/1280x720/5T3foMbYi0X0T-He.mp4",
       },
     ],
     createdAt: "2026-09-28T20:00:01.000Z",
@@ -2894,7 +2902,8 @@ export const mockTweets: TweetRecord[] = [
         width: 1440,
         height: 1920,
         alt: "",
-        durationMs: 70089,
+        durationMs: 5433,
+        videoUrl: "https://video.twimg.com/amplify_video/2104621299448311808/vid/avc1/720x960/56JcOCnBy43sFrWF.mp4",
       },
     ],
     createdAt: "2026-09-28T17:16:45.000Z",
@@ -2923,7 +2932,8 @@ export const mockTweets: TweetRecord[] = [
         width: 1920,
         height: 1080,
         alt: "",
-        durationMs: 15014,
+        durationMs: 34799,
+        videoUrl: "https://video.twimg.com/amplify_video/2104528925028167680/vid/avc1/1280x720/H_FweAvhiz_3jKi4.mp4",
       },
     ],
     createdAt: "2026-09-28T11:10:42.000Z",
@@ -3224,7 +3234,8 @@ export const mockTweets: TweetRecord[] = [
         width: 1920,
         height: 1080,
         alt: "",
-        durationMs: 28441,
+        durationMs: 29966,
+        videoUrl: "https://video.twimg.com/amplify_video/2102021379105165312/vid/avc1/1280x720/LInVe7aOTHOfNHui.mp4",
       },
     ],
     createdAt: "2026-09-21T13:06:04.000Z",
@@ -3509,7 +3520,8 @@ export const mockTweets: TweetRecord[] = [
         width: 1920,
         height: 1080,
         alt: "",
-        durationMs: 73708,
+        durationMs: 51166,
+        videoUrl: "https://video.twimg.com/amplify_video/2100685534133989376/vid/avc1/1280x720/vM9j6NcxDjDG5xKC.mp4",
       },
     ],
     createdAt: "2026-09-17T20:38:47.000Z",
@@ -3598,7 +3610,8 @@ export const mockTweets: TweetRecord[] = [
         width: 720,
         height: 1280,
         alt: "",
-        durationMs: 152103,
+        durationMs: 18560,
+        videoUrl: "https://video.twimg.com/amplify_video/2099967584598642688/vid/avc1/720x1280/C5ioxSBYGutMLm9S.mp4",
       },
     ],
     createdAt: "2026-09-15T21:04:33.000Z",
@@ -3704,7 +3717,8 @@ export const mockTweets: TweetRecord[] = [
         width: 846,
         height: 720,
         alt: "",
-        durationMs: 132187,
+        durationMs: 5201,
+        videoUrl: "https://video.twimg.com/amplify_video/2096698780628484096/vid/avc1/846x720/syAcgc9zrxYlv1X8.mp4",
       },
     ],
     createdAt: "2026-09-06T20:35:23.000Z",
@@ -3868,7 +3882,8 @@ export const mockTweets: TweetRecord[] = [
         width: 2160,
         height: 3840,
         alt: "",
-        durationMs: 76413,
+        durationMs: 7208,
+        videoUrl: "https://video.twimg.com/amplify_video/2096359806713921538/vid/avc1/720x1280/f4400-ttCXFO2y8O.mp4",
       },
     ],
     createdAt: "2026-09-05T22:08:36.000Z",
@@ -3957,7 +3972,8 @@ export const mockTweets: TweetRecord[] = [
         width: 1280,
         height: 720,
         alt: "",
-        durationMs: 54972,
+        durationMs: 280500,
+        videoUrl: "https://video.twimg.com/amplify_video/2089865248941506560/vid/avc1/1280x720/NJ506XPw2wWPTQGU.mp4",
       },
     ],
     createdAt: "2026-08-19T00:03:57.000Z",
@@ -4026,7 +4042,8 @@ export const mockTweets: TweetRecord[] = [
         width: 1920,
         height: 1080,
         alt: "",
-        durationMs: 164603,
+        durationMs: 37717,
+        videoUrl: "https://video.twimg.com/amplify_video/2084654896133943296/vid/avc1/1280x720/yYhSQtkqn1Zg7Gzw.mp4",
       },
     ],
     createdAt: "2026-08-04T14:58:54.000Z",
@@ -4337,7 +4354,8 @@ export const mockTweets: TweetRecord[] = [
         width: 1080,
         height: 1920,
         alt: "",
-        durationMs: 121343,
+        durationMs: 22066,
+        videoUrl: "https://video.twimg.com/amplify_video/2083329280033878016/vid/avc1/720x1280/EUeWA8UiYQ52TPTb.mp4",
       },
     ],
     createdAt: "2026-07-31T23:10:45.000Z",
@@ -4669,7 +4687,8 @@ export const mockTweets: TweetRecord[] = [
         width: 1920,
         height: 1080,
         alt: "",
-        durationMs: 8922,
+        durationMs: 69696,
+        videoUrl: "https://video.twimg.com/amplify_video/2052425161001852932/vid/avc1/1280x720/aZqBLgRfqgVFwHFe.mp4",
       },
     ],
     createdAt: "2026-05-07T16:31:12.000Z",
@@ -4838,7 +4857,8 @@ export const mockTweets: TweetRecord[] = [
         width: 1920,
         height: 1032,
         alt: "",
-        durationMs: 154552,
+        durationMs: 23050,
+        videoUrl: "https://video.twimg.com/amplify_video/1977708236401766404/vid/avc1/668x360/zDC3pppBTPjF6_cd.mp4",
       },
     ],
     createdAt: "2025-10-13T12:10:08.000Z",
@@ -4867,7 +4887,8 @@ export const mockTweets: TweetRecord[] = [
         width: 1440,
         height: 1440,
         alt: "",
-        durationMs: 119510,
+        durationMs: 5100,
+        videoUrl: "https://video.twimg.com/amplify_video/1913516540734963718/vid/avc1/1080x1080/9tWkFb9VDYyUZf20.mp4?tag=16",
       },
     ],
     createdAt: "2025-04-19T16:05:00.000Z",
@@ -4896,7 +4917,8 @@ export const mockTweets: TweetRecord[] = [
         width: 2160,
         height: 2160,
         alt: "",
-        durationMs: 6032,
+        durationMs: 6600,
+        videoUrl: "https://video.twimg.com/amplify_video/1913500027894284288/vid/avc1/1080x1080/oR9W1T2IO0N4_jVS.mp4?tag=16",
       },
       {
         type: "video",
@@ -4904,7 +4926,8 @@ export const mockTweets: TweetRecord[] = [
         width: 1760,
         height: 1152,
         alt: "",
-        durationMs: 16901,
+        durationMs: 5100,
+        videoUrl: "https://video.twimg.com/amplify_video/1913500129098633216/vid/avc1/1100x720/D7xXeizpu1pGNedi.mp4?tag=16",
       },
     ],
     createdAt: "2025-04-19T13:27:00.000Z",
@@ -4933,7 +4956,8 @@ export const mockTweets: TweetRecord[] = [
         width: 2880,
         height: 1800,
         alt: "",
-        durationMs: 93700,
+        durationMs: 20250,
+        videoUrl: "https://video.twimg.com/amplify_video/1913284173105594368/vid/avc1/1152x720/VPLugLicD7yZ0wcu.mp4?tag=16",
       },
     ],
     createdAt: "2025-04-18T17:31:39.000Z",
@@ -5344,7 +5368,8 @@ export const mockTweets: TweetRecord[] = [
         width: 1280,
         height: 720,
         alt: "",
-        durationMs: 65379,
+        durationMs: 3869634,
+        videoUrl: "https://video.twimg.com/amplify_video/1707452005252251648/vid/avc1/1280x720/mr4ZOpO3rjR7TGiK.mp4?tag=14",
       },
     ],
     createdAt: "2023-09-28T17:54:50.000Z",
@@ -6014,6 +6039,84 @@ export const mockTweets: TweetRecord[] = [
     retweetedByViewer: false,
     bookmarkedByViewer: false,
   },
+  {
+    id: "2106912004418830337",
+    authorId: "1605773190302687233",
+    text: "¿Con qué arrancás un proyecto nuevo de Next hoy?",
+    media: [],
+    createdAt: "2026-10-05T13:42:10.000Z",
+    replyToId: null,
+    quotedId: null,
+    stats: {
+      replies: 6,
+      retweets: 2,
+      quotes: 0,
+      likes: 21,
+      bookmarks: 0,
+      views: 1843,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+    poll: {
+      options: [
+        { label: "create-next-app", votes: 142 },
+        { label: "Un template propio", votes: 87 },
+        { label: "next-forge", votes: 31 },
+        { label: "Copio el último repo", votes: 118 },
+      ],
+      endsAt: "2026-10-20T13:42:10.000Z",
+      viewerVoteIndex: null,
+    },
+  },
+  {
+    id: "2106874515930357761",
+    authorId: "1741957303723610112",
+    text: "Tabs o espacios. Sin tibios.",
+    media: [],
+    createdAt: "2026-10-05T09:13:44.000Z",
+    replyToId: null,
+    quotedId: null,
+    stats: {
+      replies: 14,
+      retweets: 3,
+      quotes: 0,
+      likes: 40,
+      bookmarks: 0,
+      views: 2911,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+    poll: {
+      options: [
+        { label: "Tabs", votes: 211 },
+        { label: "Espacios", votes: 389 },
+      ],
+      endsAt: "2026-10-19T09:13:44.000Z",
+      viewerVoteIndex: 1,
+    },
+  },
+  {
+    id: "2106597343380082689",
+    authorId: "1767536918198194176",
+    text: "jajaja lo borró antes de que llegue a citarlo",
+    media: [],
+    createdAt: "2026-10-04T08:01:17.000Z",
+    replyToId: null,
+    quotedId: "2106597120004415489",
+    stats: {
+      replies: 1,
+      retweets: 0,
+      quotes: 0,
+      likes: 9,
+      bookmarks: 0,
+      views: 702,
+    },
+    likedByViewer: false,
+    retweetedByViewer: false,
+    bookmarkedByViewer: false,
+  },
 ];
 
 export type RetweetRecord = {
@@ -6179,16 +6282,52 @@ export function toTweet(record: TweetRecord): Tweet | null {
     likedAt: record.likedAt ?? null,
     bookmarkedAt: record.bookmarkedAt ?? null,
     quotedTweet: toQuotedTweet(record.quotedId),
+    quoteUnavailable: isUnavailable(record.quotedId),
+  };
+}
+
+function findRecord(id: string | null) {
+  return id ? mockTweets.find((item) => item.id === id) : undefined;
+}
+
+function isUnavailable(id: string | null) {
+  if (!id) return false;
+  const record = findRecord(id);
+  return !record || !findUserById(record.authorId);
+}
+
+function toNestedQuote(id: string | null): NestedQuote | null {
+  const record = findRecord(id);
+  const author = record ? findUserById(record.authorId) : null;
+  if (!record || !author) return null;
+
+  return {
+    id: record.id,
+    author: toSummary(author),
+    text: record.text,
+    createdAt: record.createdAt,
+    thumbnail: record.media[0] ?? null,
   };
 }
 
 function toQuotedTweet(id: string | null): QuotedTweet | null {
-  const record = id ? mockTweets.find((item) => item.id === id) : null;
-  const tweet = record ? toTweet(record) : null;
-  if (!tweet) return null;
+  const record = findRecord(id);
+  const author = record ? findUserById(record.authorId) : null;
+  if (!record || !author) return null;
 
-  const { author, text, media, createdAt, replyingTo } = tweet;
-  return { id: tweet.id, author, text, media, createdAt, replyingTo };
+  const parent = findRecord(record.replyToId);
+  const parentAuthor = parent ? findUserById(parent.authorId) : null;
+
+  return {
+    id: record.id,
+    author: toSummary(author),
+    text: record.text,
+    media: record.media,
+    createdAt: record.createdAt,
+    replyingTo: parentAuthor ? toSummary(parentAuthor) : null,
+    nestedQuote: toNestedQuote(record.quotedId),
+    nestedQuoteUnavailable: isUnavailable(record.quotedId),
+  };
 }
 
 export function byNewest(a: { createdAt: string }, b: { createdAt: string }) {

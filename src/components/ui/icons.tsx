@@ -788,6 +788,54 @@ export function PlayIcon(props: IconProps) {
   );
 }
 
+export function VideoPlayIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M21 12L4 2v20l17-10z" />
+    </Icon>
+  );
+}
+
+export function VideoPauseIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M4 2h5v20H4V2zm11 20h5V2h-5v20z" />
+    </Icon>
+  );
+}
+
+export function VolumeIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M15 1.06v21.88L6.68 17H4c-1.1 0-2-.9-2-2V9c0-1.1.9-2 2-2h2.68L15 1.06zM13 4.94L7.32 9H4v6h3.32L13 19.06V4.94zm4.43 2.43l1.42-1.41C20.37 7.48 21.5 9.62 21.5 12s-1.13 4.52-2.65 6.04l-1.42-1.41C18.6 15.46 19.5 13.83 19.5 12s-.9-3.46-2.07-4.63z" />
+    </Icon>
+  );
+}
+
+export function VolumeMutedIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M15 1.06v21.88L6.68 17H4c-1.1 0-2-.9-2-2V9c0-1.1.9-2 2-2h2.68L15 1.06zM13 4.94L7.32 9H4v6h3.32L13 19.06V4.94zm7.09 3.64L21.5 10l-2 2 2 2-1.41 1.41-2-2-2 2L14.67 14l2-2-2-2 1.42-1.42 2 2 2-2z" />
+    </Icon>
+  );
+}
+
+export function FullscreenIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M3 3h7v2H5v5H3V3zm11 0h7v7h-2V5h-5V3zM5 14v5h5v2H3v-7h2zm16 0v7h-7v-2h5v-5h2z" />
+    </Icon>
+  );
+}
+
+export function ExitFullscreenIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M8 3h2v7H3V8h5V3zm6 0h2v5h5v2h-7V3zM3 14h7v7H8v-5H3v-2zm11 0h7v2h-5v5h-2v-7z" />
+    </Icon>
+  );
+}
+
 export function ChevronRightIcon(props: IconProps) {
   return (
     <Icon {...props}>

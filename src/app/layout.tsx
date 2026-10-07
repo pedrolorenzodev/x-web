@@ -15,6 +15,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://x-clone.elpepo.dev"),
   title: "X",
   description: SITE_DESCRIPTION,
+  referrer: "no-referrer",
   openGraph: {
     type: "website",
     url: "/",

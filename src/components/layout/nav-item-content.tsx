@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { dispatchNavReselect } from "@/hooks/use-nav-reselect";
 
 export type NavMatch = {
   prefixes: string[];
@@ -45,7 +46,8 @@ export function NavItemContent({
   match,
   badge,
 }: NavItemContentProps) {
-  const active = isActive(usePathname(), match);
+  const pathname = usePathname();
+  const active = isActive(pathname, match);
   const badgeLabel = badge > 0 ? `${badge} unread items` : undefined;
 
   return (
@@ -53,6 +55,11 @@ export function NavItemContent({
       href={href}
       aria-label={badge > 0 ? `${label} (${badgeLabel})` : label}
       aria-current={active ? "page" : undefined}
+      onClick={(event) => {
+        if (pathname === href && dispatchNavReselect(href)) {
+          event.preventDefault();
+        }
+      }}
       className="group flex w-full py-1 outline-none"
     >
       <span className="flex items-center gap-5 rounded-full py-3 pr-7 pl-3 transition-[background-color,box-shadow] duration-200 ease-[ease] group-hover:bg-foreground/10 group-focus-visible:shadow-[0_0_0_2px_rgb(135,138,140)]">

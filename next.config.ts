@@ -4,7 +4,13 @@ const nextConfig: NextConfig = {
   turbopack: { root: import.meta.dirname },
   cacheComponents: true,
   images: {
-    remotePatterns: [{ protocol: "https", hostname: "pbs.twimg.com" }],
+    remotePatterns: [
+      { protocol: "https", hostname: "pbs.twimg.com" },
+      { protocol: "https", hostname: "media.giphy.com" },
+    ],
+  },
+  experimental: {
+    serverActions: { bodySizeLimit: "8mb" },
   },
   logging: {
     browserToTerminal: true,

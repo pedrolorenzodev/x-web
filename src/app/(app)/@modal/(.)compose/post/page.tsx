@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { getSession } from "@/features/auth/api/get-session";
 import { routes } from "@/config/routes";
-import { getComposeTarget } from "@/features/compose/api/get-compose-target";
+import { getComposeSetup } from "@/features/compose/api/get-compose-setup";
 import { ComposeModal } from "@/features/compose/components/compose-modal";
 
 async function ViewerComposeModal({
@@ -11,10 +11,10 @@ async function ViewerComposeModal({
   const session = await getSession();
   if (!session) redirect(routes.expiredSession);
 
-  const target = await getComposeTarget(await searchParams);
+  const setup = await getComposeSetup(await searchParams);
 
   return (
-    <ComposeModal viewer={session.user} dismiss="back" target={target} />
+    <ComposeModal viewer={session.user} dismiss="back" setup={setup} />
   );
 }
 
