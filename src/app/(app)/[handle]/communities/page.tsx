@@ -1,10 +1,9 @@
-import type { Metadata } from "next";
-import { PlaceholderScreen } from "@/components/layout/placeholder-screen";
+import { redirect } from "next/navigation";
+import { routes } from "@/config/routes";
 
-export const metadata: Metadata = {
-  title: "Communities / X",
-};
-
-export default function CommunitiesPage() {
-  return <PlaceholderScreen title="Communities" back />;
+export default async function CommunitiesPage({
+  params,
+}: PageProps<"/[handle]/communities">) {
+  const { handle } = await params;
+  redirect(routes.communitiesExplore(handle));
 }

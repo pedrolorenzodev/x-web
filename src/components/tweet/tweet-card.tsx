@@ -5,7 +5,12 @@ import type { UserSummary } from "@/types/user";
 import { routes } from "@/config/routes";
 import { cn } from "@/lib/utils";
 import { Avatar } from "@/components/ui/avatar";
-import { GrokIcon, PinIcon, RetweetIcon } from "@/components/ui/icons";
+import {
+  CommunitiesIcon,
+  GrokIcon,
+  PinIcon,
+  RetweetIcon,
+} from "@/components/ui/icons";
 import { Tooltip } from "@/components/ui/tooltip";
 import { UserBadges } from "@/components/ui/verified-badge";
 import { UserHoverCard } from "@/components/user/user-hover-card";
@@ -83,6 +88,15 @@ export function TweetCard({
       ) : pinned ? (
         <SocialContext icon={<PinIcon className="size-4" />}>
           <span className="relative">Pinned</span>
+        </SocialContext>
+      ) : tweet.community ? (
+        <SocialContext icon={<CommunitiesIcon className="size-4" />}>
+          <Link
+            href={routes.community(tweet.community.id)}
+            className="relative truncate hover:underline"
+          >
+            {tweet.community.name}
+          </Link>
         </SocialContext>
       ) : (
         <div className="h-3" />
