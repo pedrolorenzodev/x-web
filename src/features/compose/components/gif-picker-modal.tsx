@@ -54,6 +54,7 @@ type GifPickerModalProps = {
 
 export function GifPickerModal({ onSelect, onClose }: GifPickerModalProps) {
   const gridRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
   const [query, setQuery] = useState("");
   const [gifs, setGifs] = useState<Gif[] | null>(null);
   const [width, setWidth] = useState(0);
@@ -102,9 +103,10 @@ export function GifPickerModal({ onSelect, onClose }: GifPickerModalProps) {
       size="fixed"
       onClose={onClose}
       restoreFocusOnUnmount
+      focusOnOpen={() => headerRef.current?.querySelector("input")?.focus()}
       className="bg-elevated"
     >
-      <div className="flex h-[53px] shrink-0 items-center gap-4 px-4">
+      <div ref={headerRef} className="flex h-[53px] shrink-0 items-center gap-4 px-4">
         <IconButton
           label={query ? "Back" : "Close"}
           tone="plain"
@@ -121,7 +123,6 @@ export function GifPickerModal({ onSelect, onClose }: GifPickerModalProps) {
           value={query}
           label="Search for GIFs"
           placeholder="Search for GIFs"
-          autoFocus
           onValueChange={setQuery}
           className="h-10 flex-1"
         />

@@ -136,6 +136,7 @@ export function ComposerForm({
         placeholder={placeholderFor(post, index)}
         scheduledAt={index === 0 ? scheduledAt : null}
         quoted={index === 0 && target?.kind === "quote" ? target : null}
+        last={index === posts.length - 1}
         removable={thread}
         registerTextarea={(element) => {
           if (element) textareas.current.set(post.id, element);
@@ -159,10 +160,11 @@ export function ComposerForm({
         <div
           className={cn(
             "overflow-hidden",
+            "-ml-4 mr-4",
             modal
               ? "max-h-[60px]"
               : cn(
-                  "-ml-4 mr-4 transition-[max-height,opacity] duration-250 ease-[cubic-bezier(0.22,1,0.36,1)]",
+                  "transition-[max-height,opacity] duration-250 ease-[cubic-bezier(0.22,1,0.36,1)]",
                   engaged ? "max-h-[60px] opacity-100" : "max-h-0 opacity-0",
                 ),
           )}
@@ -180,7 +182,7 @@ export function ComposerForm({
         <ComposerToolbar tools={tools} />
         <div className="ml-auto flex items-center gap-3">
           <CharacterCounter length={activeLength} />
-          {!isPostEmpty(activePost) && !scheduledAt ? (
+          {kind !== "reply" && !isPostEmpty(activePost) && !scheduledAt ? (
             <>
               <span aria-hidden className="h-[31px] w-px bg-border-strong" />
               <Tooltip label="Add post">
@@ -275,6 +277,7 @@ type PostEditorProps = {
   placeholder: string;
   scheduledAt: string | null;
   quoted: ComposeTarget | null;
+  last: boolean;
   removable: boolean;
   composer: Composer;
   registerTextarea: (element: HTMLTextAreaElement | null) => void;
@@ -295,6 +298,7 @@ function PostEditor({
   placeholder,
   scheduledAt,
   quoted,
+  last,
   removable,
   composer,
   registerTextarea,
@@ -328,7 +332,7 @@ function PostEditor({
         className={cn(
           "pt-1.5",
           !modal && "min-h-12",
-          modal && "pb-3",
+          modal && "pb-3.5",
         )}
       >
         <ComposerTextarea
@@ -338,7 +342,7 @@ function PostEditor({
           onFocus={onFocus}
           placeholder={placeholder}
           aria-label={index === 0 ? "Post text" : `Post text ${index + 1}`}
-          className={cn(modal && !quoted && !removable && "min-h-24")}
+          className={cn(modal && !quoted && last && "min-h-24")}
         />
         {overLimit ? <PremiumUpsell /> : null}
         {post.media.length > 0 ? (
@@ -366,7 +370,7 @@ function PostEditor({
 
   return (
     <div
-      className={cn("flex gap-2 px-4", index === 0 ? "pt-1" : "pt-3")}
+      className={cn("flex gap-2 px-4", index === 0 ? "pt-4" : "pt-5")}
     >
       <Avatar
         src={viewer.avatarUrl}
@@ -380,7 +384,7 @@ function PostEditor({
             type="button"
             aria-label="Remove post"
             onClick={onRemove}
-            className="mt-1.5 flex size-6 shrink-0 items-center justify-center rounded-full text-accent transition-colors duration-200 ease-[ease] hover:bg-accent/10"
+            className="-mt-1.5 mr-0.5 flex size-6 shrink-0 items-center justify-center rounded-full text-accent transition-colors duration-200 ease-[ease] hover:bg-accent/10"
           >
             <CloseIcon className="size-4" />
           </button>

@@ -32,6 +32,7 @@ export function useComposerTools(
   const hasGif = activePost.media.some((item) => item.kind === "gif");
   const hasMedia = activePost.media.length > 0;
   const thread = snapshot.posts.length > 1;
+  const restrictedReplies = snapshot.replySettings !== "everyone";
   const disclosed =
     snapshot.disclosure.paidPartnership || snapshot.disclosure.madeWithAi;
 
@@ -79,7 +80,7 @@ export function useComposerTools(
             tooltip: "Schedule",
             wideOnly: true,
             icon: ScheduleIcon,
-            disabled: hasPoll || thread,
+            disabled: hasPoll || thread || restrictedReplies,
             active: Boolean(snapshot.scheduledAt),
             onClick: () => setPicker("schedule"),
           },

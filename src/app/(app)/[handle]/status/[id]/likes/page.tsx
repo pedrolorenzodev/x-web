@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { notFound, redirect } from "next/navigation";
+import type { User } from "@/types/user";
 import { routes } from "@/config/routes";
 import { SpinnerRow } from "@/components/ui/spinner";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -13,11 +14,28 @@ import { PostActivity } from "@/features/tweet/components/post-activity";
 
 export const metadata: Metadata = { title: "Post activity / X" };
 
+function renderUsers(users: User[], viewerId: string) {
+  if (users.length === 0) {
+    return (
+      <EmptyState title="No likes yet" body="When someone taps the heart to Like this post, it’ll show up here." />
+    );
+  }
+  return users.map((user) => (
+    <UserCell
+      key={user.id}
+      user={user}
+      viewerId={viewerId}
+      toggleFollow={toggleFollow}
+    />
+  ));
+}
+
 async function Users({ params }: Pick<PageProps<"/[handle]/status/[id]/likes">, "params">) {
   const { id } = await params;
-  const [conversation, users, session] = await Promise.all([
+  const [conversation, top, recent, session] = await Promise.all([
     getConversation(id),
-    getLikers(id),
+    getLikers(id, "top"),
+    getLikers(id, "recent"),
     getSession(),
   ]);
   if (!conversation || !session) notFound();
@@ -31,20 +49,11 @@ async function Users({ params }: Pick<PageProps<"/[handle]/status/[id]/likes">, 
       tweetId={tweet.id}
       active="likes"
       showLikes={isOwn}
-    >
-      {users.length === 0 ? (
-        <EmptyState title="No likes yet" body="When someone taps the heart to Like this post, it’ll show up here." />
-      ) : (
-        users.map((user) => (
-          <UserCell
-            key={user.id}
-            user={user}
-            viewerId={session.user.id}
-            toggleFollow={toggleFollow}
-          />
-        ))
-      )}
-    </PostActivity>
+      lists={{
+        top: renderUsers(top, session.user.id),
+        recent: renderUsers(recent, session.user.id),
+      }}
+    />
   );
 }
 

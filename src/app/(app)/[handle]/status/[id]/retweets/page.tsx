@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
+import type { User } from "@/types/user";
 import { SpinnerRow } from "@/components/ui/spinner";
 import { EmptyState } from "@/components/ui/empty-state";
 import { UserCell } from "@/components/user/user-cell";
@@ -12,11 +13,28 @@ import { PostActivity } from "@/features/tweet/components/post-activity";
 
 export const metadata: Metadata = { title: "Post activity / X" };
 
+function renderUsers(users: User[], viewerId: string) {
+  if (users.length === 0) {
+    return (
+      <EmptyState title="No Reposts yet" body="Share someone else’s post on your timeline by reposting it. When you do, it’ll show up here." />
+    );
+  }
+  return users.map((user) => (
+    <UserCell
+      key={user.id}
+      user={user}
+      viewerId={viewerId}
+      toggleFollow={toggleFollow}
+    />
+  ));
+}
+
 async function Users({ params }: Pick<PageProps<"/[handle]/status/[id]/retweets">, "params">) {
   const { id } = await params;
-  const [conversation, users, session] = await Promise.all([
+  const [conversation, top, recent, session] = await Promise.all([
     getConversation(id),
-    getReposters(id),
+    getReposters(id, "top"),
+    getReposters(id, "recent"),
     getSession(),
   ]);
   if (!conversation || !session) notFound();
@@ -29,20 +47,11 @@ async function Users({ params }: Pick<PageProps<"/[handle]/status/[id]/retweets"
       tweetId={tweet.id}
       active="retweets"
       showLikes={isOwn}
-    >
-      {users.length === 0 ? (
-        <EmptyState title="No Reposts yet" body="Share someone else’s post on your timeline by reposting it. When you do, it’ll show up here." />
-      ) : (
-        users.map((user) => (
-          <UserCell
-            key={user.id}
-            user={user}
-            viewerId={session.user.id}
-            toggleFollow={toggleFollow}
-          />
-        ))
-      )}
-    </PostActivity>
+      lists={{
+        top: renderUsers(top, session.user.id),
+        recent: renderUsers(recent, session.user.id),
+      }}
+    />
   );
 }
 

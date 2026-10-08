@@ -25,6 +25,7 @@ import {
 import { AnimatedCount } from "@/components/ui/animated-count";
 import { showToast } from "@/components/ui/toast";
 import { Tooltip } from "@/components/ui/tooltip";
+import { BookmarkFoldersModal } from "@/components/tweet/bookmark-folders-modal";
 import { createLikeBurst, type LikeBurst } from "@/components/tweet/like-burst";
 import { placeRepostMenu, RepostMenu } from "@/components/tweet/repost-menu";
 import { placeShareMenu, ShareMenu } from "@/components/tweet/share-menu";
@@ -265,6 +266,7 @@ export function TweetActions({
   const shareRef = useRef<HTMLButtonElement>(null);
   const shareMenu = useDropdownMenu(shareRef, placeShareMenu);
   const tweetHref = routes.tweet(tweet.author.handle, tweet.id);
+  const [foldersUpsell, setFoldersUpsell] = useState(false);
 
   function toggleBookmark() {
     showToast(
@@ -272,7 +274,10 @@ export function TweetActions({
         ? { message: "Removed from your Bookmarks" }
         : {
             message: "Added to your Bookmarks",
-            action: { label: "Add to Folder", href: routes.premium },
+            action: {
+              label: "Add to Folder",
+              onClick: () => setFoldersUpsell(true),
+            },
           },
     );
     run("bookmark", actions.toggleBookmark);
@@ -379,6 +384,9 @@ export function TweetActions({
         />
         <ShareMenu menu={shareMenu} path={tweetHref} />
       </div>
+      {foldersUpsell ? (
+        <BookmarkFoldersModal onClose={() => setFoldersUpsell(false)} />
+      ) : null}
     </div>
   );
 }

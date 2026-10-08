@@ -6,6 +6,14 @@ import { mockNotifications } from "@/mocks/notifications";
 import { getMockViewer } from "@/mocks/session";
 import { byNewest, mockRetweets, mockTweets, toTweet } from "@/mocks/tweets";
 import { findUserById, toUser } from "@/mocks/users";
+import { engagementScore } from "@/features/tweet/utils/engagement-score";
+
+export type EngagementSort = "top" | "recent";
+
+function sortUsers(users: User[], sort: EngagementSort) {
+  if (sort === "recent") return users;
+  return [...users].sort((a, b) => b.followersCount - a.followersCount);
+}
 
 function toUsers(ids: string[]): User[] {
   return [...new Set(ids)].flatMap((id) => {
@@ -14,18 +22,26 @@ function toUsers(ids: string[]): User[] {
   });
 }
 
-export async function getQuotes(tweetId: string): Promise<Tweet[]> {
+export async function getQuotes(
+  tweetId: string,
+  sort: EngagementSort,
+): Promise<Tweet[]> {
   await connection();
-  return mockTweets
+  const quotes = mockTweets
     .filter((record) => record.quotedId === tweetId)
     .sort(byNewest)
     .flatMap((record) => {
       const tweet = toTweet(record);
       return tweet ? [tweet] : [];
     });
+  if (sort === "recent") return quotes;
+  return quotes.sort((a, b) => engagementScore(b) - engagementScore(a));
 }
 
-export async function getReposters(tweetId: string): Promise<User[]> {
+export async function getReposters(
+  tweetId: string,
+  sort: EngagementSort,
+): Promise<User[]> {
   await connection();
   const viewer = await getMockViewer();
   const tweet = mockTweets.find((record) => record.id === tweetId);
@@ -34,10 +50,13 @@ export async function getReposters(tweetId: string): Promise<User[]> {
     .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
     .map((retweet) => retweet.userId);
   if (viewer && tweet?.retweetedByViewer) ids.unshift(viewer.id);
-  return toUsers(ids);
+  return sortUsers(toUsers(ids), sort);
 }
 
-export async function getLikers(tweetId: string): Promise<User[]> {
+export async function getLikers(
+  tweetId: string,
+  sort: EngagementSort,
+): Promise<User[]> {
   await connection();
   const viewer = await getMockViewer();
   const tweet = mockTweets.find((record) => record.id === tweetId);
@@ -45,5 +64,5 @@ export async function getLikers(tweetId: string): Promise<User[]> {
     record.type === "like" && record.tweetId === tweetId ? record.actorIds : [],
   );
   if (viewer && tweet?.likedByViewer) ids.unshift(viewer.id);
-  return toUsers(ids);
+  return sortUsers(toUsers(ids), sort);
 }

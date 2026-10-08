@@ -66,14 +66,14 @@ export function PollEditor({ poll, onChange, onRemove }: PollEditorProps) {
 
   return (
     <div className="mt-3 mb-1 overflow-hidden rounded-2xl border border-border">
-      <div className="flex flex-col gap-3 px-3 pt-3 pb-3">
+      <div className="flex flex-col gap-2.5 px-3 pt-3 pb-2.5">
         {poll.choices.map((choice, index) => {
           const last = index === poll.choices.length - 1;
           return (
-            <div key={index} className="flex items-center gap-3">
+            <div key={index} className="flex items-start gap-3">
               <span
                 aria-hidden
-                className="flex h-[58px] w-16 shrink-0 items-center justify-center rounded-lg border border-dashed border-border-strong text-muted opacity-50"
+                className="flex size-16 shrink-0 items-center justify-center rounded-lg border border-dashed border-border-strong text-muted opacity-50"
               >
                 <MediaIcon className="size-5" />
               </span>
@@ -85,7 +85,7 @@ export function PollEditor({ poll, onChange, onRemove }: PollEditorProps) {
                 onChange={(value) => setChoice(index, value)}
                 className="min-w-0 flex-1"
               />
-              <div className="flex w-9 shrink-0 justify-center">
+              <div className="flex w-9 shrink-0 justify-center self-center">
                 {last && canAddChoice ? (
                   <Tooltip label="Add a choice">
                     <button

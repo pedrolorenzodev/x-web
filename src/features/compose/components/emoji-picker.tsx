@@ -76,6 +76,7 @@ function readTone() {
 
 export function EmojiPicker({ anchorRef, onSelect, onClose }: EmojiPickerProps) {
   const gridRef = useRef<HTMLDivElement>(null);
+  const searchRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState<FloatingPosition | null>(null);
   const [arrowLeft, setArrowLeft] = useState(0);
   const [query, setQuery] = useState("");
@@ -101,6 +102,12 @@ export function EmojiPicker({ anchorRef, onSelect, onClose }: EmojiPickerProps) 
     window.addEventListener("resize", place);
     return () => window.removeEventListener("resize", place);
   }, [anchorRef]);
+
+  const placed = position !== null;
+
+  useEffect(() => {
+    if (placed) searchRef.current?.querySelector("input")?.focus();
+  }, [placed]);
 
   const searching = query.trim() !== "";
   const sections: Section[] = searching
@@ -183,12 +190,11 @@ export function EmojiPicker({ anchorRef, onSelect, onClose }: EmojiPickerProps) 
               : "-top-[11px]",
           )}
         />
-        <div className="px-1 pt-1">
+        <div ref={searchRef} className="px-1 pt-1">
           <PillSearchInput
             value={query}
             label="Search emojis"
             placeholder="Search emojis"
-            autoFocus
             onValueChange={setQuery}
           />
         </div>
@@ -243,7 +249,7 @@ export function EmojiPicker({ anchorRef, onSelect, onClose }: EmojiPickerProps) 
                       onPointerEnter={() => setPreview(emoji)}
                       onFocus={() => setPreview(emoji)}
                       onClick={() => select(emoji)}
-                      className="flex h-8 items-center justify-center rounded-full text-[22px] leading-none transition-colors duration-200 ease-[ease] hover:bg-accent/10 focus-visible:bg-accent/10 focus-visible:outline-none"
+                      className="flex h-7 items-center justify-center rounded-full text-[22px] leading-none transition-colors duration-200 ease-[ease] hover:bg-accent/10 focus-visible:bg-accent/10 focus-visible:outline-none"
                     >
                       {applySkinTone(emoji, skinTones[tone].modifier)}
                     </button>

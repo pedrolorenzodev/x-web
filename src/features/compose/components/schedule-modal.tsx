@@ -137,7 +137,7 @@ export function ScheduleModal({
         }
       />
 
-      <div className="overflow-y-auto px-4 pb-4">
+      <div className="overflow-y-auto px-4 pb-8">
         <p
           className={cn(
             "flex items-center gap-3 py-3 text-xs",
@@ -150,8 +150,8 @@ export function ScheduleModal({
             : `Will send on ${formatScheduleDate(date)}`}
         </p>
 
-        <h3 className="mt-1 text-base text-muted">Date</h3>
-        <div className="mt-1 flex items-center gap-3">
+        <h3 className="mt-[9px] text-base text-muted">Date</h3>
+        <div className="mt-0.5 flex items-center gap-3">
           <FloatingLabelSelect
             label="Month"
             value={String(parts.month)}
@@ -199,8 +199,8 @@ export function ScheduleModal({
           </div>
         </div>
 
-        <h3 className="mt-4 text-base text-muted">Time</h3>
-        <div className="mt-1 flex items-center gap-3">
+        <h3 className="mt-5 text-base text-muted">Time</h3>
+        <div className="mt-0.5 flex items-center gap-3">
           <FloatingLabelSelect
             label="Hour"
             value={String(parts.hour)}
@@ -254,8 +254,8 @@ export function ScheduleModal({
           </div>
         </div>
 
-        <h3 className="mt-4 text-base text-muted">Time zone</h3>
-        <p className="mt-1 text-lg">{formatTimeZoneName(date)}</p>
+        <h3 className="mt-5 text-base text-muted">Time zone</h3>
+        <p className="text-xl">{formatTimeZoneName(date)}</p>
       </div>
 
       <div className="flex h-[49px] shrink-0 items-center justify-between border-t border-border px-4">

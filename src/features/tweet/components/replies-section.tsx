@@ -10,16 +10,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ChevronDownIcon, ChevronRightIcon } from "@/components/ui/icons";
 import { TweetCard } from "@/components/tweet/tweet-card";
+import { engagementScore } from "@/features/tweet/utils/engagement-score";
 import { useDropdownMenu } from "@/hooks/use-dropdown-menu";
 
 type ReplySort = "Relevant" | "Recent" | "Likes";
 
 const SORTS: ReplySort[] = ["Relevant", "Recent", "Likes"];
-
-function relevance(tweet: Tweet) {
-  const { likes, retweets, replies, quotes } = tweet.stats;
-  return likes + retweets * 2 + replies * 3 + quotes;
-}
 
 function sortReplies(replies: Tweet[], sort: ReplySort) {
   const newest = (a: Tweet, b: Tweet) => b.createdAt.localeCompare(a.createdAt);
@@ -28,7 +24,7 @@ function sortReplies(replies: Tweet[], sort: ReplySort) {
     const score =
       sort === "Likes"
         ? b.stats.likes - a.stats.likes
-        : relevance(b) - relevance(a);
+        : engagementScore(b) - engagementScore(a);
     return score || newest(a, b);
   });
 }
@@ -49,7 +45,7 @@ export function RepliesSection({
   const [sort, setSort] = useState<ReplySort>("Relevant");
   const anchorRef = useRef<HTMLButtonElement>(null);
   const menu = useDropdownMenu(anchorRef, (anchor) =>
-    placeOverAnchor(anchor, { width: 135, height: 186 }),
+    placeOverAnchor(anchor, { width: 135, height: 186 }, "right"),
   );
 
   return (
@@ -80,7 +76,7 @@ export function RepliesSection({
           className="w-[135px]"
           menuClassName="rounded-xl py-0"
         >
-          <div className="flex h-[53px] items-center px-4 text-base font-bold">
+          <div className="flex h-[53px] items-center border-b border-border px-5 text-base text-muted">
             Sort replies
           </div>
           {SORTS.map((option) => (

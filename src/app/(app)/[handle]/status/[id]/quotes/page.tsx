@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
+import type { Tweet } from "@/types/tweet";
 import { SpinnerRow } from "@/components/ui/spinner";
 import { EmptyState } from "@/components/ui/empty-state";
 import { TweetCard } from "@/components/tweet/tweet-card";
@@ -16,11 +17,26 @@ export const metadata: Metadata = { title: "Post activity / X" };
 
 const tweetActions = { toggleLike, toggleRetweet, toggleBookmark };
 
+function renderQuotes(quotes: Tweet[]) {
+  if (quotes.length === 0) {
+    return (
+      <EmptyState
+        title="No Quotes yet"
+        body="You will find a list of everyone who quoted this post here."
+      />
+    );
+  }
+  return quotes.map((quote) => (
+    <TweetCard key={quote.id} tweet={quote} actions={tweetActions} />
+  ));
+}
+
 async function Quotes({ params }: Pick<PageProps<"/[handle]/status/[id]/quotes">, "params">) {
   const { id } = await params;
-  const [conversation, quotes, session] = await Promise.all([
+  const [conversation, top, recent, session] = await Promise.all([
     getConversation(id),
-    getQuotes(id),
+    getQuotes(id, "top"),
+    getQuotes(id, "recent"),
     getSession(),
   ]);
   if (!conversation || !session) notFound();
@@ -32,18 +48,8 @@ async function Quotes({ params }: Pick<PageProps<"/[handle]/status/[id]/quotes">
       tweetId={tweet.id}
       active="quotes"
       showLikes={tweet.author.id === session.user.id}
-    >
-      {quotes.length === 0 ? (
-        <EmptyState
-          title="No Quotes yet"
-          body="You will find a list of everyone who quoted this post here."
-        />
-      ) : (
-        quotes.map((quote) => (
-          <TweetCard key={quote.id} tweet={quote} actions={tweetActions} />
-        ))
-      )}
-    </PostActivity>
+      lists={{ top: renderQuotes(top), recent: renderQuotes(recent) }}
+    />
   );
 }
 

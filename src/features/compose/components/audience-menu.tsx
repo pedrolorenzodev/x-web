@@ -68,7 +68,7 @@ const options: AudienceOption[] = [
 ];
 
 const MENU_SIZE = { width: 360, height: 332 };
-const MENU_OFFSET = 20;
+const MENU_OFFSET = 22;
 const MENU_SHIFT_LEFT = 70;
 
 function placeMenu(anchor: DOMRect): MenuPlacement {
@@ -129,10 +129,10 @@ export function AudienceMenu({ value, onChange }: AudienceMenuProps) {
                   menu.selectItem(event);
                   onChange(option.value);
                 }}
-                className="-mx-4 flex min-h-12 w-[calc(100%+2rem)] items-center gap-3 px-4 py-2 text-left outline-none transition-colors duration-200 ease-[ease] hover:bg-menu-hover focus-visible:bg-menu-hover focus-visible:shadow-[inset_0_0_0_2px_var(--color-menu-focus-ring)]"
+                className="-mx-4 flex min-h-12 w-[calc(100%+2rem)] items-start gap-5 px-4 py-3 text-left outline-none transition-colors duration-200 ease-[ease] hover:bg-menu-hover focus-visible:bg-menu-hover focus-visible:shadow-[inset_0_0_0_2px_var(--color-menu-focus-ring)]"
               >
                 <OptionIcon className="size-5 shrink-0" />
-                <span className="min-w-0 flex-1 text-base font-bold">
+                <span className="flex min-h-6 min-w-0 flex-1 items-center text-base font-bold">
                   {option.label}
                 </span>
                 <span

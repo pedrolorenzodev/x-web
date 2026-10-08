@@ -10,12 +10,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import type { DropdownMenuController } from "@/hooks/use-dropdown-menu";
 
-const MENU_SIZE = { width: 200, height: 112 };
+const MENU_SIZE = { width: 114, height: 88 };
 
 type RepostMenuPlacement = MenuPlacement;
 
 export function placeRepostMenu(anchor: DOMRect): RepostMenuPlacement {
-  return placeOverAnchor(anchor, MENU_SIZE);
+  return placeOverAnchor(anchor, MENU_SIZE, "right");
 }
 
 type RepostMenuProps = {
@@ -44,7 +44,7 @@ export function RepostMenu({
       label="Repost options"
       style={menu.placement.style}
       origin={menu.placement.origin}
-      className="w-max min-w-[150px]"
+      className="w-max"
       menuClassName="rounded-xl py-0"
     >
       <MenuItem

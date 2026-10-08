@@ -6,6 +6,7 @@ import type { User } from "@/types/user";
 import { routes } from "@/config/routes";
 import { Avatar } from "@/components/ui/avatar";
 import { Facepile } from "@/components/ui/facepile";
+import { GrokIcon } from "@/components/ui/icons";
 import { HoverCard } from "@/components/ui/hover-card";
 import { RichText } from "@/components/ui/rich-text";
 import { Spinner } from "@/components/ui/spinner";
@@ -132,6 +133,13 @@ function UserCardBody({ handle }: { handle: string }) {
           <span className="line-clamp-2">{followedBy}</span>
         </Link>
       ) : null}
+      <Link
+        href={routes.grok}
+        className="mt-4 flex h-9 items-center justify-center gap-1 rounded-full border border-outline px-4 text-base font-bold transition-colors duration-200 ease-[ease] hover:bg-foreground/10"
+      >
+        <GrokIcon className="size-5" />
+        Profile Summary
+      </Link>
     </div>
   );
 }

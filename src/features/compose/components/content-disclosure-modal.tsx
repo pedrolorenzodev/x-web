@@ -35,7 +35,7 @@ export function ContentDisclosureModal({
           Done
         </button>
       </div>
-      <div className="pb-4">
+      <div className="flex flex-col gap-8 pt-8 pb-4">
         <DisclosureRow
           title="Paid partnership"
           checked={disclosure.paidPartnership}
@@ -76,10 +76,10 @@ type DisclosureRowProps = {
 
 function DisclosureRow({ title, checked, onChange, children }: DisclosureRowProps) {
   return (
-    <div className="flex items-center gap-4 px-4 py-3">
+    <div className="flex items-start gap-4 px-4">
       <div className="min-w-0 flex-1">
         <p className="text-base">{title}</p>
-        <p className="mt-0.5 text-xs text-muted">{children}</p>
+        <p className="mt-3 text-xs text-muted">{children}</p>
       </div>
       <Switch size="sm" label={title} checked={checked} onChange={onChange} />
     </div>

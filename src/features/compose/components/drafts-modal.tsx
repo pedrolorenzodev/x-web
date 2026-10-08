@@ -71,7 +71,7 @@ export function DraftsModal({ tab, drafts, dismiss }: DraftsModalProps) {
       placement="top"
       size="fixed"
       onClose={close}
-      className="bg-elevated"
+      className="h-[707px] bg-elevated"
     >
       <ModalHeader
         onBack={close}
