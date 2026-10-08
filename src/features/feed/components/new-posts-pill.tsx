@@ -92,24 +92,26 @@ export function NewPostsPill({ kind }: { kind: TimelineKind }) {
           type="button"
           aria-label="New posts are available. Push the period key to go to the them."
           onClick={() => reveal(true)}
-          className="pointer-events-auto flex h-7 items-center rounded-full bg-accent px-4 text-base text-white shadow-[rgba(101,119,134,0.2)_0_0_8px,rgba(101,119,134,0.25)_0_1px_3px_1px]"
+          className="pointer-events-auto flex items-center rounded-full bg-accent px-4 py-1 text-base text-white shadow-pill outline-none transition-[background-color,box-shadow] duration-200 hover:bg-accent-hover active:bg-accent-pressed focus-visible:shadow-[0_0_0_2px_var(--color-menu-focus-ring)]"
         >
-          <ArrowUpIcon className="size-5" />
-          <span className="ml-1 flex">
-            {preview?.authors.map((author, index) => (
-              <Avatar
+          <ArrowUpIcon className="size-5 shrink-0" />
+          <span className="ml-1 mr-0.5 flex">
+            {preview?.authors.map((author, index, authors) => (
+              <span
                 key={author.id}
-                src={author.avatarUrl}
-                alt=""
-                size="xs"
-                className={cn(
-                  "border-2 border-white",
-                  index > 0 && "-ml-2",
-                )}
-              />
+                style={{ zIndex: authors.length - index }}
+                className={cn("relative flex", index > 0 && "-ml-3")}
+              >
+                <Avatar
+                  src={author.avatarUrl}
+                  alt=""
+                  size="sm"
+                  className="border border-accent bg-accent"
+                />
+              </span>
             ))}
           </span>
-          <span className="ml-1">posted</span>
+          <span className="ml-1 whitespace-nowrap">posted</span>
         </button>
       </div>
     </div>

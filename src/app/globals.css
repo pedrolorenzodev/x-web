@@ -12,6 +12,8 @@
   --color-border: #2f3336;
   --color-border-strong: #333639;
   --color-accent: #1d9bf0;
+  --color-accent-hover: #1a8cd8;
+  --color-accent-pressed: #177cc0;
   --color-inverted: #eff3f4;
   --color-inverted-foreground: #0f1419;
   --color-scrim: rgb(0 0 0 / 0.5);
@@ -39,6 +41,8 @@
   --color-dock-border: rgb(75 78 82);
 
   --shadow-menu: 0 4px 12px rgb(0 0 0 / 0.5), 0 0 2px rgb(0 0 0 / 0.35);
+  --shadow-pill: 0 0 5px rgb(217 217 217 / 0.2),
+    0 1px 4px 1px rgb(217 217 217 / 0.25);
 
   --color-auth-pill: #f8fafc;
   --color-auth-google-border: #dadce0;
