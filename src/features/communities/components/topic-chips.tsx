@@ -35,7 +35,7 @@ function Chip({
         "flex h-8 shrink-0 items-center rounded-full border px-4 text-base font-bold whitespace-nowrap transition-colors duration-200 ease-[ease]",
         selected
           ? "border-transparent bg-[rgb(26_140_216)] text-white"
-          : "border-outline hover:bg-foreground/10",
+          : "border-border-strong hover:bg-foreground/10",
       )}
     >
       {children}
@@ -102,7 +102,7 @@ export function TopicChips({ selection, onChange, className }: TopicChipsProps) 
               type="button"
               aria-label="Back to all categories"
               onClick={() => onChange({ topic: null, subcategory: null })}
-              className="flex size-8 shrink-0 items-center justify-center rounded-full border border-outline transition-colors duration-200 ease-[ease] hover:bg-foreground/10"
+              className="flex size-8 shrink-0 items-center justify-center rounded-full border border-border-strong transition-colors duration-200 ease-[ease] hover:bg-foreground/10"
             >
               <ArrowUpIcon className="size-[18px]" />
             </button>

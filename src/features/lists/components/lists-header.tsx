@@ -11,8 +11,8 @@ import {
   ListPlusIcon,
   ListsIcon,
   MoreHorizontalIcon,
-  SearchIcon,
 } from "@/components/ui/icons";
+import { PillSearchInput } from "@/components/ui/pill-search-input";
 import { Tooltip } from "@/components/ui/tooltip";
 import { HeaderMenu } from "@/features/lists/components/header-menu";
 
@@ -26,34 +26,29 @@ export function ListsHeader({ handle }: ListsHeaderProps) {
 
   return (
     <div className="sticky top-0 z-3 bg-background/65 backdrop-blur-[12px]">
-      <div className="flex h-[53px] items-center gap-2 px-4">
+      <div className="flex h-[53px] items-center px-4">
         <div className="min-w-14">
           <BackButton />
         </div>
         <form
           role="search"
-          className="min-w-0 flex-1"
+          className="min-w-0 flex-1 self-start pt-[8.5px]"
           onSubmit={(event) => {
             event.preventDefault();
             const term = query.trim();
             if (term) router.push(`${searchHref(term, "typed_query")}&f=list`);
           }}
         >
-          <label className="flex h-10 cursor-text items-center rounded-full border border-outline transition-[border-color,box-shadow] duration-150 focus-within:border-accent focus-within:shadow-[0_0_0_1px_var(--color-accent)]">
-            <span className="flex w-7 shrink-0 pl-3">
-              <SearchIcon className="size-4 text-muted" />
-            </span>
-            <input
-              type="search"
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search Lists"
-              aria-label="Search Lists"
-              className="h-9 min-w-0 flex-1 bg-transparent pr-4 pl-1 text-sm outline-none placeholder:text-muted [&::-webkit-search-cancel-button]:hidden"
-            />
-          </label>
+          <PillSearchInput
+            type="search"
+            value={query}
+            onValueChange={setQuery}
+            placeholder="Search Lists"
+            label="Search Lists"
+            className="[&_input]:[&::-webkit-search-cancel-button]:hidden"
+          />
         </form>
-        <div className="ml-2 flex shrink-0 items-center gap-2">
+        <div className="-mr-[5px] flex shrink-0 items-center gap-[3px]">
           <Tooltip label="Create a new List">
             <IconButton
               label="Create a new List"

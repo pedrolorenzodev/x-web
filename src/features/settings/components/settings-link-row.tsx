@@ -22,7 +22,7 @@ export function SettingsLinkRow({ link }: { link: SettingsLink }) {
       rel={external ? "noopener noreferrer" : undefined}
       className={cn(
         "flex items-center px-4 py-3",
-        description && "min-h-[72px]",
+        description ? "min-h-[72px]" : "min-h-12",
         settingsRowHover,
       )}
     >

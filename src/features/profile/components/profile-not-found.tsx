@@ -8,7 +8,7 @@ export function ProfileNotFound({ title = "Profile" }: { title?: string }) {
       <EmptyState
         title="This account doesn’t exist"
         body="Try searching for another."
-        className="max-w-[440px] px-10"
+        className="mt-[72px] max-w-[440px] px-10"
       />
     </>
   );

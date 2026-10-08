@@ -9,6 +9,7 @@ import {
 import { IconButton } from "@/components/ui/icon-button";
 import { Tooltip } from "@/components/ui/tooltip";
 import { useDropdownMenu } from "@/hooks/use-dropdown-menu";
+import { cn } from "@/lib/utils";
 
 export type SelectMenuItem = (
   event: MouseEvent<HTMLElement>,
@@ -20,6 +21,7 @@ type HeaderMenuProps = {
   menuLabel: string;
   icon: ReactNode;
   size: { width: number; height: number };
+  className?: string;
   children: (select: SelectMenuItem) => ReactNode;
 };
 
@@ -28,6 +30,7 @@ export function HeaderMenu({
   menuLabel,
   icon,
   size,
+  className,
   children,
 }: HeaderMenuProps) {
   const anchorRef = useRef<HTMLButtonElement>(null);
@@ -50,7 +53,7 @@ export function HeaderMenu({
           aria-haspopup="menu"
           aria-expanded={menu.isOpen}
           onClick={menu.toggle}
-          className="size-9"
+          className={cn("size-9", className)}
         >
           {icon}
         </IconButton>
@@ -61,7 +64,7 @@ export function HeaderMenu({
           label={menuLabel}
           style={menu.placement.style}
           origin={menu.placement.origin}
-          className="w-max max-w-[384px] min-w-[200px]"
+          className="w-max max-w-[384px]"
           menuClassName="rounded-xl py-0"
         >
           {children(select)}

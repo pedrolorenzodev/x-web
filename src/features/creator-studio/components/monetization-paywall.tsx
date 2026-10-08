@@ -21,6 +21,7 @@ export function MonetizationPaywall({
     <>
       <PageHeader
         title=""
+        size="compact"
         action={
           <a
             href={creatorHelpUrl}
@@ -33,11 +34,11 @@ export function MonetizationPaywall({
           </a>
         }
       />
-      <div className="px-6 pt-4 pb-16">
-        <h1 className="text-center text-[23px] leading-7 font-extrabold">
+      <div className="px-6 pt-8 pb-16">
+        <h1 className="text-center text-[23px] leading-7 font-bold">
           Make money on X
         </h1>
-        <p className="mt-3 text-center text-lg text-muted">{paywall.body}</p>
+        <p className="mt-4 text-center text-lg text-muted">{paywall.body}</p>
         <Link
           href={routes.premiumFrom("creator_studio")}
           className="mt-6 flex h-[50px] w-full items-center justify-center rounded-full bg-inverted text-base font-bold text-inverted-foreground transition-colors duration-200 ease-[ease] hover:bg-inverted-hover"
@@ -46,20 +47,22 @@ export function MonetizationPaywall({
         </Link>
         <Link
           href={routes.premiumFrom("creator_studio")}
-          className="mx-auto mt-6 flex w-fit items-center gap-1 text-base text-accent hover:underline"
+          className="mx-auto mt-7 flex w-fit items-center gap-2 text-sm leading-[21px] text-[rgb(14_165_233)] hover:underline"
         >
           {paywall.eligibility}
-          <ChevronRightIcon className="size-[18px]" />
+          <ChevronRightIcon className="size-4" />
         </Link>
-        <div className="mt-6 grid grid-cols-2 gap-6 max-[599px]:grid-cols-1">
+        <div className="mt-8 grid grid-cols-2 gap-6 max-[599px]:grid-cols-1">
           {monetizationCards.map((card) => (
             <article
               key={card.title}
               className="flex flex-col rounded-2xl border border-border p-4"
             >
-              <h2 className="text-lg font-bold">{card.title}</h2>
-              <p className="mt-2 grow text-base text-muted">{card.body}</p>
-              <div className="relative mt-3 aspect-[229/179] overflow-hidden rounded-2xl">
+              <h2 className="text-lg font-semibold">{card.title}</h2>
+              <p className="mt-3 grow text-sm leading-[21px] text-muted">
+                {card.body}
+              </p>
+              <div className="relative mt-3 aspect-[229/179] overflow-hidden rounded-xl">
                 <Image
                   src={card.imageUrl}
                   alt=""

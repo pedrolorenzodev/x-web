@@ -17,9 +17,8 @@ export function ConnectPeople({ page, viewerId, toggleFollow }: ConnectPeoplePro
 
   return (
     <>
-      <ConnectHeader>
-        <ConnectTabs active={tab} />
-      </ConnectHeader>
+      <ConnectHeader />
+      <ConnectTabs active={tab} />
       <div className="pt-2">
         {seed ? (
           <section>

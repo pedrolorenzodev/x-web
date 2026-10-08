@@ -73,7 +73,7 @@ export function SettingsNavPanel({ activeId }: { activeId: string | null }) {
           label="Search Settings"
           placeholder="Search Settings"
           onValueChange={setQuery}
-          className="h-10 flex-1 border-outline"
+          className="flex-1"
         />
       </div>
       {searching ? (

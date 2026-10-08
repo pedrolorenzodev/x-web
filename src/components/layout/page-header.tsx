@@ -7,6 +7,7 @@ type PageHeaderProps = {
   subtitle?: ReactNode;
   back?: boolean;
   align?: "start" | "center";
+  size?: "default" | "compact";
   action?: ReactNode;
   children?: ReactNode;
 };
@@ -16,15 +17,21 @@ export function PageHeader({
   subtitle,
   back = true,
   align = "start",
+  size = "default",
   action,
   children,
 }: PageHeaderProps) {
   return (
-    <div className="sticky top-0 z-3">
+    <div className={cn("top-0 z-3", size === "compact" ? "relative" : "sticky")}>
       <div className="relative z-0 bg-background/65 backdrop-blur-[12px]">
-        <div className="relative flex h-[53px] items-center px-4">
+        <div
+          className={cn(
+            "relative flex items-center px-4",
+            size === "compact" ? "h-12" : "h-[53px]",
+          )}
+        >
           {back ? (
-            <div className="min-w-14">
+            <div className={cn("min-w-14", size === "compact" && "ml-1.5")}>
               <BackButton />
             </div>
           ) : null}

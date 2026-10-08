@@ -35,13 +35,15 @@ export function PremiumPlanCard({
       )}
     >
       <span className="flex items-center justify-between gap-3">
-        <span className="text-xl font-medium">{plan.name}</span>
+        <span className="text-xl leading-6 font-medium">{plan.name}</span>
         {period === "monthly" ? (
-          <span className="text-sm font-medium text-accent">{plan.promo}</span>
+          <span className="text-sm leading-4 font-medium text-accent">
+            {plan.promo}
+          </span>
         ) : null}
       </span>
-      <span className="mt-2 flex items-baseline gap-1">
-        <span className="text-[32px] leading-10 font-normal">
+      <span className="mt-4 mb-2 flex items-baseline gap-1">
+        <span className="text-[32px] leading-8 font-normal">
           {price.amount}
         </span>
         <span className="text-base text-muted">{price.unit}</span>
@@ -49,11 +51,17 @@ export function PremiumPlanCard({
       {price.detail ? (
         <span className="text-base text-muted">{price.detail}</span>
       ) : null}
-      <ul className="mt-4 flex flex-col gap-3">
+      <ul className="mt-4 flex flex-1 flex-col gap-3 pb-2">
         {plan.features.map((feature) => {
           const Icon = feature.icon;
           return (
-            <li key={feature.label} className="flex items-center gap-2">
+            <li
+              key={feature.label}
+              className={cn(
+                "flex items-center gap-2",
+                feature.info ? "h-6" : "h-[21px]",
+              )}
+            >
               <Icon className="size-[21px] shrink-0" />
               <span className="text-base">{feature.label}</span>
               {feature.isNew ? (

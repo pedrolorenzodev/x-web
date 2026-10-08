@@ -79,7 +79,7 @@ export function ListPageHeader({ list, isOwner }: ListPageHeaderProps) {
             @{list.owner.handle}
           </span>
         </div>
-        <div className="ml-4 flex shrink-0 items-center gap-2">
+        <div className="-mr-[5px] ml-4 flex shrink-0 items-center">
           <HeaderMenu
             label="Share"
             menuLabel="Share Menu"
@@ -111,6 +111,7 @@ export function ListPageHeader({ list, isOwner }: ListPageHeaderProps) {
             label="More"
             menuLabel="List options"
             icon={<MoreHorizontalIcon className="size-5" />}
+            className="-ml-px"
             size={{ width: 384, height: isOwner ? 72 : 116 }}
           >
             {(select) =>

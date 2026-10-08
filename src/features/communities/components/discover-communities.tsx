@@ -37,8 +37,8 @@ export function DiscoverCommunities({
   return (
     <>
       <div className="sticky top-0 z-3 bg-background/65 backdrop-blur-[12px]">
-        <div className="flex h-[53px] items-center gap-4 px-4">
-          <div className="shrink-0">
+        <div className="flex h-[53px] items-center px-4">
+          <div className="min-w-14">
             <BackButton />
           </div>
           <PillSearchInput
@@ -46,14 +46,18 @@ export function DiscoverCommunities({
             label="Search for Communities and Posts"
             placeholder="Search for Communities and Posts"
             onValueChange={setQuery}
-            className="h-10 min-w-0 flex-1"
+            className="min-w-0 flex-1 self-start mt-[8.5px]"
           />
         </div>
       </div>
-      <h2 className="px-4 pt-3 pb-1 text-xl font-extrabold">
+      <h2 className="px-4 pt-3 pb-1.5 text-xl font-extrabold">
         Discover Communities
       </h2>
-      <TopicChips selection={selection} onChange={setSelection} />
+      <TopicChips
+        selection={selection}
+        onChange={setSelection}
+        className="mb-1.5"
+      />
       {visible.length > 0 ? (
         visible.map((community) => (
           <CommunityCell key={community.id} community={community} />

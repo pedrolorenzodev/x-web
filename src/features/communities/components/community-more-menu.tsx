@@ -35,7 +35,7 @@ export function CommunityMoreMenu() {
           aria-haspopup="menu"
           aria-expanded={menu.isOpen}
           onClick={menu.toggle}
-          className="-mr-2 size-9"
+          className="size-9"
         >
           <MoreHorizontalIcon className="size-5" />
         </IconButton>

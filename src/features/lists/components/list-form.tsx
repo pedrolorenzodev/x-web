@@ -41,7 +41,7 @@ export function ListForm({ draft, listId, onChange }: ListFormProps) {
 
   return (
     <>
-      <div className="relative mx-0.5 aspect-[3/1] overflow-hidden bg-border-strong">
+      <div className="relative m-0.5 aspect-[3/1] overflow-hidden bg-border-strong">
         {draft.bannerUrl ? (
           <Image
             src={draft.bannerUrl}
@@ -89,7 +89,7 @@ export function ListForm({ draft, listId, onChange }: ListFormProps) {
           }}
         />
       </div>
-      <div className="flex flex-col gap-6 px-4 py-3">
+      <div className="flex flex-col gap-7 px-4 pt-3 pb-4">
         <FloatingLabelInput
           label="Name"
           name="name"
@@ -106,10 +106,10 @@ export function ListForm({ draft, listId, onChange }: ListFormProps) {
           onChange={(description) => update({ description })}
         />
       </div>
-      <label className="flex cursor-pointer items-center justify-between gap-4 px-4 py-3">
+      <label className="flex cursor-pointer items-start justify-between gap-4 p-4">
         <span className="flex flex-col">
           <span className="text-base">Make private</span>
-          <span className="text-xs text-muted">
+          <span className="mt-1 text-xs leading-4 text-muted">
             When you make a List private, only you can see it.
           </span>
         </span>
@@ -117,7 +117,7 @@ export function ListForm({ draft, listId, onChange }: ListFormProps) {
           name="private"
           checked={draft.private}
           onChange={(event) => update({ private: event.target.checked })}
-          className="-mr-2"
+          className="-my-2 -mr-2"
         />
       </label>
     </>

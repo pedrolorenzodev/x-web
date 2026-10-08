@@ -29,7 +29,7 @@ export function DiscoverListsSection({
       {showMore ? (
         <>
           <ShowMoreRow href="/i/lists/suggested" />
-          <div aria-hidden className="mt-[9px] h-px bg-border" />
+          <div aria-hidden className="my-1 h-px bg-border" />
         </>
       ) : null}
     </section>

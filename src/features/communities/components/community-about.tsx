@@ -5,7 +5,7 @@ import type { ToggleFollow } from "@/types/user";
 import { routes } from "@/config/routes";
 import {
   CalendarIcon,
-  CommunitiesIcon,
+  CommunitiesFillIcon,
   GlobeIcon,
 } from "@/components/ui/icons";
 import { UserBadges } from "@/components/ui/verified-badge";
@@ -23,8 +23,8 @@ function Section({
   children: ReactNode;
 }) {
   return (
-    <section className="border-b border-border pb-1">
-      <h2 className="px-4 pt-3 pb-2 text-xl font-extrabold">{title}</h2>
+    <section className="border-b border-border pb-1 not-first:pt-[3px]">
+      <h2 className="px-4 pt-[13px] pb-3 text-xl font-extrabold">{title}</h2>
       {children}
     </section>
   );
@@ -38,11 +38,13 @@ function InfoRow({
   children: ReactNode;
 }) {
   return (
-    <div className="flex gap-6 px-4 py-3 text-base">
-      <span className="flex size-5 shrink-0 items-center text-muted [&>svg]:size-5">
+    <div className="flex gap-5 py-3 pr-4 pl-[30px] text-base">
+      <span className="flex size-6 shrink-0 items-center text-muted [&>svg]:size-6">
         {icon}
       </span>
-      <div className="min-w-0">{children}</div>
+      <div className="flex min-h-8 min-w-0 flex-col justify-center">
+        {children}
+      </div>
     </div>
   );
 }
@@ -77,31 +79,33 @@ export function CommunityAbout({
   return (
     <div className="pb-[200px]">
       <Section title="Community Info">
-        <InfoRow icon={<CommunitiesIcon />}>Only members can post.</InfoRow>
+        <InfoRow icon={<CommunitiesFillIcon />}>Only members can post.</InfoRow>
         <InfoRow icon={<GlobeIcon />}>
           <p className="font-bold">All Communities are publicly visible.</p>
-          <p className="text-muted">
+          <p className="mt-1 text-muted">
             {community.joinPolicy === "open"
               ? "Anyone can join this Community."
               : "People need to be approved to join this Community."}
           </p>
         </InfoRow>
         <InfoRow icon={<CalendarIcon />}>
-          <span className="text-muted">
-            Created {formatCreatedDate(community.createdAt)} by{" "}
-          </span>
-          <Link
-            href={routes.profile(community.createdBy.handle)}
-            className="inline-flex items-center font-bold hover:underline"
-          >
-            @{community.createdBy.handle}
-            <UserBadges user={community.createdBy} />
-          </Link>
+          <p>
+            <span className="text-muted">
+              Created {formatCreatedDate(community.createdAt)} by{" "}
+            </span>
+            <Link
+              href={routes.profile(community.createdBy.handle)}
+              className="inline-flex items-center font-bold hover:underline"
+            >
+              @{community.createdBy.handle}
+              <UserBadges user={community.createdBy} />
+            </Link>
+          </p>
         </InfoRow>
       </Section>
 
       <Section title="Rules">
-        <p className="px-4 pb-3 text-base">
+        <p className="px-4 pt-3 pb-6 text-base">
           These are set and enforced by Community admins and are in addition to{" "}
           <a
             href={communityLinks.rules}
@@ -115,13 +119,13 @@ export function CommunityAbout({
         </p>
         <ol>
           {community.rules.map((rule, index) => (
-            <li key={rule.title} className="flex gap-4 px-4 py-3">
-              <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-menu-hover text-sm font-bold">
+            <li key={rule.title} className="flex gap-4 py-3 pr-4 pl-[26px]">
+              <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-menu-hover text-base font-bold">
                 {index + 1}
               </span>
               <div className="min-w-0">
                 <p className="text-base font-bold">{rule.title}</p>
-                <p className="mt-0.5 text-base text-muted">{rule.description}</p>
+                <p className="mt-1 text-base text-muted">{rule.description}</p>
               </div>
             </li>
           ))}

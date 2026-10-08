@@ -114,7 +114,7 @@ export function GrokScreen() {
         </div>
       </div>
 
-      <div className="flex flex-1 items-center justify-center pb-[70px]">
+      <div className="flex flex-1 items-center justify-center pb-[66px]">
         <div className="w-full max-w-[800px] px-4">
           <h1 className="flex justify-center">
             <GrokWordmarkIcon
@@ -135,7 +135,7 @@ export function GrokScreen() {
               type="button"
               aria-label="Attach"
               onClick={notifyUnavailable}
-              className="flex h-[39px] w-[38px] shrink-0 items-center justify-center rounded-full text-muted transition-colors duration-200 ease-[ease] hover:bg-white/10 hover:text-foreground"
+              className="flex h-[39px] w-9 shrink-0 items-center justify-center rounded-full text-muted transition-colors duration-200 ease-[ease] hover:bg-white/10 hover:text-foreground"
             >
               <PaperclipIcon className="size-5" />
             </button>
@@ -151,7 +151,7 @@ export function GrokScreen() {
                   event.currentTarget.form?.requestSubmit();
                 }
               }}
-              className="field-sizing-content max-h-[200px] min-h-[39px] min-w-0 flex-1 resize-none bg-transparent px-1 py-[9px] text-base leading-5 outline-none placeholder:text-muted"
+              className="field-sizing-content max-h-[200px] min-h-[39px] min-w-0 flex-1 resize-none bg-transparent py-[9px] pr-1 text-base leading-5 outline-none placeholder:text-muted"
             />
             <GrokModelMenu />
             {hasPrompt ? (
@@ -174,7 +174,7 @@ export function GrokScreen() {
             )}
           </form>
 
-          <div className="mt-4 flex min-h-[90px] items-center gap-4 rounded-2xl border border-[rgb(42_45_48)] py-1.5 pr-4 pl-4">
+          <div className="mt-4 flex min-h-[90px] items-center gap-4 rounded-2xl border border-[rgb(42_45_48)] px-4 py-1">
             <Image
               src="/media/grok-bot.svg"
               alt=""

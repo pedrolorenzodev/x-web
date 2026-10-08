@@ -127,7 +127,7 @@ export function ProtectedPostsState({ handle }: { handle: string }) {
           </a>
         </>
       }
-      className="max-w-[440px] px-10"
+      className="mt-[87px] max-w-[440px] px-10"
     />
   );
 }

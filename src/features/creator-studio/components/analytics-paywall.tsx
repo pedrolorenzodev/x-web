@@ -7,7 +7,7 @@ import { analyticsPaywall } from "@/features/creator-studio/config/creator-studi
 export function AnalyticsPaywall() {
   return (
     <>
-      <PageHeader title="Analytics" align="center" />
+      <PageHeader title="Analytics" align="center" size="compact" />
       <div className="relative aspect-[598/265] w-full">
         <Image
           src={analyticsPaywall.imageUrl}

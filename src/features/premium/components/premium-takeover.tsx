@@ -57,7 +57,7 @@ export function PremiumTakeover({ dismiss }: { dismiss: RouteModalDismiss }) {
           <CloseIcon className="size-5" />
         </button>
 
-        <div className="flex flex-col items-center px-4 pt-3 pb-[220px] max-[699px]:pb-[340px]">
+        <div className="flex flex-col items-center px-4 pt-0.5 pb-[220px] max-[699px]:pb-[340px]">
           <PremiumHero />
           <h1 className="mt-6 text-center text-[28px] leading-9 font-medium max-[599px]:text-[23px] max-[599px]:leading-7">
             {premiumHeadline.before}
@@ -65,11 +65,11 @@ export function PremiumTakeover({ dismiss }: { dismiss: RouteModalDismiss }) {
             {premiumHeadline.after}
           </h1>
 
-          <div className="relative mt-6">
+          <div className="relative mt-7">
             <div
               role="radiogroup"
               aria-label="Billing period"
-              className="flex rounded-full bg-[rgb(32_35_39)] p-1"
+              className="flex gap-1 rounded-full bg-[rgb(32_35_39)] p-1"
             >
               {periods.map((item) => {
                 const active = item.id === period;
@@ -106,7 +106,7 @@ export function PremiumTakeover({ dismiss }: { dismiss: RouteModalDismiss }) {
           <div
             role="radiogroup"
             aria-label="Plans"
-            className="mt-10 flex flex-wrap items-start justify-center gap-3"
+            className="mt-7 flex flex-wrap items-stretch justify-center gap-4"
           >
             {premiumPlans.map((item) => (
               <PremiumPlanCard
@@ -119,22 +119,24 @@ export function PremiumTakeover({ dismiss }: { dismiss: RouteModalDismiss }) {
             ))}
           </div>
 
-          <div className="mt-6 flex w-full max-w-[732px] items-center gap-4 rounded-2xl bg-menu-hover px-6 py-4 max-[599px]:flex-wrap">
+          <div className="mt-8 flex w-full max-w-[736px] items-center rounded-2xl bg-menu-hover p-4 max-[599px]:flex-wrap">
             <Image
               src={premiumBusiness.badgeUrl}
               alt=""
-              width={32}
-              height={32}
-              className="size-8 shrink-0"
+              width={50}
+              height={50}
+              className="size-[50px] shrink-0"
             />
             <div className="min-w-0 flex-1">
-              <p className="text-xl font-medium">{premiumBusiness.title}</p>
-              <p className="text-base text-muted">{premiumBusiness.body}</p>
+              <p className="text-xl leading-6 font-medium">
+                {premiumBusiness.title}
+              </p>
+              <p className="mt-2 text-base text-muted">{premiumBusiness.body}</p>
             </div>
             <button
               type="button"
               onClick={notifyUnavailable}
-              className="flex h-9 shrink-0 items-center rounded-full bg-white/25 px-4 text-base font-bold text-white transition-colors duration-200 ease-[ease] hover:bg-white/30"
+              className="ml-4 flex h-[34px] shrink-0 items-center rounded-full bg-white/25 px-4 text-base font-bold text-white transition-colors duration-200 ease-[ease] hover:bg-white/30"
             >
               {premiumBusiness.action}
             </button>
@@ -146,12 +148,12 @@ export function PremiumTakeover({ dismiss }: { dismiss: RouteModalDismiss }) {
         </div>
       </div>
 
-      <div className="absolute inset-x-0 bottom-0 border-t border-keycap-border bg-black/75 backdrop-blur-[12px]">
-        <div className="mx-auto flex max-w-[810px] items-start justify-between gap-6 px-4 py-4 max-[699px]:flex-col max-[699px]:gap-3">
-          <div className="pt-2">
-            <p className="text-xl font-medium">{plan.name}</p>
-            <p className="mt-1 flex items-baseline gap-1">
-              <span className="text-[32px] leading-9">
+      <div className="absolute inset-x-0 bottom-0 border-t border-keycap-border bg-black/75 p-4 backdrop-blur-[12px]">
+        <div className="mx-auto flex max-w-[811px] items-start justify-between gap-4 max-[699px]:flex-col max-[699px]:gap-3">
+          <div className="w-80 max-w-full">
+            <p className="text-xl leading-6 font-medium">{plan.name}</p>
+            <p className="mt-4 mb-2 flex items-baseline gap-1">
+              <span className="text-[32px] leading-8">
                 {summary.summaryAmount}
               </span>
               <span className="text-base text-muted">

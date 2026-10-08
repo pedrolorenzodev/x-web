@@ -8,6 +8,7 @@ import { Tooltip } from "@/components/ui/tooltip";
 import { UserBadges } from "@/components/ui/verified-badge";
 import { formatProfileCount } from "@/utils/format-profile-count";
 import { searchHref } from "@/utils/search-href";
+import { canViewPosts } from "@/features/profile/utils/can-view-posts";
 
 type ProfileAppBarProps = {
   profile: User;
@@ -56,8 +57,8 @@ export function ProfileAppBar({ profile, isViewer, media }: ProfileAppBarProps) 
       }
       subtitle={subtitleFor(profile, media)}
       action={
-        <div className="-mr-2 flex gap-2">
-          {isViewer ? null : (
+        <div className="flex gap-2">
+          {isViewer || !canViewPosts(profile, isViewer) ? null : (
             <AppBarLink href={routes.grok} label="Profile Summary">
               <GrokIcon className="size-5" />
             </AppBarLink>

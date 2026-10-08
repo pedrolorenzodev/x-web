@@ -55,7 +55,7 @@ function Welcome({ onContinue }: { onContinue: () => void }) {
             <Icon className="size-8 shrink-0" />
             <div className="w-[280px] min-w-0">
               <p className="text-base font-bold">{title}</p>
-              <p className="mt-0.5 text-base text-foreground/60">{body}</p>
+              <p className="mt-1 text-base text-foreground/60">{body}</p>
             </div>
           </li>
         ))}
@@ -63,7 +63,7 @@ function Welcome({ onContinue }: { onContinue: () => void }) {
       <button
         type="button"
         onClick={onContinue}
-        className="mt-8 flex h-10 w-full items-center justify-center rounded-full bg-inverted text-base font-medium text-inverted-foreground transition-colors duration-150 ease-[cubic-bezier(0.4,0,0.2,1)] hover:bg-inverted/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        className="mt-8 flex h-10 w-full items-center justify-center rounded-full bg-white text-base font-medium text-inverted-foreground transition-colors duration-150 ease-[cubic-bezier(0.4,0,0.2,1)] hover:bg-white/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
       >
         Create Passcode
       </button>
@@ -78,19 +78,19 @@ function CreatePasscode() {
   const complete = digits.every(Boolean);
 
   return (
-    <div className="flex flex-col items-center text-center">
-      <PasscodeIcon className="size-8" />
+    <div className="relative flex flex-col items-center text-center">
+      <PasscodeIcon className="size-12" />
       <h1 className="mt-6 text-[23px] leading-7 font-bold">Create Passcode</h1>
-      <p className="mt-2 text-base text-foreground/60">
+      <p className="mt-3 text-base text-foreground/60">
         A personal key that secures your messages.
       </p>
-      <div className="mt-10">
+      <div className="mt-12">
         <PasscodeDigits digits={digits} onChange={setDigits} />
       </div>
       <p
         role="status"
         className={cn(
-          "mt-6 flex items-center gap-1 text-xs transition-colors duration-200 ease-[ease]",
+          "absolute top-full mt-6 flex items-center gap-1 text-xs whitespace-nowrap transition-colors duration-200 ease-[ease]",
           complete ? "text-foreground" : "text-muted",
         )}
       >
@@ -111,7 +111,7 @@ export function ChatPasscodeFlow({
     <div
       className={cn(
         "flex items-center justify-center px-4",
-        variant === "page" ? "min-h-screen" : "min-h-0 flex-1",
+        variant === "page" ? "min-h-screen" : "min-h-0 flex-1 pb-[53px]",
       )}
     >
       {step === "welcome" ? (

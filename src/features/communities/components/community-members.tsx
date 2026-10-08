@@ -40,7 +40,7 @@ export function CommunityMembers({
   return (
     <>
       <PageHeader title="Members">
-        <div className="px-4 pt-1 pb-2">
+        <div className="px-4 pt-2 pb-4">
           <PillSearchInput
             value={query}
             label="Search for people"

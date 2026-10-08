@@ -35,15 +35,19 @@ export function MemberCell({
         aria-label={user.displayName}
         className="absolute inset-0"
       />
-      <Avatar src={user.avatarUrl} alt={user.displayName} />
+      <Avatar
+        src={user.avatarUrl}
+        alt={user.displayName}
+        className="mt-px"
+      />
       <div className="flex min-w-0 flex-1 flex-col">
         <div className="flex items-center gap-2">
-          <div className="flex min-w-0 flex-1 flex-col text-base">
+          <div className="flex min-h-[42px] min-w-0 flex-1 flex-col text-base">
             <span className="flex min-w-0 items-center">
               <span className="truncate font-bold">{user.displayName}</span>
               <UserBadges user={user} />
               {showRole ? (
-                <span className="ml-1 shrink-0 rounded-[4px] bg-[#202327] px-1 py-0.5 text-[11px] leading-3 font-bold text-muted">
+                <span className="ml-1 shrink-0 rounded-[4px] bg-[rgb(181_184_187)] px-1.5 py-0.5 text-[13px] leading-4 font-bold text-[rgb(22_24_28)]">
                   {roleLabels[role]}
                 </span>
               ) : null}
@@ -56,6 +60,7 @@ export function MemberCell({
               handle={user.handle}
               following={user.followedByViewer}
               toggleFollow={toggleFollow}
+              size="md"
             />
           )}
         </div>

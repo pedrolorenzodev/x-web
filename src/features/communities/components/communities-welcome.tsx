@@ -2,7 +2,7 @@
 
 import { useState, type ReactNode } from "react";
 import {
-  CommunitiesIcon,
+  CommunitiesFillIcon,
   LikeActiveIcon,
   SparkleIcon,
 } from "@/components/ui/icons";
@@ -47,19 +47,19 @@ export function CommunitiesWelcome() {
       className="h-auto max-h-[90vh] min-h-0"
     >
       <ModalHeader onClose={dismiss} className="bg-transparent" />
-      <div className="mx-auto flex w-full max-w-[400px] flex-col overflow-y-auto px-8 pb-12 max-[702px]:max-w-none">
-        <h1 className="mt-5 text-[31px] leading-9 font-extrabold whitespace-nowrap max-[702px]:whitespace-normal">
+      <div className="mx-auto flex w-full max-w-[400px] flex-col overflow-y-auto pb-20 max-[702px]:max-w-none max-[702px]:px-8 max-[702px]:pb-12">
+        <h1 className="mt-8 text-[31px] leading-9 font-extrabold whitespace-nowrap max-[702px]:whitespace-normal">
           Welcome to Communities
         </h1>
-        <p className="mt-2 text-base text-muted">
+        <p className="mt-1 text-base text-muted">
           Communities are moderated discussion groups where people on X can
           connect and share.
         </p>
-        <div className="mt-10 flex flex-col gap-6">
+        <div className="mt-11 flex flex-col gap-6">
           <WelcomeRow icon={<SparkleIcon />} title="Meet others with your interests">
             Join Communities to connect with people who share your interests.
           </WelcomeRow>
-          <WelcomeRow icon={<CommunitiesIcon />} title="Post directly to a Community">
+          <WelcomeRow icon={<CommunitiesFillIcon />} title="Post directly to a Community">
             Your posts are shared with Community members and your followers.
           </WelcomeRow>
           <WelcomeRow icon={<LikeActiveIcon />} title="Get backup when you need it">
@@ -70,7 +70,7 @@ export function CommunitiesWelcome() {
         <button
           type="button"
           onClick={dismiss}
-          className="mt-10 flex h-[52px] w-full items-center justify-center rounded-full bg-inverted text-[17px] font-bold text-inverted-foreground transition-colors duration-200 ease-[ease] hover:bg-inverted-hover"
+          className="mt-11 flex h-[52px] w-full items-center justify-center rounded-full bg-inverted text-[17px] font-bold text-inverted-foreground transition-colors duration-200 ease-[ease] hover:bg-inverted-hover"
         >
           Check it out
         </button>

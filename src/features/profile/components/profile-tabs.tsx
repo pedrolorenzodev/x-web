@@ -25,9 +25,9 @@ import type {
 } from "@/features/profile/types/profile-tab";
 import { profileAllPath } from "@/features/profile/utils/profile-paths";
 
-const POSTS_MENU_SIZE = { width: 146, height: 176 };
+const POSTS_MENU_SIZE = { width: 146, height: 177 };
 const MEDIA_MENU_SIZE = { width: 125, height: 88 };
-const SORT_SUBMENU_TOP = 132;
+const SORT_SUBMENU_TOP = 133;
 
 type ProfileTabsProps = {
   handle: string;
@@ -44,6 +44,7 @@ type MenuTabProps = {
   menuLabel: string;
   align: "left" | "right";
   size: { width: number; height: number };
+  className?: string;
   children: (select: (event: MouseEvent<HTMLElement>) => void) => ReactNode;
   decoration?: (select: (event: MouseEvent<HTMLElement>) => void) => ReactNode;
   onOpen?: () => void;
@@ -54,6 +55,7 @@ function MenuTab({
   menuLabel,
   align,
   size,
+  className,
   children,
   decoration,
   onOpen,
@@ -90,7 +92,7 @@ function MenuTab({
           label={menuLabel}
           style={menu.placement.style}
           origin={menu.placement.origin}
-          className="w-max"
+          className={cn("w-max", className)}
           menuClassName="rounded-xl py-0"
           decoration={decoration?.(menu.selectItem)}
         >
@@ -126,8 +128,9 @@ function PostsTab({
     <MenuTab
       label={label}
       menuLabel="Posts options"
-      align="left"
+      align="right"
       size={POSTS_MENU_SIZE}
+      className="min-w-[146px]"
       onOpen={() => setSortOpen(false)}
       decoration={(select) =>
         sortOpen ? (
@@ -175,6 +178,7 @@ function PostsTab({
             href={routes.profileHighlights(handle)}
             onSelect={select}
           />
+          <div role="separator" className="h-px bg-border" />
           <button
             type="button"
             role="menuitem"

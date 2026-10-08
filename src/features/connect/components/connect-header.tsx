@@ -1,5 +1,4 @@
 import Link from "next/link";
-import type { ReactNode } from "react";
 import { routes } from "@/config/routes";
 import { PageHeader } from "@/components/layout/page-header";
 import { SettingsIcon } from "@/components/ui/icons";
@@ -7,7 +6,7 @@ import { Tooltip } from "@/components/ui/tooltip";
 
 const CONTACTS_SETTINGS_HREF = `${routes.settings}/contacts`;
 
-export function ConnectHeader({ children }: { children?: ReactNode }) {
+export function ConnectHeader() {
   return (
     <PageHeader
       title="Follow"
@@ -22,8 +21,6 @@ export function ConnectHeader({ children }: { children?: ReactNode }) {
           </Link>
         </Tooltip>
       }
-    >
-      {children}
-    </PageHeader>
+    />
   );
 }

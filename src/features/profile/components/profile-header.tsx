@@ -13,6 +13,7 @@ import { formatFollowedBy } from "@/utils/format-followed-by";
 import { formatProfileCount } from "@/utils/format-profile-count";
 import { ProfileActions } from "@/features/profile/components/profile-actions";
 import { ProfileMeta } from "@/features/profile/components/profile-meta";
+import { canViewPosts } from "@/features/profile/utils/can-view-posts";
 
 type ProfileHeaderProps = {
   profile: User;
@@ -190,7 +191,9 @@ export function ProfileHeader({
           />
         </div>
 
-        {isViewer ? null : <FollowedByRow profile={profile} />}
+        {canViewPosts(profile, isViewer) && !isViewer ? (
+          <FollowedByRow profile={profile} />
+        ) : null}
       </div>
     </div>
   );

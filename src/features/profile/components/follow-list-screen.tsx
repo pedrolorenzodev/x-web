@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation";
 import { PageHeader } from "@/components/layout/page-header";
-import { UserBadges } from "@/components/ui/verified-badge";
 import { getFollowListScreen } from "@/features/profile/api/get-follow-lists";
 import { toggleFollow } from "@/features/profile/api/toggle-follow";
 import {
@@ -29,12 +28,7 @@ export async function FollowListScreen({ handle, kind }: FollowListScreenProps) 
   return (
     <>
       <PageHeader
-        title={
-          <span className="flex min-w-0 items-center">
-            <span className="truncate">{profile.displayName}</span>
-            <UserBadges user={profile} size="md" />
-          </span>
-        }
+        title={profile.displayName}
         subtitle={`@${profile.handle}`}
       >
         <FollowListTabs

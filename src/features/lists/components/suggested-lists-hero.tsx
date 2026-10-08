@@ -14,7 +14,7 @@ const tiles: { x: number; y: number; size: number; fill: string; outline?: boole
 export function SuggestedListsHero() {
   return (
     <div className="border-b border-border">
-      <div className="flex justify-center pt-6 pb-10">
+      <div className="flex aspect-[3/1] items-center justify-center">
         <svg aria-hidden viewBox="0 0 372 150" className="w-[372px] max-w-full">
           {tiles.map((tile, index) => {
             const inset = tile.size * 0.22;
@@ -48,8 +48,8 @@ export function SuggestedListsHero() {
           })}
         </svg>
       </div>
-      <div className="px-8 pb-8">
-        <h2 className="text-[31px] leading-9 font-extrabold">Choose your Lists</h2>
+      <div className="px-8 pt-8 pb-10">
+        <h2 className="text-[26px] leading-8 font-extrabold">Choose your Lists</h2>
         <p className="mt-2 text-base text-muted">
           When you follow a List, you&apos;ll be able to quickly keep up with the
           experts on what you care about most.

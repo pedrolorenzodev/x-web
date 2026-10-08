@@ -13,7 +13,7 @@ export function CommunitiesSearchLink({
       <Link
         href={href}
         aria-label="Search"
-        className="-mr-2 flex size-9 items-center justify-center rounded-full transition-colors duration-200 ease-[ease] hover:bg-inverted/10"
+        className="flex size-9 items-center justify-center rounded-full transition-colors duration-200 ease-[ease] hover:bg-inverted/10"
       >
         <SearchIcon className="size-5" />
       </Link>
