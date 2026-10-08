@@ -25,7 +25,8 @@ export function NewsRow({ story, variant = "column", className }: NewsRowProps) 
     <Link
       href={newsStoryHref(story.id)}
       className={cn(
-        "flex flex-col px-4 py-3 transition-colors duration-200 ease-[ease] hover:bg-white/3",
+        "flex flex-col px-4 transition-colors duration-200 ease-[ease] hover:bg-white/3",
+        panel ? "py-4" : "py-3",
         className,
       )}
     >
@@ -37,8 +38,8 @@ export function NewsRow({ story, variant = "column", className }: NewsRowProps) 
       >
         {story.headline}
       </span>
-      <span className="mt-1.5 flex items-center gap-2">
-        <Facepile users={story.facepile.slice(0, 3)} overlap={panel ? 10 : 12} />
+      <span className="mt-1.5 flex h-6 items-center gap-2">
+        <Facepile users={story.facepile.slice(0, 3)} className="p-px" />
         <span className="truncate text-xs text-muted">
           {formatNewsTime(story.publishedAt, story.isTrendingNow)} ·{" "}
           {story.category} · {posts} posts

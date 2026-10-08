@@ -14,7 +14,9 @@ import { useDropdownMenu } from "@/hooks/use-dropdown-menu";
 import { cn } from "@/lib/utils";
 import { formatCount } from "@/utils/format-count";
 import { trendSearchHref } from "@/utils/search-href";
+import { insetRect } from "@/utils/floating-position";
 
+const CARET_INSET = 8;
 const MENU_SIZE = { width: 337, height: 264 };
 
 const feedbackOptions = [
@@ -42,7 +44,7 @@ function trendContext(trend: Trend) {
 export function TrendRow({ trend, rank, onDismiss, className }: TrendRowProps) {
   const caretRef = useRef<HTMLButtonElement>(null);
   const menu = useDropdownMenu(caretRef, (anchor) =>
-    placeOverAnchor(anchor, MENU_SIZE, "right"),
+    placeOverAnchor(insetRect(anchor, CARET_INSET), MENU_SIZE, "right"),
   );
 
   return (

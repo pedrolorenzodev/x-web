@@ -20,7 +20,7 @@ export function AppShell({
   return (
     <div
       data-app-shell
-      className="mx-auto flex w-fit items-start max-[499px]:w-full min-[988px]:pr-[10px]"
+      className="mx-auto flex w-fit items-start max-[499px]:w-full min-[688px]:max-[987px]:[&:not(:has([data-layout-mode]))]:ml-[calc((100vw-688px)/3)] min-[988px]:pr-[10px] min-[1265px]:[&:has([data-layout-mode])]:w-[1265px]"
     >
       {sidebar}
       <main className="w-feed min-h-screen shrink-0 border-x border-border max-[687px]:w-[calc(100vw-88px)] max-[599px]:w-[calc(100vw-68px)] max-[499px]:w-full max-[499px]:border-x-0 max-[499px]:pb-14 layout-fullwidth:w-[min(1185px,calc(100vw-88px))]! layout-fullwidth:max-[499px]:w-full! layout-no-panel:w-auto!">

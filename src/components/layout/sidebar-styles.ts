@@ -1,8 +1,8 @@
 export const sidebarWidth =
-  "w-[88px] max-[599px]:w-[68px] min-[989px]:max-[1007px]:w-[68px] min-[1265px]:w-sidebar layout-fullwidth:w-[88px]!";
+  "w-[88px] max-[599px]:w-[68px] min-[989px]:max-[1007px]:w-[68px] min-[1265px]:w-sidebar max-[1264px]:layout-fullwidth:w-[88px]! min-[1265px]:layout-fullwidth:w-[70px]!";
 
 export const sidebarGutter =
-  "px-2 max-[599px]:px-1 min-[989px]:max-[1007px]:px-1";
+  "px-2 max-[599px]:px-1 min-[989px]:max-[1007px]:px-1 min-[1265px]:layout-fullwidth:px-0";
 
 export const sidebarAlign =
   "items-center min-[1265px]:items-start layout-fullwidth:items-center!";

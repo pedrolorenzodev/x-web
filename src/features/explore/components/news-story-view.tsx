@@ -33,13 +33,13 @@ export function NewsStoryView({
         </div>
       </div>
 
-      <article className="px-4 pb-3">
+      <article className="px-4 pt-1 pb-[22px]">
         <h1 className="text-[23px] leading-7 font-extrabold">{story.headline}</h1>
-        <p className="mt-1 text-xs text-muted" suppressHydrationWarning>
+        <p className="mt-2 text-xs text-muted" suppressHydrationWarning>
           Last updated {formatNewsTime(story.publishedAt, false)}
         </p>
         <p className="mt-2 text-base">{story.summary}</p>
-        <p className="mt-4 text-xs text-muted">
+        <p className="mt-3 text-xs text-muted">
           This story is a summary of posts on X and may evolve over time. Grok
           can make mistakes, verify its outputs.
         </p>

@@ -46,7 +46,7 @@ export function SearchSettingsModal({
   return (
     <Modal label="Search settings" size="fixed" onClose={close} className="bg-elevated">
       <ModalHeader onClose={close} title="Search settings" className="bg-elevated/85" />
-      <div className="min-h-0 flex-1 overflow-y-auto pt-1">
+      <div className="min-h-0 flex-1 overflow-y-auto">
         <CheckboxRow
           title="Hide sensitive content"
           description={

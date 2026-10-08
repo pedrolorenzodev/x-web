@@ -27,3 +27,12 @@ export function placeBelowCentered(
   const left = Math.max(VIEWPORT_MARGIN, Math.min(centered, maxLeft));
   return { top, left, side };
 }
+
+export function insetRect(rect: DOMRect, inset: number) {
+  return new DOMRect(
+    rect.x + inset,
+    rect.y + inset,
+    rect.width - inset * 2,
+    rect.height - inset * 2,
+  );
+}

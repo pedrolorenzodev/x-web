@@ -37,7 +37,7 @@ function ListSocialLine({ list }: { list: List }) {
   if (firstFollower) {
     return (
       <span className="flex min-w-0 items-center gap-1 text-xs text-muted">
-        <Facepile users={list.followersPreview} size={20} overlap={6} />
+        <Facepile users={list.followersPreview} />
         <span className="truncate">
           {list.followerCount} {list.followerCount === 1 ? "follower" : "followers"}{" "}
           including @{firstFollower.handle}
@@ -63,7 +63,7 @@ function ListSocialLine({ list }: { list: List }) {
 
 export function ListCell({ list, viewerId, toggleListFollow }: ListCellProps) {
   return (
-    <div className="relative flex items-center gap-3 px-4 py-3 transition-colors duration-200 ease-[ease] hover:bg-white/3">
+    <div className="relative flex items-center gap-4 px-4 py-3 transition-colors duration-200 ease-[ease] hover:bg-white/3">
       <Link
         href={`/i/lists/${list.id}`}
         aria-label={list.name}

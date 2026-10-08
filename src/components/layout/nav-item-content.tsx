@@ -63,7 +63,11 @@ export function NavItemContent({
     <SidebarTooltip label={label}>
       <Link
         href={href}
-        aria-label={badge > 0 ? `${label} (${badgeLabel})` : label}
+        aria-label={
+          badge > 0
+            ? `${label} (${badge} unread ${label.toLowerCase()})`
+            : label
+        }
         aria-current={active ? "page" : undefined}
         onClick={(event) => {
           if (pathname === href && dispatchNavReselect(href)) {
@@ -78,7 +82,7 @@ export function NavItemContent({
             {badge > 0 ? (
               <span
                 aria-label={badgeLabel}
-                className="absolute -top-1.5 left-3 flex h-[18px] min-w-[18px] items-center justify-center rounded-full border border-background bg-accent px-1 text-[11px] leading-none font-bold text-white"
+                className="absolute -top-1.5 left-3 flex h-[18px] min-w-[18px] items-center justify-center rounded-full border border-background bg-accent px-1 text-[11px] leading-none font-normal text-white"
               >
                 {badge > 99 ? "99+" : badge}
               </span>

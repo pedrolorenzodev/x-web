@@ -29,6 +29,7 @@ import { UserBadges } from "@/components/ui/verified-badge";
 import { UserHoverCard } from "@/components/user/user-hover-card";
 import { useDropdownMenu } from "@/hooks/use-dropdown-menu";
 import { formatRelativeTime } from "@/utils/format-relative-time";
+import { insetRect } from "@/utils/floating-position";
 
 type RowNotification = Exclude<
   Notification,
@@ -42,6 +43,7 @@ type NotificationRowProps = {
 };
 
 const MAX_FACEPILE = 8;
+const CARET_INSET = 8;
 const MENU_SIZE = { width: 180, height: 44 };
 
 const typeIcons = {
@@ -161,7 +163,7 @@ function Facepile({ users }: { users: UserSummary[] }) {
 function SeeLessOftenButton({ onDismiss }: { onDismiss: () => void }) {
   const caretRef = useRef<HTMLButtonElement>(null);
   const menu = useDropdownMenu(caretRef, (anchor) =>
-    placeOverAnchor(anchor, MENU_SIZE, "right"),
+    placeOverAnchor(insetRect(anchor, CARET_INSET), MENU_SIZE, "right"),
   );
 
   return (

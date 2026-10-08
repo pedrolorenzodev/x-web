@@ -22,10 +22,10 @@ export function SearchFiltersCard({
         <h2 className="text-xl font-extrabold">Search filters</h2>
       </section>
       <section className="rounded-2xl border border-border">
-        <div className="flex flex-col gap-3 px-4 pt-3 pb-2">
+        <div className="flex flex-col gap-4 px-4 pt-3 pb-4">
           {groups.map((group) => (
             <fieldset key={group.label}>
-              <legend className="mb-0.5 text-base font-bold">
+              <legend className="mb-1 text-base font-bold">
                 {group.label}
               </legend>
               {group.options.map((option) => (

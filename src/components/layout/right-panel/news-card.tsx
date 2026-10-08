@@ -28,7 +28,7 @@ export function NewsCard({ stories }: { stories: NewsStory[] }) {
   return (
     <section className={card}>
       <div className="flex items-center justify-between px-4 py-3">
-        <h2 className="text-xl font-extrabold">Today&apos;s News</h2>
+        <h2 className="text-xl font-extrabold">Today’s News</h2>
         <IconButton
           ref={closeRef}
           label="Close"

@@ -2,12 +2,10 @@ import { Suspense } from "react";
 import { PanelTrends } from "@/app/(app)/@panel/_modules/panel-trends";
 import { PanelWhoToFollow } from "@/app/(app)/@panel/_modules/panel-who-to-follow";
 import { RightPanel } from "@/components/layout/right-panel/right-panel";
-import { PremiumCard } from "@/components/layout/right-panel/premium-card";
 
-export default function SecondaryPanel() {
+export default function CommunitiesExplorePanel() {
   return (
-    <RightPanel>
-      <PremiumCard />
+    <RightPanel search={false}>
       <Suspense fallback={null}>
         <PanelTrends />
       </Suspense>

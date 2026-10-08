@@ -24,6 +24,7 @@ async function Suggestions() {
 export default function ExplorePanel() {
   return (
     <RightPanel search={false}>
+      <div aria-hidden className="mb-0.5 h-px bg-border" />
       <Suspense fallback={null}>
         <PanelNews />
       </Suspense>

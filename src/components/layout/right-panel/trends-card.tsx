@@ -13,7 +13,7 @@ const VISIBLE = 4;
 export function TrendsCard({ trends }: { trends: Trend[] }) {
   return (
     <section className={card}>
-      <h2 className={heading}>What&apos;s happening</h2>
+      <h2 className={heading}>What’s happening</h2>
       <TrendList trends={trends} limit={VISIBLE} />
       <Link href="/explore/tabs/for-you" className={`${showMore} ${row}`}>
         Show more

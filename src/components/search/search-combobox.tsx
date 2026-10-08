@@ -220,7 +220,7 @@ export function SearchCombobox({
       role="search"
       onSubmit={onSubmit}
       onBlur={onBlur}
-      className={cn("relative w-full", className)}
+      className={cn("group/search relative w-full", className)}
     >
       <div
         onClick={() => inputRef.current?.focus()}
@@ -265,7 +265,7 @@ export function SearchCombobox({
               event.stopPropagation();
               clearValue();
             }}
-            className="mr-[13px] flex size-[22px] shrink-0 items-center justify-center rounded-full"
+            className="mr-[13px] hidden size-[22px] shrink-0 items-center justify-center rounded-full group-focus-within/search:flex"
           >
             <ClearCircleFillIcon className="size-[22px] text-inverted" />
           </button>

@@ -59,7 +59,7 @@ export function Toaster() {
   );
 
   return (
-    <div className="pointer-events-none fixed bottom-8 z-60 flex w-feed max-w-full justify-center max-[499px]:bottom-[73px]">
+    <div className="pointer-events-none fixed inset-x-0 bottom-8 z-60 flex justify-center max-[499px]:bottom-[73px]">
       {toast ? (
         <div
           key={toast.id}
@@ -69,7 +69,7 @@ export function Toaster() {
             toast.leaving && "is-leaving",
           )}
         >
-          <span>{toast.message}</span>
+          <span className="mx-3">{toast.message}</span>
           {toast.action ? <ToastActionButton action={toast.action} /> : null}
         </div>
       ) : null}

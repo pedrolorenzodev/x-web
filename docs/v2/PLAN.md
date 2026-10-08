@@ -82,7 +82,7 @@ Grok (empty-state shell, no fake answers), Creator Studio (menu page, every dest
 | Mask colour (dark) | `--color-mask` `rgb(91 112 131 / 0.4)` for dialogs; `rgb(0 0 0 / 0.5)` (`--color-scrim`) for compose sheets and media viewers use `rgba(0,0,0,0.9)`. | Measured D values |
 | Tooltip | 600ms open delay, instant hide, fade + scale .95→1 150ms, placed below with flip. | 02 F5 (01 saw ~500ms, 04 ~630ms) |
 | Hover card | 600ms open / 600ms close delay, the pointer can travel into the card, fade-in 250ms, 300px wide. | 02 F4 |
-| Toast | Accent bg, radius 4, padding 12, 15px white, optional bold action, 32px from the bottom centred on the primary column, opacity 170ms linear, **lifetime 4s**, one at a time. | 02 #6, 04 #4 (clone currently 6s, no motion) |
+| Toast | Accent bg, radius 4, 15px white, 24px between edges, message and optional bold action, 32px from the bottom **centred on the viewport** (re-measured 2026-10-08: centre x=700 at 1400px), opacity 170ms linear, **lifetime 4s**, one at a time. | 02 #6, 04 #4, `01-shell-home/toast-bookmark.png` |
 | Like animation | **Keep the clone's pop + burst** (user-approved in Sept 2026), even though X only fills the heart instantly and rolls the count. | 02 F3 vs the user's approval |
 | Verified type | `verified: "blue" \| "business" \| "government" \| null` (business = gold, government = grey). | 04 and 05 used different names |
 | Photos 2–4 | Keep the carousel. Fix the row height so the first two tiles fill the row by aspect ratio instead of a fixed 352px. | 02 F6 |

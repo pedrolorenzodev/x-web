@@ -4,6 +4,7 @@ import { useEffect, useRef, useSyncExternalStore, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { BackIcon, CloseIcon } from "@/components/ui/icons";
 import { IconButton } from "@/components/ui/icon-button";
+import { Tooltip } from "@/components/ui/tooltip";
 import { useModalDialog } from "@/hooks/use-modal-dialog";
 import { cn } from "@/lib/utils";
 
@@ -152,23 +153,27 @@ export function ModalHeader({
     >
       <div className="min-w-14">
         {onBack ? (
-          <IconButton
-            label="Back"
-            tone="plain"
-            onClick={onBack}
-            className="-ml-2 size-9"
-          >
-            <BackIcon className="size-5" />
-          </IconButton>
+          <Tooltip label="Back">
+            <IconButton
+              label="Back"
+              tone="plain"
+              onClick={onBack}
+              className="-ml-2 size-9"
+            >
+              <BackIcon className="size-5" />
+            </IconButton>
+          </Tooltip>
         ) : onClose ? (
-          <IconButton
-            label="Close"
-            tone="plain"
-            onClick={onClose}
-            className="-ml-2 size-9"
-          >
-            <CloseIcon className="size-5" />
-          </IconButton>
+          <Tooltip label="Close">
+            <IconButton
+              label="Close"
+              tone="plain"
+              onClick={onClose}
+              className="-ml-2 size-9"
+            >
+              <CloseIcon className="size-5" />
+            </IconButton>
+          </Tooltip>
         ) : null}
       </div>
       {title ? (

@@ -54,7 +54,7 @@ export function Sidebar({ viewer, unreadNotifications }: SidebarProps) {
     <header className={cn("shrink-0 max-[499px]:hidden", sidebarWidth)}>
       <div
         className={cn(
-          "fixed top-0 flex h-screen flex-col",
+          "fixed top-0 flex h-screen flex-col [scrollbar-width:none] [@media(max-height:800px)]:overflow-y-auto",
           sidebarWidth,
           sidebarGutter,
           sidebarAlign,
@@ -148,7 +148,7 @@ export function Sidebar({ viewer, unreadNotifications }: SidebarProps) {
           <Link
             href={routes.composePost}
             aria-label="Post"
-            className="mt-4 flex size-13 items-center justify-center rounded-full bg-inverted text-inverted-foreground transition-colors duration-200 hover:bg-inverted/90 min-[1265px]:w-[90%] layout-fullwidth:w-13!"
+            className="mt-5 flex size-13 items-center justify-center rounded-full bg-inverted text-inverted-foreground transition-colors duration-200 hover:bg-inverted/90 min-[1265px]:w-[90%] layout-fullwidth:w-13!"
           >
             <ComposeIcon className={cn("size-6", collapsedOnly)} />
             <span data-nav-label className={cn("text-lg font-bold", expandedOnly)}>

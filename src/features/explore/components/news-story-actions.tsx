@@ -150,7 +150,7 @@ function MoreStoryMenu() {
 
 export function NewsStoryActions({ path }: { path: string }) {
   return (
-    <div className="flex items-center gap-1">
+    <div className="mr-[7px] flex items-center">
       <Tooltip label="Report">
         <IconButton
           label="Report Trend"
