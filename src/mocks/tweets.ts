@@ -1,9 +1,11 @@
 import type {
+  CommunityNote,
   LinkCard,
   NestedQuote,
   Poll,
   QuotedTweet,
   ReplySettings,
+  SensitiveMediaWarning,
   Tweet,
   TweetCommunity,
   TweetMedia,
@@ -30,7 +32,8 @@ export type TweetRecord = {
   poll?: Poll;
   card?: LinkCard;
   community?: TweetCommunity;
-  sensitive?: boolean;
+  sensitiveMedia?: SensitiveMediaWarning[];
+  communityNote?: CommunityNote;
 };
 
 export const mockTweets: TweetRecord[] = [
@@ -6137,6 +6140,10 @@ export const mockTweets: TweetRecord[] = [
     retweetedByViewer: false,
     bookmarkedByViewer: false,
     community: { id: "1849210465730215936", name: "Next.js Builders" },
+    communityNote: {
+      id: "9300000000000000001",
+      text: "La baja de TTFB viene del static shell, que se sirve antes de resolver los datos dinámicos. El tiempo hasta ver el contenido completo no mejora en la misma proporción.\n\nhttps://nextjs.org/docs/app/guides/migrating-to-cache-components",
+    },
   },
   {
     id: "9200000000000000002",
@@ -6380,6 +6387,7 @@ export const mockTweets: TweetRecord[] = [
         alt: "Tent pitched in the snow",
       },
     ],
+    sensitiveMedia: ["other"],
     createdAt: "2026-10-05T21:30:00.000Z",
     replyToId: null,
     quotedId: null,
@@ -6624,7 +6632,8 @@ export function toTweet(record: TweetRecord): Tweet | null {
     poll: record.poll,
     card: record.card,
     community: record.community,
-    sensitive: record.sensitive ?? false,
+    sensitiveMedia: record.sensitiveMedia ?? [],
+    communityNote: record.communityNote ?? null,
     stats: record.stats,
     likedByViewer: record.likedByViewer,
     retweetedByViewer: record.retweetedByViewer,

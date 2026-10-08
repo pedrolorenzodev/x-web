@@ -1,7 +1,12 @@
 "use server";
 
 import { refresh } from "next/cache";
-import type { BirthDate, UserWebsite } from "@/types/user";
+import type {
+  BirthDate,
+  BirthDateVisibility,
+  UserWebsite,
+  Visibility,
+} from "@/types/user";
 import { getMockViewer } from "@/mocks/session";
 import { PROFILE_LIMITS } from "@/features/profile/utils/profile-limits";
 
@@ -11,6 +16,7 @@ export type ProfileUpdate = {
   location: string;
   website: string;
   birthDate: BirthDate | null;
+  birthDateVisibility: BirthDateVisibility;
   avatarUrl: string;
   bannerUrl: string | null;
 };
@@ -30,6 +36,18 @@ function isValidBirthDate({ year, month, day }: BirthDate) {
     date.getUTCMonth() === month - 1 &&
     date.getUTCDate() === day
   );
+}
+
+const VISIBILITIES: readonly Visibility[] = [
+  "public",
+  "followers",
+  "following",
+  "mutual",
+  "self",
+];
+
+function isValidVisibility({ monthDay, year }: BirthDateVisibility) {
+  return VISIBILITIES.includes(monthDay) && VISIBILITIES.includes(year);
 }
 
 function acceptsImage(next: string, current: string | null) {
@@ -77,6 +95,9 @@ export async function updateProfile(
   if (update.birthDate && !isValidBirthDate(update.birthDate)) {
     return { error: "Invalid birth date" };
   }
+  if (!isValidVisibility(update.birthDateVisibility)) {
+    return { error: "Something went wrong. Try again." };
+  }
   if (
     !acceptsImage(update.avatarUrl, viewer.avatarUrl) ||
     (update.bannerUrl !== null &&
@@ -90,6 +111,7 @@ export async function updateProfile(
   viewer.location = location === "" ? null : location;
   viewer.website = website;
   viewer.birthDate = update.birthDate;
+  viewer.birthDateVisibility = update.birthDateVisibility;
   viewer.avatarUrl = update.avatarUrl;
   viewer.bannerUrl = update.bannerUrl;
 

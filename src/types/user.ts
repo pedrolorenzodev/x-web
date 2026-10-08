@@ -48,6 +48,8 @@ export type User = UserSummary & {
   professionalCategory: string | null;
   joinedAt: string;
   verifiedSince: string | null;
+  accountBasedIn: string | null;
+  connectedVia: string | null;
   followingCount: number;
   followersCount: number;
   postsCount: number;

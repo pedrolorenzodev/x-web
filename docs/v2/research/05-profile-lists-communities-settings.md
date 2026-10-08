@@ -178,6 +178,9 @@ The More menu (sidebar "More") contains, in order: **Lists** `/PedroLo01746179/l
     - "An affiliate of / @X"
     - "Connected via / Argentina App Store" (globe)
   - Screenshots: `own-about.png`, `other-about.png`.
+  - Measured 2026-10-08: rows 64px (`padding: 12px 16px`, 24px icon + 16px gap, 15/20 title + muted value), 20px gap between rows; the hero block has a 20px margin and an 8px gap (64px avatar, name 15px/700 + badges, muted handle). Page title `About this account / X` (own: `About your account / X`, gear → `/settings/about_your_account`). For a missing handle: header + `This account doesn’t exist` empty state.
+  - "Account based in" is clickable (hover row tint) and opens a 600px sheet: padding 32, gap 12, `How it works` 26px/800/32, body 14/16 muted (`The country or region that an account is based can be impacted by recent travel or temporary relocation. This data may not be accurate and can change periodically.`), full-width 36px inverted `OK` pill. Own accounts flagged for VPN/proxy show a shield icon and a different sheet (`Country or region may not be accurate`); the clone always uses the info icon + `How it works`.
+  - "Verified" row is an external link to `help.twitter.com/managing-your-account/about-twitter-verified-accounts` with a chevron; "An affiliate of" row is 48px with the 24px affiliate avatar (2px radius, 1px border) and a bold accent `@handle` link.
 
 ### F6. Profile tabs + per-tab content
 

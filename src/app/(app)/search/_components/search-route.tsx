@@ -28,6 +28,7 @@ import {
   searchTabHref,
   sourceQuery,
 } from "@/features/search/utils/search-tabs";
+import { parseQuery } from "@/features/search/utils/match-query";
 import { toggleBookmark } from "@/features/tweet/api/toggle-bookmark";
 import { toggleLike } from "@/features/tweet/api/toggle-like";
 import { toggleRetweet } from "@/features/tweet/api/toggle-retweet";
@@ -42,9 +43,21 @@ type SearchRouteProps = {
   filters: SearchFilters;
 };
 
-function TweetList({ tweets }: { tweets: Tweet[] }) {
+function highlightTerms(query: string) {
+  const { words, phrases } = parseQuery(query);
+  return [...phrases, ...words];
+}
+
+function TweetList({ tweets, query }: { tweets: Tweet[]; query: string }) {
+  const terms = highlightTerms(query);
   return tweets.map((tweet) => (
-    <TweetCard key={tweet.id} tweet={tweet} actions={tweetActions} showReplyingTo />
+    <TweetCard
+      key={tweet.id}
+      tweet={tweet}
+      actions={tweetActions}
+      showReplyingTo
+      highlightTerms={terms}
+    />
   ));
 }
 
@@ -71,14 +84,18 @@ async function SearchResults({ source, tab, filters }: SearchRouteProps) {
             toggleFollow={toggleFollow}
           />
         ) : null}
-        <TweetList tweets={tweets} />
+        <TweetList tweets={tweets} query={query} />
       </>
     );
   }
 
   if (tab === "live") {
     const tweets = await searchTweets(query, "latest", filters);
-    return tweets.length ? <TweetList tweets={tweets} /> : empty;
+    return tweets.length ? (
+      <TweetList tweets={tweets} query={query} />
+    ) : (
+      empty
+    );
   }
 
   if (tab === "user") {

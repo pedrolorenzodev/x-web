@@ -136,7 +136,10 @@ function CondensedMedia({ media }: { media: TweetMedia[] }) {
               className="object-cover"
             />
             {media.length === 1 && videoBadge(item) ? (
-              <MediaBadge className="absolute bottom-1 left-1 h-4 px-1">
+              <MediaBadge
+                tone={item.isGif ? "label" : "info"}
+                className="absolute bottom-1 left-1 h-4 px-1"
+              >
                 {videoBadge(item)}
               </MediaBadge>
             ) : null}

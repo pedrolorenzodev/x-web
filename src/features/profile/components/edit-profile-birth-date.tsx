@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import type { BirthDateVisibility, Visibility } from "@/types/user";
 import { ChevronRightIcon } from "@/components/ui/icons";
 import {
   FloatingLabelSelect,
@@ -37,13 +38,21 @@ const monthOptions = MONTH_NAMES.map((label, index) => ({
   label,
 }));
 
-const visibilityOptions: FloatingLabelOption[] = [
-  { value: "public", label: "Public" },
-  { value: "followers", label: "Your followers" },
-  { value: "following", label: "People you follow" },
-  { value: "mutual", label: "You follow each other" },
-  { value: "self", label: "Only you" },
-];
+const visibilityLabels: Record<Visibility, string> = {
+  public: "Public",
+  followers: "Your followers",
+  following: "People you follow",
+  mutual: "You follow each other",
+  self: "Only you",
+};
+
+const visibilityOptions: FloatingLabelOption[] = Object.entries(
+  visibilityLabels,
+).map(([value, label]) => ({ value, label }));
+
+function isVisibility(value: string): value is Visibility {
+  return Object.hasOwn(visibilityLabels, value);
+}
 
 function daysInMonth(month: string, year: string) {
   if (month === "") return 31;
@@ -103,20 +112,21 @@ export function EditProfileBirthDateRow({ value, onEdit }: BirthDateRowProps) {
 
 type BirthDateEditorProps = {
   value: BirthDateParts;
+  visibility: BirthDateVisibility;
   onChange: (value: BirthDateParts) => void;
+  onVisibilityChange: (visibility: BirthDateVisibility) => void;
   onCancel: () => void;
   onRemove: () => void;
 };
 
 export function EditProfileBirthDateEditor({
   value,
+  visibility,
   onChange,
+  onVisibilityChange,
   onCancel,
   onRemove,
 }: BirthDateEditorProps) {
-  // TODO: persist birthday visibility once the user contract has a field for it.
-  const [monthDayVisibility, setMonthDayVisibility] = useState("self");
-  const [yearVisibility, setYearVisibility] = useState("self");
   const [currentYear] = useState(() => new Date().getFullYear());
   const yearOptions = numberOptions(
     Array.from({ length: YEARS_SHOWN }, (_, index) => currentYear - index),
@@ -130,6 +140,12 @@ export function EditProfileBirthDateEditor({
 
   function change(part: keyof BirthDateParts) {
     return (next: string) => onChange(withBirthDatePart(value, part, next));
+  }
+
+  function changeVisibility(part: keyof BirthDateVisibility) {
+    return (next: string) => {
+      if (isVisibility(next)) onVisibilityChange({ ...visibility, [part]: next });
+    };
   }
 
   return (
@@ -202,15 +218,15 @@ export function EditProfileBirthDateEditor({
       <div className="mt-5 flex flex-col gap-8">
         <FloatingLabelSelect
           label="Month and day"
-          value={monthDayVisibility}
+          value={visibility.monthDay}
           options={visibilityOptions}
-          onChange={setMonthDayVisibility}
+          onChange={changeVisibility("monthDay")}
         />
         <FloatingLabelSelect
           label="Year"
-          value={yearVisibility}
+          value={visibility.year}
           options={visibilityOptions}
-          onChange={setYearVisibility}
+          onChange={changeVisibility("year")}
         />
       </div>
 

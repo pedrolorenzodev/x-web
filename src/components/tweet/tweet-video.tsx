@@ -46,7 +46,12 @@ function PosterOnly({ media, className, style, sizes }: TweetVideoProps) {
         className="object-contain"
       />
       {badge ? (
-        <MediaBadge className="absolute bottom-3 left-3">{badge}</MediaBadge>
+        <MediaBadge
+          tone={media.isGif ? "label" : "info"}
+          className="absolute bottom-3 left-3"
+        >
+          {badge}
+        </MediaBadge>
       ) : null}
     </div>
   );
@@ -193,7 +198,10 @@ export function TweetVideo(props: TweetVideoProps) {
           controlsPinned && "opacity-0",
         )}
       >
-        <MediaBadge className="absolute bottom-3 left-3">
+        <MediaBadge
+          tone={gif ? "label" : "info"}
+          className="absolute bottom-3 left-3"
+        >
           {gif ? "GIF" : formatDuration(started ? remaining : duration)}
         </MediaBadge>
         {!gif && started ? (

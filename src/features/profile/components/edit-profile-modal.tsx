@@ -46,6 +46,7 @@ function toDraft(profile: User): ProfileDraft {
     website: profile.website?.url ?? "",
     avatarUrl: profile.avatarUrl,
     bannerUrl: profile.bannerUrl,
+    birthDateVisibility: profile.birthDateVisibility,
     birthDate: birthDate
       ? {
           month: String(birthDate.month),
@@ -86,7 +87,9 @@ function sameDraft(a: ProfileDraft, b: ProfileDraft) {
     a.bannerUrl === b.bannerUrl &&
     a.birthDate.month === b.birthDate.month &&
     a.birthDate.day === b.birthDate.day &&
-    a.birthDate.year === b.birthDate.year
+    a.birthDate.year === b.birthDate.year &&
+    a.birthDateVisibility.monthDay === b.birthDateVisibility.monthDay &&
+    a.birthDateVisibility.year === b.birthDateVisibility.year
   );
 }
 
@@ -217,9 +220,12 @@ export function EditProfileModal({ profile, dismiss }: EditProfileModalProps) {
         {editingBirthDate ? (
           <EditProfileBirthDateEditor
             value={draft.birthDate}
+            visibility={draft.birthDateVisibility}
             onChange={(value) => update("birthDate", value)}
+            onVisibilityChange={(value) => update("birthDateVisibility", value)}
             onCancel={() => {
               update("birthDate", initial.birthDate);
+              update("birthDateVisibility", initial.birthDateVisibility);
               setEditingBirthDate(false);
             }}
             onRemove={() => {

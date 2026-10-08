@@ -11,6 +11,7 @@ import { showNewPosts } from "@/features/feed/api/show-new-posts";
 import { useTimelineTabs } from "@/features/feed/components/timeline-tabs-provider";
 
 const NEW_POSTS_DELAY_MS = 30_000;
+const PILL_LIFETIME_MS = 120_000;
 const LOAD_NEW_POSTS_KEY = ".";
 
 function isAtTop() {
@@ -47,6 +48,12 @@ export function NewPostsPill({ kind }: { kind: TimelineKind }) {
     }, NEW_POSTS_DELAY_MS);
     return () => window.clearTimeout(timer);
   }, [kind, preview, pending]);
+
+  useEffect(() => {
+    if (!preview) return;
+    const timer = window.setTimeout(() => setPreview(null), PILL_LIFETIME_MS);
+    return () => window.clearTimeout(timer);
+  }, [preview]);
 
   useEffect(() => {
     if (!preview) return;

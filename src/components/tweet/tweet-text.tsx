@@ -9,12 +9,14 @@ import { truncateForCard } from "@/utils/parse-tweet-text";
 type TweetTextProps = {
   text: string;
   expandable?: boolean;
+  highlightTerms?: string[];
   className?: string;
 };
 
 export function TweetText({
   text,
   expandable = true,
+  highlightTerms,
   className,
 }: TweetTextProps) {
   const [expanded, setExpanded] = useState(false);
@@ -28,6 +30,7 @@ export function TweetText({
       >
         <RichText
           text={truncated ?? text}
+          highlightTerms={highlightTerms}
           renderMention={(handle, link) => (
             <UserHoverCard handle={handle}>{link}</UserHoverCard>
           )}

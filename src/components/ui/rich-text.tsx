@@ -1,12 +1,14 @@
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 import { routes } from "@/config/routes";
+import { splitHighlights } from "@/utils/highlight-terms";
 import { parseTweetText } from "@/utils/parse-tweet-text";
 
 type RichTextProps = {
   text: string;
   inert?: boolean;
   linkClassName?: string;
+  highlightTerms?: string[];
   renderMention?: (handle: string, link: ReactNode) => ReactNode;
 };
 
@@ -20,10 +22,26 @@ export function RichText({
   text,
   inert = false,
   linkClassName = entityLink,
+  highlightTerms,
   renderMention,
 }: RichTextProps) {
   return parseTweetText(text).map((segment, index) => {
-    if (segment.type === "text") return segment.text;
+    if (segment.type === "text") {
+      if (!highlightTerms?.length) return segment.text;
+      return (
+        <Fragment key={index}>
+          {splitHighlights(segment.text, highlightTerms).map((part, partIndex) =>
+            part.highlighted ? (
+              <strong key={partIndex} className="font-bold">
+                {part.text}
+              </strong>
+            ) : (
+              part.text
+            ),
+          )}
+        </Fragment>
+      );
+    }
     if (inert) {
       return (
         <span key={index} className="text-accent">

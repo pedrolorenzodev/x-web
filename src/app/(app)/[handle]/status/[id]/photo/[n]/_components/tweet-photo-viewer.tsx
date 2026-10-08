@@ -69,8 +69,9 @@ export async function TweetPhotoViewer({
       panel={
         <>
           <FocalTweet
-            tweet={{ ...tweet, media: [] }}
+            tweet={tweet}
             actions={tweetActions}
+            showMedia={false}
             showFollow={showFollow}
             toggleFollow={toggleFollow}
           />

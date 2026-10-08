@@ -20,6 +20,13 @@ export type TweetMedia = {
   isGif?: boolean;
 };
 
+export type CommunityNote = {
+  id: string;
+  text: string;
+};
+
+export type SensitiveMediaWarning = "adult_content" | "graphic_violence" | "other";
+
 export type ReplySettings =
   | "everyone"
   | "following"
@@ -64,7 +71,8 @@ export type Tweet = {
   poll?: Poll;
   card?: LinkCard;
   community?: TweetCommunity;
-  sensitive: boolean;
+  sensitiveMedia: SensitiveMediaWarning[];
+  communityNote: CommunityNote | null;
   stats: TweetStats;
   likedByViewer: boolean;
   retweetedByViewer: boolean;

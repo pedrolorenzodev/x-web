@@ -11,6 +11,8 @@ type ProfileDefaults = Pick<
   | "birthDateVisibility"
   | "professionalCategory"
   | "verifiedSince"
+  | "accountBasedIn"
+  | "connectedVia"
   | "mediaCount"
   | "pinnedTweetId"
   | "isCreator"
@@ -38,6 +40,8 @@ export const mockUsers: UserRecord[] = [
     postsCount: 27,
     followedByViewer: false,
     location: "Buenos Aires, Argentina",
+    accountBasedIn: "Argentina",
+    connectedVia: "Argentina App Store",
     website: {
       url: "https://elpepo.dev",
       display: "elpepo.dev",
@@ -1873,6 +1877,8 @@ export const mockUsers: UserRecord[] = [
     postsCount: 320,
     followedByViewer: true,
     followsViewer: true,
+    accountBasedIn: "Argentina",
+    connectedVia: "Argentina App Store",
     location: "Córdoba, Argentina",
   },
   {
@@ -1888,6 +1894,7 @@ export const mockUsers: UserRecord[] = [
     postsCount: 378,
     followedByViewer: true,
     followsViewer: true,
+    accountBasedIn: "Argentina",
     location: "Rosario, Argentina",
     professionalCategory: "Software Engineer",
     birthDate: {
@@ -1928,6 +1935,8 @@ export const mockUsers: UserRecord[] = [
     postsCount: 494,
     followedByViewer: true,
     followsViewer: true,
+    accountBasedIn: "Argentina",
+    connectedVia: "Argentina App Store",
     location: "Mendoza, Argentina",
   },
   {
@@ -1958,6 +1967,8 @@ export const mockUsers: UserRecord[] = [
     postsCount: 610,
     followedByViewer: true,
     followsViewer: true,
+    accountBasedIn: "Uruguay",
+    connectedVia: "Uruguay App Store",
     location: "Montevideo, Uruguay",
   },
 ];
@@ -2008,6 +2019,8 @@ export function toUser(
     professionalCategory: user.professionalCategory ?? null,
     joinedAt: user.joinedAt,
     verifiedSince: user.verifiedSince ?? null,
+    accountBasedIn: user.accountBasedIn ?? null,
+    connectedVia: user.connectedVia ?? null,
     followingCount: user.followingCount,
     followersCount: user.followersCount,
     postsCount: user.postsCount,

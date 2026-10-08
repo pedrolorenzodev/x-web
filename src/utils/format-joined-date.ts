@@ -1,9 +1,5 @@
-export function formatJoinedDate(iso: string) {
-  const date = new Date(iso).toLocaleDateString("en-US", {
-    month: "long",
-    year: "numeric",
-    timeZone: "UTC",
-  });
+import { formatMonthYear } from "@/utils/format-month-year";
 
-  return `Joined ${date}`;
+export function formatJoinedDate(iso: string) {
+  return `Joined ${formatMonthYear(iso)}`;
 }

@@ -5,24 +5,22 @@ import type { UserSummary } from "@/types/user";
 import { routes } from "@/config/routes";
 import { cn } from "@/lib/utils";
 import { Avatar } from "@/components/ui/avatar";
-import {
-  CommunitiesIcon,
-  GrokIcon,
-  PinIcon,
-  RetweetIcon,
-} from "@/components/ui/icons";
+import { CommunitiesIcon, PinIcon, RetweetIcon } from "@/components/ui/icons";
 import { Tooltip } from "@/components/ui/tooltip";
 import { UserBadges } from "@/components/ui/verified-badge";
 import { UserHoverCard } from "@/components/user/user-hover-card";
+import { GrokButton, canExplain } from "@/components/tweet/grok-button";
 import { MoreButton } from "@/components/tweet/more-button";
 import { TweetArticle } from "@/components/tweet/tweet-article";
 import { TweetActions } from "@/components/tweet/tweet-actions";
 import { TweetPhotos } from "@/components/tweet/tweet-photos";
+import { SensitiveMedia } from "@/components/tweet/sensitive-media";
 import { TweetText } from "@/components/tweet/tweet-text";
 import { QuotedTweet } from "@/components/tweet/quoted-tweet";
 import { LinkCard } from "@/components/tweet/link-card";
 import { TweetPoll } from "@/components/tweet/tweet-poll";
 import { UnavailableQuote } from "@/components/tweet/unavailable-quote";
+import { CommunityNote } from "@/components/tweet/community-note";
 import { formatFullDate } from "@/utils/format-full-date";
 import { formatRelativeTime } from "@/utils/format-relative-time";
 
@@ -33,6 +31,7 @@ type TweetCardProps = {
   showReplyingTo?: boolean;
   actions: Actions;
   threaded?: boolean;
+  highlightTerms?: string[];
 };
 
 function SocialContext({
@@ -57,11 +56,11 @@ export function TweetCard({
   showReplyingTo = false,
   actions,
   threaded = false,
+  highlightTerms,
 }: TweetCardProps) {
   const { author } = tweet;
   const profileHref = routes.profile(author.handle);
   const tweetHref = routes.tweet(author.handle, tweet.id);
-  const hasMedia = tweet.media.length > 0 || Boolean(tweet.card);
 
   return (
     <TweetArticle
@@ -153,18 +152,7 @@ export function TweetCard({
             </div>
 
             <div className="flex shrink-0 items-center gap-2">
-              {hasMedia ? (
-                <Tooltip label="Explain this post">
-                  <Link
-                    href={routes.grok}
-                    aria-label="Grok actions"
-                    className="group/grok relative flex h-5 items-center text-muted transition-colors duration-200 ease-[ease] hover:text-accent"
-                  >
-                    <span className="absolute -inset-2 rounded-full transition-colors duration-200 ease-[ease] group-hover/grok:bg-accent/10" />
-                    <GrokIcon className="relative h-5 w-[19.33px]" />
-                  </Link>
-                </Tooltip>
-              ) : null}
+              {canExplain(tweet) ? <GrokButton /> : null}
               <MoreButton tweet={tweet} />
             </div>
           </div>
@@ -184,14 +172,24 @@ export function TweetCard({
           ) : null}
 
           {tweet.text ? (
-            <TweetText text={tweet.text} className="mt-0.5" />
+            <TweetText
+              text={tweet.text}
+              highlightTerms={highlightTerms}
+              className="mt-0.5"
+            />
           ) : null}
 
           {tweet.poll ? (
             <TweetPoll tweetId={tweet.id} poll={tweet.poll} />
           ) : null}
           {tweet.media.length > 0 ? (
-            <TweetPhotos media={tweet.media} href={tweetHref} />
+            <SensitiveMedia warnings={tweet.sensitiveMedia}>
+              <TweetPhotos
+                media={tweet.media}
+                href={tweetHref}
+                authorId={tweet.author.id}
+              />
+            </SensitiveMedia>
           ) : null}
           {tweet.card && tweet.media.length === 0 ? (
             <LinkCard card={tweet.card} />
@@ -205,6 +203,9 @@ export function TweetCard({
           ) : null}
           {tweet.quoteUnavailable ? (
             <UnavailableQuote className="mt-3" />
+          ) : null}
+          {tweet.communityNote ? (
+            <CommunityNote note={tweet.communityNote} />
           ) : null}
 
           <TweetActions tweet={tweet} actions={actions} />

@@ -8,6 +8,7 @@ import type { ComponentType, MouseEvent, SVGProps } from "react";
 import type { TweetMedia } from "@/types/tweet";
 import { ArrowRightIcon, BackIcon } from "@/components/ui/icons";
 import { TweetVideo } from "@/components/tweet/tweet-video";
+import { AltBadge } from "@/components/tweet/alt-badge";
 import { cn } from "@/lib/utils";
 
 const GAP = 4;
@@ -101,6 +102,7 @@ type PhotoCarouselProps = {
   media: TweetMedia[];
   href: string;
   variant: PhotosVariant;
+  authorId?: string;
 };
 
 type Direction = "prev" | "next";
@@ -149,7 +151,12 @@ function Arrow({ label, icon: Icon, visible, className, onClick }: ArrowProps) {
   );
 }
 
-export function PhotoCarousel({ media, href, variant }: PhotoCarouselProps) {
+export function PhotoCarousel({
+  media,
+  href,
+  variant,
+  authorId,
+}: PhotoCarouselProps) {
   const config = variants[variant];
   const tile = config.layout(media);
   const router = useRouter();
@@ -203,21 +210,32 @@ export function PhotoCarousel({ media, href, variant }: PhotoCarouselProps) {
               className={TILE}
             />
           ) : (
-            <Link
+            <div
               key={photo.url}
-              href={`${href}/photo/${index + 1}`}
-              aria-label={`Image ${index + 1} of ${media.length}`}
               style={{ width: tile.width(photo), height: tile.height }}
               className={TILE}
             >
-              <Image
-                src={photo.url}
-                alt={photo.alt}
-                fill
-                sizes="414px"
-                className="object-cover"
-              />
-            </Link>
+              <Link
+                href={`${href}/photo/${index + 1}`}
+                aria-label={`Image ${index + 1} of ${media.length}`}
+                className="absolute inset-0"
+              >
+                <Image
+                  src={photo.url}
+                  alt={photo.alt}
+                  fill
+                  sizes="414px"
+                  className="object-cover"
+                />
+              </Link>
+              {authorId ? (
+                <AltBadge
+                  description={photo.alt}
+                  authorId={authorId}
+                  always={variant === "focal"}
+                />
+              ) : null}
+            </div>
           ),
         )}
       </div>

@@ -17,6 +17,7 @@ export const routes = {
   notificationsMentions: "/notifications/mentions",
   notificationsSettings: "/settings/notifications",
   settingsSessions: "/settings/sessions",
+  settingsAboutYourAccount: "/settings/about_your_account",
   connectPeople: "/i/connect_people",
   connectPeopleSimilarTo: (userId: string) =>
     `/i/connect_people?user_id=${userId}`,
@@ -50,6 +51,8 @@ export const routes = {
   profilePhoto: (handle: string) => `/${handle}/photo`,
   profileHeaderPhoto: (handle: string) => `/${handle}/header_photo`,
   profileAbout: (handle: string) => `/${handle}/about`,
+  communityNote: (id: string) => `/i/birdwatch/n/${id}`,
+  communityNotesJoin: "/i/flow/join-birdwatch",
   following: (handle: string) => `/${handle}/following`,
   followers: (handle: string) => `/${handle}/followers`,
   verifiedFollowers: (handle: string) => `/${handle}/verified_followers`,

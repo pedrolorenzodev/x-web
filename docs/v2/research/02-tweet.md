@@ -110,7 +110,7 @@ tooltip → modals/toasts → media → detail page → cross-cutting.)_
 
 **Grok button on card** (`button[aria-label="Grok actions"]`): Grok logo icon (viewBox 0 0 33 32, rendered ~19×20, muted), shown only on posts **with media** (photo/video/card) — not on text-only posts nor ads. Hover: blue + 34.75px blue 10% circle; tooltip **`Explain this post`**. Click opens the **Grok floating chat panel** (bottom-right, ~400×590, header icons history / expand / new chat / collapse chevron; body: embedded post preview + "Thinking about your request" stream; composer `Ask anything`, attach clip, model pill `Fast ⌄`, stop/voice button). The panel persists over navigation until collapsed. → owned by 04-grok; for the clone, P2 (render the button + open Grok page/panel with the post pre-attached). Screens: `screens/02-tweet/grok-actions-menu.png`.
 
-**Not observed on this account's timelines**: community-notes block (X shows `Readers added context they thought people might want to know` box under the text, linked to `/i/birdwatch/...`), "Edited" indicator (`Last edited 3:15 PM` + pencil icon, only on detail), reply-restriction note (`@x limited who can reply` / `Who can reply? People @x mentioned can reply`, detail page only), "Show this thread" (removed from X; threads now render as connected cards with the connector line), sensitive-media interstitial (`Content warning: Nudity` / `The post author flagged this post as showing sensitive content.` + `Show` button over a blurred thumbnail). These are documented from prior knowledge only → P2.
+**Not observed on this account's timelines**: "Edited" indicator (`Last edited 3:15 PM` + pencil icon, only on detail), reply-restriction note (`@x limited who can reply` / `Who can reply? People @x mentioned can reply`, detail page only), "Show this thread" (removed from X; threads now render as connected cards with the connector line), sensitive-media interstitial (`Content warning: Nudity` / `The post author flagged this post as showing sensitive content.` + `Show` button over a blurred thumbnail). These are documented from prior knowledge only → P2.
 
 **Screenshots:** `screens/02-tweet/home-timeline.png`, `action-like-hover.png`, `card-pinned-quote.png`, `social-context-you-reposted.png`, `badge-grey-gov.png`, `show-more-before.png`, `show-more-after.png`, `tooltip-timestamp.png`.
 
@@ -350,7 +350,9 @@ M12 1.75C6.34 1.75 1.75 6.34 1.75 12S6.34 22.25 12 22.25 22.25 17.66 22.25 12 17
 - Idle overlays: **duration badge** bottom-left (12px inset): bg `rgba(0,0,0,0.77)`, radius 4px, padding `0 8px`, height 20px, text white 13px/16px (`2:54`, counts down while playing); **mute toggle** bottom-right: 40×40 button (`data-testid="mute-button"`, aria `Unmute`/`Mute`), round dark 32px circle with white speaker icon.
 - On hover the control bar appears: scrubber (full width, 20px hit area, `data-testid="scrubber"`, `Seek slider` 32px thumb hit area), `Pause`/`Play` (36×36), elapsed `0:03 / 2:59` (white 13px), `Unmute` + `Volume slider` (vertical popover), `Video Settings` (gear: speed/quality), `Picture-in-Picture`, `Full screen`. Not-yet-started videos show a centered 60×60 play button (`aria-label="Play Video. 22 seconds long"`).
 - Click on the video toggles play/pause — **no route change, no viewer** (observed). Full screen uses the browser Fullscreen API.
-- `GIF` badge (animated GIFs, loops, no controls) and `ALT` badge (bottom-left, black 77% pill, 13px 700 white, click → `Image description` dialog) — **not observed** this session.
+- `GIF` and `ALT` badges (re-checked 2026-10-08 on live X + its `bundle.Routes` source): 20px tall, `padding: 0 8px`, radius 4, 13px/700/16 white, bg **`rgba(0,0,0,0.3)`** (the `alt`/`gif` badge types fall through to `translucentBlack30`; duration badges use `rgba(0,0,0,0.77)` and regular weight). Absolute at `left: 12px; bottom: 12px` of each photo.
+  - **ALT shows only when** the photo has `ext_alt_text` **and** (the post is the viewer's own, or it is the focal tweet on the detail page — `shouldShowAltLabelAlways`). It never shows on other people's posts in timelines.
+  - ALT is a `role=button` (`aria-describedby` → hidden "read image description"). Click (not hover) opens a 360px popover with arrow (`M22 17H2L12 6l10 11z`, ~13.6×7.4), radius 16, padding 32, D shadow `0 0 15px rgba(255,255,255,.2), 0 0 3px 1px rgba(255,255,255,.15)`: `Image description` (26px/700/32), alt text (15/20 muted, `padding: 8px 0 20px`), `Dismiss` outline button (54px tall, `padding: 16px 32px`, 17px/700, hover `foreground` 10%). Escape and outside click close it. On narrow screens X uses a bottom sheet instead (not built).
 - Screens: `video-inline.png`, `video-inline-hover.png` (controls), `video-inline-timeline.png`.
 
 **Link preview cards** (`[data-testid="card.wrapper"]`, an `<a href="https://t.co/…">` overlay):
@@ -440,6 +442,20 @@ M9.64 18.952l-5.55-4.861 1.317-1.504 3.951 3.459 8.459-10.948L19.4 6.32 9.64 18.
 7. **Media viewer modal** (new feature module `features/media-viewer`): see F6 — 1050/350 split, 48px bottom action bar, Close / Hide-post / arrows 36px `rgba(0,0,0,0.75)` buttons, keyboard ←/→/Esc, URL-driven index.
 8. **Count formatting:** reuse `formatCount`; add `formatViewsDetail` (one decimal M/K: `61.7M`).
 9. **Entity parser** + **badge** components are needed by profile, search, notifications, DMs too (shared `components/ui/verified-badge.tsx`, `components/tweet/tweet-text.tsx`).
+
+## Community Notes and sensitive media (added 2026-10-08)
+
+**Community Notes block** (`data-testid="birdwatch-pivot"`, observed live on a noted post, same in cards and on the detail page). Sits after the quote and before the action bar / timestamp.
+- Box: `margin-top: 12px`, 1px border (D `border`), radius 16, `role=link` → `/i/birdwatch/n/{noteId}`; hover tints the whole box (L `rgba(0,0,0,.03)`, D derived `white/3`), `transition: background-color .2s`.
+- Header (44px): padding 12, tinted bg (same value as hover), `icon-birdwatch-fill` 18.75px accent + 8px gap, `Readers added context they thought people might want to know` 14px/700/16 (`padding: 2px 0`).
+- 12px gap, body `padding: 0 12px`, 15/20, note text with URL entities (accent, X display truncation), 12px gap.
+- Footer (57px): border-top 1px, padding 12, `Do you find this helpful?` 14/16 left; `Rate it` outline pill right (32px, `padding: 0 16px`, 14px/700, D border `outline`) → same note URL.
+- Below the box: `Context is written by people who use X, and appears when rated helpful by others. Find out more.` 13/16 muted, `padding: 12px 0`; `Find out more` (accent) → `/i/flow/join-birdwatch`.
+
+**Sensitive-media interstitial** (from X's `RevealableTombstone` source; **not observed** live because it depends on the viewer's "Display media that may contain sensitive content" setting).
+- Media layer `filter: blur(30px)`, container `min-height: 16em`, radius 16, overflow hidden; cover `rgba(0,0,0,.5)`, `padding: 12px 16px`, content column max 400px with `padding: 0 12px`.
+- Eye-off icon 24px white (12px below), `Content warning: {list}` bold white (12px below), then `The post author flagged this post as showing sensitive content.` white. Categories: `adult_content` → Nudity, `graphic_violence` → Violence, `other` → Sensitive content (first capitalised, the rest lower-case, joined as an English list).
+- `Show` button: small (32px), `padding: 0 12px`, right-aligned, 12px margin-top, bg `#F7F9F9` text `#0F1419`. After revealing, a `Hide` button sits at `top: 12px; right: 16px` (bg `#0F1419` opacity .75, `backdrop-filter: blur(4px)`, white).
 
 ## Open questions / not observed
 

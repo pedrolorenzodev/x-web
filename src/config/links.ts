@@ -5,6 +5,8 @@ export const legalLinks = {
   paidPartnerships:
     "https://help.x.com/rules-and-policies/paid-partnerships-policy",
   searchSettingsHelp: "https://support.x.com/articles/132700",
+  verifiedAccountsHelp:
+    "https://help.twitter.com/managing-your-account/about-twitter-verified-accounts",
 } as const;
 
 export type FooterLink = {

@@ -18,6 +18,8 @@
   --color-inverted-foreground: #0f1419;
   --color-scrim: rgb(0 0 0 / 0.5);
   --color-media-control-hover: #272c30;
+  --color-on-media: #f7f9f9;
+  --color-on-media-hover: #dee0e0;
   --color-like: #f91880;
   --color-spark: #794bc4;
   --color-repost: #00ba7c;
@@ -41,6 +43,8 @@
   --color-dock-border: rgb(75 78 82);
 
   --shadow-menu: 0 4px 12px rgb(0 0 0 / 0.5), 0 0 2px rgb(0 0 0 / 0.35);
+  --shadow-popover: 0 0 15px rgb(255 255 255 / 0.2),
+    0 0 3px 1px rgb(255 255 255 / 0.15);
   --shadow-pill: 0 0 5px rgb(217 217 217 / 0.2),
     0 1px 4px 1px rgb(217 217 217 / 0.25);
 
