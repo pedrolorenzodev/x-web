@@ -34,6 +34,7 @@ export function FollowButton({
 }: FollowButtonProps) {
   const [optimisticFollowing, setOptimisticFollowing] = useOptimistic(following);
   const [confirming, setConfirming] = useState(false);
+  const [justFollowed, setJustFollowed] = useState(false);
 
   function toggle() {
     startTransition(async () => {
@@ -52,7 +53,10 @@ export function FollowButton({
       <Button
         size={size}
         aria-label={`Follow @${handle}`}
-        onClick={toggle}
+        onClick={() => {
+          setJustFollowed(true);
+          toggle();
+        }}
         onPointerDown={stopPropagation}
         className={cn("relative shrink-0", className)}
       >
@@ -69,16 +73,18 @@ export function FollowButton({
         aria-label={`Following @${handle}`}
         onClick={() => setConfirming(true)}
         onPointerDown={stopPropagation}
+        onPointerLeave={() => setJustFollowed(false)}
+        data-armed={justFollowed ? undefined : ""}
         className={cn(
-          "group/follow relative shrink-0 border-outline duration-200 ease-[ease] hover:border-danger-border hover:bg-danger/10 hover:text-danger",
+          "group/follow relative shrink-0 border-outline data-armed:hover:border-danger-border data-armed:hover:bg-danger/10 data-armed:hover:text-danger",
           className,
         )}
       >
         <span className="grid">
-          <span className="col-start-1 row-start-1 group-hover/follow:invisible">
+          <span className="col-start-1 row-start-1 group-data-armed/follow:group-hover/follow:invisible">
             Following
           </span>
-          <span className="invisible col-start-1 row-start-1 group-hover/follow:visible">
+          <span className="invisible col-start-1 row-start-1 group-data-armed/follow:group-hover/follow:visible">
             Unfollow
           </span>
         </span>

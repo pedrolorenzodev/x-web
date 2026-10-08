@@ -22,7 +22,7 @@ type ButtonProps = ComponentProps<"button"> & ButtonStyle;
 
 export function buttonStyles({ variant = "primary", size = "md" }: ButtonStyle) {
   return cn(
-    "inline-flex items-center justify-center rounded-full border border-transparent font-bold transition-colors",
+    "inline-flex items-center justify-center rounded-full border border-transparent font-bold transition-colors duration-200 ease-[ease]",
     "disabled:pointer-events-none disabled:opacity-50",
     variants[variant],
     sizes[size],

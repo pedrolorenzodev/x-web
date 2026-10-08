@@ -117,7 +117,7 @@ function ActionButton({
   const hasMenu = expanded !== undefined;
 
   const className = cn(
-    "group/action pointer-events-auto relative flex h-5 items-center transition-colors",
+    "group/action pointer-events-auto relative flex h-5 items-center transition-colors duration-200 ease-[ease]",
     active ? colors.active : [variants[variant].idle, colors.hover],
     celebrate && "t-like",
     burst && "is-bursting",

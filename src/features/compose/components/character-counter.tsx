@@ -20,6 +20,9 @@ export function CharacterCounter({ length }: { length: number }) {
   const circumference = 2 * Math.PI * radius;
   const progress = Math.min(length / MAX_TWEET_LENGTH, 1);
 
+  const ring =
+    "transition-[r,stroke,stroke-dasharray,stroke-dashoffset] duration-200 ease-[ease] motion-reduce:transition-none";
+
   return (
     <div
       role="progressbar"
@@ -27,33 +30,35 @@ export function CharacterCounter({ length }: { length: number }) {
       aria-valuemax={MAX_TWEET_LENGTH}
       aria-valuenow={length}
       aria-valuetext={describeRemaining(remaining)}
-      className="relative flex items-center justify-center"
+      className="relative flex items-center justify-center transition-[width,height] duration-200 ease-[ease]"
       style={{ width: size, height: size }}
     >
       <svg
-        viewBox={`0 0 ${size + 4} ${size + 4}`}
         className={cn(
-          "absolute -inset-0.5 -rotate-90 overflow-visible",
+          "absolute -inset-0.5 size-[calc(100%+4px)] -rotate-90 overflow-visible transition-opacity duration-200 ease-[ease]",
           remaining < -9 && "opacity-0",
         )}
       >
         <circle
           cx="50%"
           cy="50%"
-          r={radius}
           fill="none"
           strokeWidth={2}
-          className="stroke-border"
+          style={{ r: radius }}
+          className={cn("stroke-border", ring)}
         />
         <circle
           cx="50%"
           cy="50%"
-          r={radius}
           fill="none"
           strokeWidth={2}
-          strokeDasharray={circumference}
-          strokeDashoffset={circumference * (1 - progress)}
+          style={{
+            r: radius,
+            strokeDasharray: circumference,
+            strokeDashoffset: circumference * (1 - progress),
+          }}
           className={cn(
+            ring,
             remaining < 0
               ? "stroke-danger"
               : warning
@@ -66,7 +71,7 @@ export function CharacterCounter({ length }: { length: number }) {
         <span
           aria-hidden
           className={cn(
-            "relative text-xs",
+            "relative animate-[counter-in_200ms_ease] text-xs motion-reduce:animate-none",
             remaining < 0 ? "text-danger" : "text-muted",
           )}
         >
