@@ -32,6 +32,14 @@ export function createEmptySnapshot(): ComposerSnapshot {
   };
 }
 
+export function snapshotWithText(text: string): ComposerSnapshot {
+  const snapshot = createEmptySnapshot();
+  return {
+    ...snapshot,
+    posts: snapshot.posts.map((post) => ({ ...post, text })),
+  };
+}
+
 export function createEmptyPoll(): ComposerPoll {
   return { choices: ["", ""], days: 1, hours: 0, minutes: 0 };
 }

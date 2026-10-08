@@ -388,4 +388,5 @@ export const hiddenSettingsPages: { href: string; title: string; parentId: strin
   { href: routes.settingsSessions, title: "Sessions", parentId: "security_and_account_access" },
   { href: "/settings/search", title: "Search settings", parentId: "privacy_and_safety" },
   { href: "/settings/explore", title: "Explore settings", parentId: "privacy_and_safety" },
+  { href: "/settings/explore/location", title: "Explore locations", parentId: "privacy_and_safety" },
 ];

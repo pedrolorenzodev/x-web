@@ -20,8 +20,8 @@ import {
   readHandedOffComposer,
 } from "@/features/compose/utils/compose-handoff";
 import {
-  createEmptySnapshot,
   snapshotFromDraft,
+  snapshotWithText,
   toNewPosts,
 } from "@/features/compose/utils/composer-snapshot";
 import { hasContent } from "@/features/compose/utils/composer-status";
@@ -38,11 +38,11 @@ export function ComposeModal({ viewer, dismiss, setup }: ComposeModalProps) {
   const router = useRouter();
   const closeRoute = useRouteModalClose(dismiss);
   const bodyRef = useRef<HTMLDivElement>(null);
-  const { target, draft } = setup;
+  const { target, draft, text } = setup;
   const composer = useComposer(
     () =>
       readHandedOffComposer() ??
-      (draft ? snapshotFromDraft(draft) : createEmptySnapshot()),
+      (draft ? snapshotFromDraft(draft) : snapshotWithText(text)),
   );
   const [pendingExit, setPendingExit] = useState<PendingExit | null>(null);
   const [saving, startSaving] = useTransition();

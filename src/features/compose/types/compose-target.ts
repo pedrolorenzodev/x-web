@@ -9,10 +9,12 @@ export type ComposeTarget = {
 export type ComposeSetup = {
   target: ComposeTarget | null;
   draft: Draft | null;
+  text: string;
 };
 
 export type ComposeSearchParams = {
   in_reply_to?: string | string[];
   quote?: string | string[];
   draft?: string | string[];
+  text?: string | string[];
 };

@@ -48,11 +48,13 @@ export async function getComposeSetup(
     return {
       target: findTarget(record.replyToId, record.quotedId),
       draft: toDraft(record),
+      text: "",
     };
   }
 
   return {
     target: findTarget(firstValue(params.in_reply_to), firstValue(params.quote)),
     draft: null,
+    text: firstValue(params.text) ?? "",
   };
 }
