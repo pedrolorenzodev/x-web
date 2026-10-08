@@ -24,10 +24,9 @@ type SinglePhotoProps = {
 };
 
 function portraitSize(media: TweetMedia) {
-  return {
-    width: (media.width / media.height) * SINGLE_MAX_HEIGHT,
-    height: SINGLE_MAX_HEIGHT + BORDER,
-  };
+  const width = (media.width / media.height) * SINGLE_MAX_HEIGHT;
+  const height = SINGLE_MAX_HEIGHT + BORDER;
+  return { width, maxWidth: "100%", aspectRatio: `${width} / ${height}` };
 }
 
 function SingleVideo({ video }: { video: TweetMedia }) {
