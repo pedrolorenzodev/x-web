@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       { protocol: "https", hostname: "pbs.twimg.com" },
       { protocol: "https", hostname: "media.giphy.com" },
+      { protocol: "https", hostname: "abs.twimg.com" },
     ],
   },
   experimental: {

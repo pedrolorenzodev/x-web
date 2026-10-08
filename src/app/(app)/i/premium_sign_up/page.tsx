@@ -1,10 +1,14 @@
-import type { Metadata } from "next";
-import { PlaceholderScreen } from "@/components/layout/placeholder-screen";
+import HomePage from "@/app/(app)/page";
+import { routes } from "@/config/routes";
+import { PremiumTakeover } from "@/features/premium/components/premium-takeover";
 
-export const metadata: Metadata = {
-  title: "Premium / X",
-};
+export { metadata } from "@/app/(app)/page";
 
 export default function PremiumPage() {
-  return <PlaceholderScreen title="Premium" back />;
+  return (
+    <>
+      <HomePage />
+      <PremiumTakeover dismiss={{ replace: routes.home }} />
+    </>
+  );
 }

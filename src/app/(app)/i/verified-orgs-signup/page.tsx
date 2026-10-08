@@ -1,10 +1,6 @@
-import type { Metadata } from "next";
-import { PlaceholderScreen } from "@/components/layout/placeholder-screen";
-
-export const metadata: Metadata = {
-  title: "Business / X",
-};
+import { redirect } from "next/navigation";
+import { routes } from "@/config/routes";
 
 export default function BusinessPage() {
-  return <PlaceholderScreen title="Business" back />;
+  redirect(routes.premiumFrom("verified_orgs"));
 }

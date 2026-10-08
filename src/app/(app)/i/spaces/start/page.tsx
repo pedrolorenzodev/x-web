@@ -1,10 +1,14 @@
-import type { Metadata } from "next";
-import { PlaceholderScreen } from "@/components/layout/placeholder-screen";
+import HomePage from "@/app/(app)/page";
+import { routes } from "@/config/routes";
+import { CreateSpaceModal } from "@/features/spaces/components/create-space-modal";
 
-export const metadata: Metadata = {
-  title: "Spaces / X",
-};
+export { metadata } from "@/app/(app)/page";
 
-export default function SpacesPage() {
-  return <PlaceholderScreen title="Spaces" back />;
+export default function SpacesStartPage() {
+  return (
+    <>
+      <HomePage />
+      <CreateSpaceModal dismiss={{ replace: routes.home }} />
+    </>
+  );
 }
