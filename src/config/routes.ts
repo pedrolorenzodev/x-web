@@ -28,6 +28,14 @@ export const routes = {
   history: "/i/history",
   creatorStudio: "/i/jf/creators/studio",
   premium: "/i/premium_sign_up",
+  premiumFrom: (referringPage: string) =>
+    `/i/premium_sign_up?referring_page=${referringPage}`,
+  creatorPaywall: (product: string) =>
+    `/i/jf/creators/monetization_paywall?product=${product}`,
+  creatorAnalyticsPaywall: "/i/jf/creators/analytics_paywall",
+  creatorInspiration: "/i/jf/creators/inspiration/top_posts",
+  creatorInspirationFor: (window: string, sort: string) =>
+    `/i/jf/creators/inspiration/top_posts?window=${window}&sort=${sort}`,
   business: "/i/verified-orgs-signup",
   spaces: "/i/spaces/start",
   settings: "/settings",
@@ -57,6 +65,15 @@ export const routes = {
   listInfo: (id: string) => `/i/lists/${id}/info`,
   lists: (handle: string) => `/${handle}/lists`,
   communities: (handle: string) => `/${handle}/communities`,
+  communitiesExplore: (handle: string) => `/${handle}/communities/explore`,
+  communitiesSuggested: "/i/communities/suggested",
+  community: (id: string) => `/i/communities/${id}`,
+  communityAbout: (id: string) => `/i/communities/${id}/about`,
+  communityMembers: (id: string) => `/i/communities/${id}/members`,
+  communityModerators: (id: string) => `/i/communities/${id}/moderators`,
+  communitySearch: (id: string) => `/i/communities/${id}/search`,
+  communityHashtag: (id: string, tag: string) =>
+    `/i/communities/${id}/hashtag/${encodeURIComponent(tag)}`,
   tweet: (handle: string, id: string) => `/${handle}/status/${id}`,
   tweetPhoto: (handle: string, id: string, index: number) =>
     `/${handle}/status/${id}/photo/${index}`,
