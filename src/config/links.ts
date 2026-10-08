@@ -4,6 +4,7 @@ export const legalLinks = {
   cookieUse: "https://help.x.com/rules-and-policies/twitter-cookies",
   paidPartnerships:
     "https://help.x.com/rules-and-policies/paid-partnerships-policy",
+  searchSettingsHelp: "https://support.x.com/articles/132700",
 } as const;
 
 export type FooterLink = {

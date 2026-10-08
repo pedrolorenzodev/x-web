@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { SpinnerRow } from "@/components/ui/spinner";
 import { SearchRoute } from "@/app/(app)/search/_components/search-route";
 import {
+  parseSearchFilters,
   parseSearchTab,
   readSearchParam,
 } from "@/features/search/utils/search-tabs";
@@ -29,6 +30,7 @@ async function Results({ params, searchParams }: PageProps<"/hashtag/[tag]">) {
     <SearchRoute
       source={{ kind: "hashtag", tag: decodeTag(tag) }}
       tab={parseSearchTab(readSearchParam(query.f))}
+      filters={parseSearchFilters(query)}
     />
   );
 }

@@ -18,7 +18,11 @@ import { PeopleModule } from "@/features/search/components/people-module";
 import { SearchEmptyState } from "@/features/search/components/search-empty-state";
 import { SearchHeader } from "@/features/search/components/search-header";
 import { SearchTabs } from "@/features/search/components/search-tabs";
-import type { SearchSource, SearchTab } from "@/features/search/types/search-tab";
+import type {
+  SearchFilters,
+  SearchSource,
+  SearchTab,
+} from "@/features/search/types/search-tab";
 import {
   advancedSearchHref,
   searchTabHref,
@@ -35,6 +39,7 @@ const PEOPLE_MODULE_SIZE = 3;
 type SearchRouteProps = {
   source: SearchSource;
   tab: SearchTab;
+  filters: SearchFilters;
 };
 
 function TweetList({ tweets }: { tweets: Tweet[] }) {
@@ -43,7 +48,7 @@ function TweetList({ tweets }: { tweets: Tweet[] }) {
   ));
 }
 
-async function SearchResults({ source, tab }: SearchRouteProps) {
+async function SearchResults({ source, tab, filters }: SearchRouteProps) {
   const query = sourceQuery(source);
   const session = await getSession();
   if (!session) notFound();
@@ -52,8 +57,8 @@ async function SearchResults({ source, tab }: SearchRouteProps) {
 
   if (tab === "top") {
     const [users, tweets] = await Promise.all([
-      searchUsers(query, PEOPLE_MODULE_SIZE),
-      searchTweets(query, "top"),
+      searchUsers(query, PEOPLE_MODULE_SIZE, filters),
+      searchTweets(query, "top", filters),
     ]);
     if (!users.length && !tweets.length) return empty;
     return (
@@ -61,7 +66,7 @@ async function SearchResults({ source, tab }: SearchRouteProps) {
         {users.length ? (
           <PeopleModule
             users={users}
-            viewAllHref={searchTabHref(source, "user")}
+            viewAllHref={searchTabHref(source, "user", filters)}
             viewerId={viewerId}
             toggleFollow={toggleFollow}
           />
@@ -72,12 +77,12 @@ async function SearchResults({ source, tab }: SearchRouteProps) {
   }
 
   if (tab === "live") {
-    const tweets = await searchTweets(query, "latest");
+    const tweets = await searchTweets(query, "latest", filters);
     return tweets.length ? <TweetList tweets={tweets} /> : empty;
   }
 
   if (tab === "user") {
-    const users = await searchUsers(query);
+    const users = await searchUsers(query, undefined, filters);
     return users.length
       ? users.map((user) => (
           <UserCell
@@ -91,11 +96,11 @@ async function SearchResults({ source, tab }: SearchRouteProps) {
   }
 
   if (tab === "media") {
-    const tweets = await searchMediaTweets(query);
+    const tweets = await searchMediaTweets(query, filters);
     return tweets.length ? <MediaGrid tweets={tweets} /> : empty;
   }
 
-  const lists = await searchLists(query);
+  const lists = await searchLists(query, filters);
   return lists.length
     ? lists.map((list) => (
         <ListCell
@@ -108,16 +113,19 @@ async function SearchResults({ source, tab }: SearchRouteProps) {
     : empty;
 }
 
-export function SearchRoute({ source, tab }: SearchRouteProps) {
+export function SearchRoute({ source, tab, filters }: SearchRouteProps) {
   const query = sourceQuery(source);
 
   return (
     <div className="min-h-dvh pb-16">
       <SearchHeader query={query} advancedHref={advancedSearchHref(source)}>
-        <SearchTabs source={source} active={tab} />
+        <SearchTabs source={source} active={tab} filters={filters} />
       </SearchHeader>
-      <Suspense key={`${query}-${tab}`} fallback={<SpinnerRow />}>
-        <SearchResults source={source} tab={tab} />
+      <Suspense
+        key={`${query}-${tab}-${filters.peopleYouFollow}-${filters.nearYou}`}
+        fallback={<SpinnerRow />}
+      >
+        <SearchResults source={source} tab={tab} filters={filters} />
       </Suspense>
     </div>
   );

@@ -5,6 +5,7 @@ import { routes } from "@/config/routes";
 import { SpinnerRow } from "@/components/ui/spinner";
 import { SearchRoute } from "@/app/(app)/search/_components/search-route";
 import {
+  parseSearchFilters,
   parseSearchTab,
   readSearchParam,
 } from "@/features/search/utils/search-tabs";
@@ -29,6 +30,7 @@ async function Results({ searchParams }: Pick<PageProps<"/search">, "searchParam
         src: readSearchParam(params.src) || "typed_query",
       }}
       tab={parseSearchTab(readSearchParam(params.f))}
+      filters={parseSearchFilters(params)}
     />
   );
 }

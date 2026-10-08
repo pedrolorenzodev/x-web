@@ -1,27 +1,9 @@
 import { Suspense } from "react";
 import { PanelTrends } from "@/app/(app)/@panel/_modules/panel-trends";
 import { PanelNews } from "@/app/(app)/@panel/_modules/panel-news";
+import { PanelWhoToFollow } from "@/app/(app)/@panel/_modules/panel-who-to-follow";
 import { RightPanel } from "@/components/layout/right-panel/right-panel";
 import { PremiumCard } from "@/components/layout/right-panel/premium-card";
-import { WhoToFollow } from "@/components/layout/right-panel/who-to-follow";
-import { getSuggestedUsers } from "@/features/profile/api/get-suggested-users";
-import { toggleFollow } from "@/features/profile/api/toggle-follow";
-import { getSession } from "@/features/auth/api/get-session";
-
-async function Suggestions() {
-  const [suggestions, session] = await Promise.all([
-    getSuggestedUsers(),
-    getSession(),
-  ]);
-
-  return (
-    <WhoToFollow
-      suggestions={suggestions}
-      toggleFollow={toggleFollow}
-      similarToId={session?.user.id}
-    />
-  );
-}
 
 export default function HomePanel() {
   return (
@@ -34,7 +16,7 @@ export default function HomePanel() {
         <PanelTrends />
       </Suspense>
       <Suspense fallback={null}>
-        <Suggestions />
+        <PanelWhoToFollow />
       </Suspense>
     </RightPanel>
   );

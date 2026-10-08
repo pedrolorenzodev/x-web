@@ -7,11 +7,13 @@ import { mockLists, toList } from "@/mocks/lists";
 import { getMockViewer } from "@/mocks/session";
 import { byNewest, mockTweets, toTweet, type TweetRecord } from "@/mocks/tweets";
 import { findUserById, mockUsers, toUser, type UserRecord } from "@/mocks/users";
+import type { SearchFilters } from "@/features/search/types/search-tab";
 import {
   containsHashtag,
   containsMention,
   containsWord,
   hasTerms,
+  hasTextTerms,
   normalizeText,
   parseQuery,
   type QueryTerms,
@@ -22,7 +24,16 @@ const USER_LIMIT = 50;
 
 export type TweetOrder = "top" | "latest";
 
-function matchesTweet(record: TweetRecord, terms: QueryTerms) {
+const LINK = /https?:\/\//;
+const NO_FILTERS: SearchFilters = { peopleYouFollow: false, nearYou: false };
+
+function matchesContentFilter(filter: QueryTerms["replies"], present: boolean) {
+  if (filter === "only") return present;
+  if (filter === "exclude") return !present;
+  return true;
+}
+
+function matchesTweet(record: TweetRecord, terms: QueryTerms): boolean {
   const author = findUserById(record.authorId);
   if (!author) return false;
 
@@ -35,6 +46,7 @@ function matchesTweet(record: TweetRecord, terms: QueryTerms) {
   const parentHandle = parent
     ? findUserById(parent.authorId)?.handle.toLowerCase()
     : null;
+  const day = record.createdAt.slice(0, 10);
 
   return (
     terms.words.every(
@@ -50,8 +62,39 @@ function matchesTweet(record: TweetRecord, terms: QueryTerms) {
         containsMention(text, mention) ||
         handle === mention ||
         parentHandle === mention,
-    )
+    ) &&
+    terms.excluded.every((word) => !containsWord(text, word)) &&
+    terms.anyOf.every((options) =>
+      options.some((option) => matchesTweet(record, option)),
+    ) &&
+    terms.from.every((from) => handle === from) &&
+    terms.to.every((to) => parentHandle === to) &&
+    record.stats.replies >= terms.minReplies &&
+    record.stats.likes >= terms.minLikes &&
+    record.stats.retweets >= terms.minReposts &&
+    matchesContentFilter(terms.replies, record.replyToId !== null) &&
+    matchesContentFilter(
+      terms.links,
+      LINK.test(record.text) || Boolean(record.card),
+    ) &&
+    (terms.since === null || day >= terms.since) &&
+    (terms.until === null || day < terms.until)
   );
+}
+
+function countryOf(location: string | null | undefined) {
+  const country = location?.split(",").at(-1)?.trim().toLowerCase();
+  return country || null;
+}
+
+function filterAuthors(viewer: UserRecord | null, filters: SearchFilters) {
+  const viewerCountry = countryOf(viewer?.location);
+  return (user: UserRecord) =>
+    (!filters.peopleYouFollow ||
+      user.followedByViewer ||
+      user.id === viewer?.id) &&
+    (!filters.nearYou ||
+      (viewerCountry !== null && countryOf(user.location) === viewerCountry));
 }
 
 function engagement(record: TweetRecord) {
@@ -59,11 +102,19 @@ function engagement(record: TweetRecord) {
   return likes + retweets * 2 + replies + quotes;
 }
 
-function findTweetRecords(query: string, order: TweetOrder) {
+async function findTweetRecords(
+  query: string,
+  order: TweetOrder,
+  filters: SearchFilters,
+) {
   const terms = parseQuery(query);
   if (!hasTerms(terms)) return [];
 
-  const records = mockTweets.filter((record) => matchesTweet(record, terms));
+  const allowed = filterAuthors(await getMockViewer(), filters);
+  const records = mockTweets.filter((record) => {
+    const author = findUserById(record.authorId);
+    return author !== null && allowed(author) && matchesTweet(record, terms);
+  });
   return order === "latest"
     ? records.sort(byNewest)
     : records.sort((a, b) => engagement(b) - engagement(a) || byNewest(a, b));
@@ -76,17 +127,21 @@ function toTweets(records: TweetRecord[]): Tweet[] {
 export async function searchTweets(
   query: string,
   order: TweetOrder,
+  filters: SearchFilters = NO_FILTERS,
 ): Promise<Tweet[]> {
   await connection();
-  return toTweets(findTweetRecords(query, order).slice(0, TWEET_LIMIT));
+  const records = await findTweetRecords(query, order, filters);
+  return toTweets(records.slice(0, TWEET_LIMIT));
 }
 
-export async function searchMediaTweets(query: string): Promise<Tweet[]> {
+export async function searchMediaTweets(
+  query: string,
+  filters: SearchFilters = NO_FILTERS,
+): Promise<Tweet[]> {
   await connection();
+  const records = await findTweetRecords(query, "top", filters);
   return toTweets(
-    findTweetRecords(query, "top")
-      .filter((record) => record.media.length > 0)
-      .slice(0, TWEET_LIMIT),
+    records.filter((record) => record.media.length > 0).slice(0, TWEET_LIMIT),
   );
 }
 
@@ -121,27 +176,41 @@ function userRank(user: UserRecord, terms: QueryTerms) {
 export async function searchUsers(
   query: string,
   limit = USER_LIMIT,
+  filters: SearchFilters = NO_FILTERS,
 ): Promise<User[]> {
   await connection();
   const viewer = await getMockViewer();
   const terms = parseQuery(query);
-  if (!hasTerms(terms)) return [];
+  if (!hasTextTerms(terms)) return [];
 
+  const allowed = filterAuthors(viewer, filters);
   return mockUsers
-    .filter((user) => user.id !== viewer?.id && matchesUser(user, terms))
+    .filter(
+      (user) =>
+        user.id !== viewer?.id && allowed(user) && matchesUser(user, terms),
+    )
     .sort((a, b) => userRank(b, terms) - userRank(a, terms))
     .slice(0, limit)
     .map((user) => toUser(user, findFollowedByPreview(user.id)));
 }
 
-export async function searchLists(query: string): Promise<List[]> {
+export async function searchLists(
+  query: string,
+  filters: SearchFilters = NO_FILTERS,
+): Promise<List[]> {
   await connection();
   const viewer = await getMockViewer();
   const terms = parseQuery(query);
-  if (!hasTerms(terms)) return [];
+  if (!hasTextTerms(terms) || filters.nearYou) return [];
 
   return mockLists
     .filter((record) => !record.private || record.ownerId === viewer?.id)
+    .filter(
+      (record) =>
+        !filters.peopleYouFollow ||
+        record.ownerId === viewer?.id ||
+        Boolean(findUserById(record.ownerId)?.followedByViewer),
+    )
     .filter((record) => {
       const name = normalizeText(record.name);
       const description = normalizeText(record.description);
