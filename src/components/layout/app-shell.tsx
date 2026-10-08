@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { Toaster } from "@/components/ui/toast";
+import { FloatingDock } from "@/components/layout/floating-dock";
 
 type AppShellProps = {
   sidebar: ReactNode;
@@ -29,6 +30,7 @@ export function AppShell({
       <div className="ml-5 hidden self-stretch min-[988px]:block min-[1078px]:ml-[30px] layout-fullwidth:hidden! layout-no-panel:hidden!">
         {panel}
       </div>
+      <FloatingDock />
       {mobileNav}
       {modal}
     </div>
