@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { PlaceholderScreen } from "@/components/layout/placeholder-screen";
+import { CreatorStudioMenu } from "@/features/creator-studio/components/creator-studio-menu";
 
 export const metadata: Metadata = {
   title: "Creator Studio / X",
 };
 
 export default function CreatorStudioPage() {
-  return <PlaceholderScreen title="Creator Studio" />;
+  return <CreatorStudioMenu />;
 }

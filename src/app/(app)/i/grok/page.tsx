@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { PlaceholderScreen } from "@/components/layout/placeholder-screen";
+import { GrokScreen } from "@/features/grok/components/grok-screen";
 
 export const metadata: Metadata = {
   title: "Grok / X",
 };
 
 export default function GrokPage() {
-  return <PlaceholderScreen title="Grok" />;
+  return <GrokScreen />;
 }
